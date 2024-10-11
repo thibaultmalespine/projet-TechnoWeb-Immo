@@ -49,5 +49,5 @@ Renvoi URL Originale
 ---VILLE---
 Code postal (clé primaire)
 Toutes les villes de France
-
+https://geo.api.gouv.fr/decoupage-administratif/communes
 
