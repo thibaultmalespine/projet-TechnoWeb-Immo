@@ -67,7 +67,7 @@
 
         <!-- Meublé -->
         <label for="meuble">Meublé</label>
-        <select id="meuble" name="meuble" required>
+        <select id="meuble" name="meuble">
             <option value="Non">Non</option>
             <option value="Oui">Oui</option>
         </select>
@@ -104,34 +104,6 @@
 
     </form>
 
-
-
-
-
-
-
-    <!-- A mettre dans le JS -->
-    <script>
-        // Fonction pour afficher/masquer le formulaire
-        function toggleForm() {
-            var form = document.getElementById("annonceForm");
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
-        }
-
-        // Fonction pour masquer le formulaire après soumission
-        function closeForm() {
-            var form = document.getElementById("annonceForm");
-            form.style.display = "none";
-            alert("Annonce soumise avec succès !");
-        }
-    </script>
-
-
-
-
+    <script src="./static/script.js"></script>
 </body>
 </html>
