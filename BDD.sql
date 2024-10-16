@@ -7,14 +7,6 @@ CREATE TABLE Compte (
     MotDePasse VARCHAR(255) NOT NULL
 );
 
--- Table RecherchesEnregistrees (association entre Compte et Recherche)
-CREATE TABLE RecherchesEnregistrees (
-    leCompte INT,
-    laRecherche INT,
-    FOREIGN KEY (leCompte) REFERENCES Compte(idCompte),
-    FOREIGN KEY (laRecherche) REFERENCES Recherche(idRecherche),
-    PRIMARY KEY (leCompte, laRecherche)
-);
 
 -- Table AnnoncesEnregistrees (association entre Compte et Annonce)
 CREATE TABLE AnnoncesEnregistrees (
@@ -25,24 +17,7 @@ CREATE TABLE AnnoncesEnregistrees (
     PRIMARY KEY (leCompte, lAnnonce)
 );
 
--- Table Recherche
-CREATE TABLE Recherche (
-    idRecherche INT PRIMARY KEY AUTO_INCREMENT,
-    laVille VARCHAR(5), -- correspond au Code Postal
-    DistanceAutourVille INT,
-    TypeDeBien VARCHAR(50),
-    M2HabitableMax INT,
-    M2HabitableMin INT,
-    M2TerrainsMax INT,
-    M2TerrainsMin INT,
-    PrixMax DECIMAL(15, 2),
-    PrixMin DECIMAL(15, 2),
-    ParticulierPro ENUM('Particulier', 'Professionnel'),
-    Garage ENUM('Oui', 'Non'),
-    Piscine ENUM('Oui', 'Non'),
-    Meuble ENUM('Oui', 'Non'),
-    FOREIGN KEY (laVille) REFERENCES Ville(CodePostal)
-);
+
 
 -- Table Annonce
 CREATE TABLE Annonce (
@@ -53,13 +28,14 @@ CREATE TABLE Annonce (
     M2Terrains INT,
     Prix DECIMAL(15, 2),
     ParticulierPro ENUM('Particulier', 'Professionnel'),
-    Garage ENUM('Oui', 'Non'),
-    Piscine ENUM('Oui', 'Non'),
-    Meuble ENUM('Oui', 'Non'),
+    Garage BOOLEAN,
+    Piscine BOOLEAN,
+    Meuble BOOLEAN,
     Description TEXT,
     URLOriginale VARCHAR(255),
     FOREIGN KEY (laVille) REFERENCES Ville(CodePostal)
 );
+
 
 -- Table Ville
 CREATE TABLE Ville (

@@ -5,30 +5,10 @@ Prénom
 Email
 Mot de passe
 
----Recherches enregistrées--- (Table)
-leCompte (#idCompte)
-laRecherche (# idRecherche)
 
 ---Annonces enregistrées--- (Table)
 leCompte (#idCompte)
 lAnnonce (# idAnnonce)
-
-
----RECHERCHE---
-idRecherche
-laVille (# code postal)
-Distance autour de la ville
-Type de bien
-M^2 habitable (maximum)
-M^2 habitable (minimum)
-M^2 terrains (maximum)
-M^2 terrains (minimum)
-Prix (maximum) 
-Prix (minimum)
-Particulier/Pro
-Garage (Oui/non)
-Piscine (Oui/non)
-Meublé (Oui/non)
 
 
 ---ANNONCE---
