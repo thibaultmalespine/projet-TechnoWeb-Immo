@@ -1,5 +1,7 @@
-- Comptes clients (BDD)
-- Scraping annonces
+- Comptes utilisateurs (BDD)
+
 - Page d'Authentification
+
+- Formulaire pour ajouter une annonce qui nous intéresse --> évolution vers du scraping envisageable
 
 - Une Page de test 
