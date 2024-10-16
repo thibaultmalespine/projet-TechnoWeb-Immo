@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire d'annonce</title>
-    <link href="static/style.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
 
-    <h1>Créer une Annonce</h1>
+    <h1>Bibliothèque d'annonces</h1>
 
-    <form action="/submit-annonce" method="POST">
+    <!-- Bouton pour afficher le formulaire -->
+    <button class="toggle-btn" onclick="toggleForm()">Ajouter une annonce</button>
+
+
+    <!-- Formulaire -->
+    <form id="annonceForm" action="/submit-annonce" method="POST" onsubmit="closeForm()">
+
 
         <!-- Titre Annonce -->
         <label for="titre">Titre de l'annonce</label>
@@ -43,47 +49,22 @@
         <label for="ville">Code Postal de la Ville</label>
         <input type="text" id="ville" name="ville" maxlength="5" placeholder="Entrez le code postal" required>
 
-
-        <!-- Mètres carrés habitables -->
-        <label for="m2_habitable">M² Habitables</label>
-        <input type="number" id="m2_habitable" name="m2_habitable" min="0" placeholder="Surface habitable en m²" required>
-
-
-        <!-- Mètres carrés de terrains -->
-        <label for="m2_terrain">M² de Terrains</label>
-        <input type="number" id="m2_terrain" name="m2_terrain" min="0" placeholder="Surface des terrains en m²" required>
-
-
+        
         <!-- Prix -->
         <label for="prix">Prix (€)</label>
         <input type="number" id="prix" name="prix" min="0" placeholder="Entrez le prix en euros" required>
 
 
-        <!-- Particulier ou Pro -->
-        <label for="particulier_pro">Type de vendeur</label>
-        <select id="particulier_pro" name="particulier_pro" required>
-            <option value="">Sélectionnez</option>
-            <option value="Particulier">Particulier</option>
-            <option value="Professionnel">Professionnel</option>
-        </select>
+        <!-- Mètres carrés habitables -->
+        <label for="m2_habitable">M² Habitables</label>
+        <input type="number" id="m2_habitable" name="m2_habitable" min="0" placeholder="Surface habitable en m²">
 
 
-        <!-- Garage -->
-        <label for="garage">Garage</label>
-        <select id="garage" name="garage" required>
-            <option value="Non">Non</option>
-            <option value="Oui">Oui</option>
-        </select>
+        <!-- Mètres carrés de terrains -->
+        <label for="m2_terrain">M² de Terrains</label>
+        <input type="number" id="m2_terrain" name="m2_terrain" min="0" placeholder="Surface des terrains en m²">
 
 
-        <!-- Piscine -->
-        <label for="piscine">Piscine</label>
-        <select id="piscine" name="piscine" required>
-            <option value="Non">Non</option>
-            <option value="Oui">Oui</option>
-        </select>
-
-        
         <!-- Meublé -->
         <label for="meuble">Meublé</label>
         <select id="meuble" name="meuble" required>
@@ -92,9 +73,65 @@
         </select>
 
 
+        <!-- Particulier ou Pro -->
+        <label for="particulier_pro">Type de vendeur</label>
+        <select id="particulier_pro" name="particulier_pro">
+            <option value="">Sélectionnez</option>
+            <option value="Particulier">Particulier</option>
+            <option value="Professionnel">Professionnel</option>
+        </select>
+
+
+        <!-- Garage -->
+        <label for="garage">Garage</label>
+        <select id="garage" name="garage">
+            <option value="Non">Non</option>
+            <option value="Oui">Oui</option>
+        </select>
+
+
+        <!-- Piscine -->
+        <label for="piscine">Piscine</label>
+        <select id="piscine" name="piscine">
+            <option value="Non">Non</option>
+            <option value="Oui">Oui</option>
+        </select>
+
+
         <!-- Submit Button -->
         <button type="submit">Créer l'annonce</button>
+
+
     </form>
+
+
+
+
+
+
+
+    <!-- A mettre dans le JS -->
+    <script>
+        // Fonction pour afficher/masquer le formulaire
+        function toggleForm() {
+            var form = document.getElementById("annonceForm");
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+
+        // Fonction pour masquer le formulaire après soumission
+        function closeForm() {
+            var form = document.getElementById("annonceForm");
+            form.style.display = "none";
+            alert("Annonce soumise avec succès !");
+        }
+    </script>
+
+
+
 
 </body>
 </html>
