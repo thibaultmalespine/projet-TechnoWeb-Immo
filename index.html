@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire d'annonce</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+    <h1>Créer une Annonce</h1>
+
+    <form action="/submit-annonce" method="POST">
+
+        <!-- Titre Annonce -->
+        <label for="titre">Titre de l'annonce</label>
+        <input type="text" id="titre" name="titre" placeholder="Entrez un titre d'annonce" required>
+
+
+        <!-- URL -->
+        <label for="url_annonce">URL de l'annonce</label>
+        <input type="url" id="url_annonce" name="url_annonce" placeholder="Entrez l'URL" required>
+
+
+        <!-- Description -->
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5" placeholder="Entrez une description du bien" required></textarea>
+
+
+        <!-- Type de bien -->
+        <label for="type">Type de bien</label>
+        <select id="type" name="type" required>
+            <option value="">Sélectionnez le type de bien</option>
+            <option value="Maison">Maison</option>
+            <option value="Appartement">Appartement</option>
+            <option value="Terrain">Terrain</option>
+            <option value="Garage">Garage</option>
+            <option value="Autre">Autre</option>
+        </select>
+
+
+        <!-- Ville (Code postal) -->
+        <label for="ville">Code Postal de la Ville</label>
+        <input type="text" id="ville" name="ville" maxlength="5" placeholder="Entrez le code postal" required>
+
+
+        <!-- Mètres carrés habitables -->
+        <label for="m2_habitable">M² Habitables</label>
+        <input type="number" id="m2_habitable" name="m2_habitable" min="0" placeholder="Surface habitable en m²" required>
+
+
+        <!-- Mètres carrés de terrains -->
+        <label for="m2_terrain">M² de Terrains</label>
+        <input type="number" id="m2_terrain" name="m2_terrain" min="0" placeholder="Surface des terrains en m²" required>
+
+
+        <!-- Prix -->
+        <label for="prix">Prix (€)</label>
+        <input type="number" id="prix" name="prix" min="0" placeholder="Entrez le prix en euros" required>
+
+
+        <!-- Particulier ou Pro -->
+        <label for="particulier_pro">Type de vendeur</label>
+        <select id="particulier_pro" name="particulier_pro" required>
+            <option value="">Sélectionnez</option>
+            <option value="Particulier">Particulier</option>
+            <option value="Professionnel">Professionnel</option>
+        </select>
+
+
+        <!-- Garage -->
+        <label for="garage">Garage</label>
+        <select id="garage" name="garage" required>
+            <option value="Non">Non</option>
+            <option value="Oui">Oui</option>
+        </select>
+
+
+        <!-- Piscine -->
+        <label for="piscine">Piscine</label>
+        <select id="piscine" name="piscine" required>
+            <option value="Non">Non</option>
+            <option value="Oui">Oui</option>
+        </select>
+
+        
+        <!-- Meublé -->
+        <label for="meuble">Meublé</label>
+        <select id="meuble" name="meuble" required>
+            <option value="Non">Non</option>
+            <option value="Oui">Oui</option>
+        </select>
+
+
+        <!-- Submit Button -->
+        <button type="submit">Créer l'annonce</button>
+    </form>
+
+</body>
+</html>
