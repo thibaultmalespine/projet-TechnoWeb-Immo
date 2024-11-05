@@ -2,22 +2,33 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import bodyParser from 'body-parser';
+import router from './routes.js';
+import { initializeDatabase } from './bdd.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 
- // middleware pour servir les fichiers static
-app.use('/static',express.static(path.join(__dirname, '../public/static/')));
+// Middleware pour servir les fichiers statiques
+app.use('/static', express.static(path.join(__dirname, '../public/static/')));
 
- // routes
+// Route principale
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname,'../public/index.html'));
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.listen(3000, () => {
-    console.log(`Server is running at http://localhost:3000`);
-});
+// Utilisation des routes pour les annonces
+app.use(router);
 
-export default app;
+// Initialiser la base de données puis lancer le serveur
+initializeDatabase().then(() => {
+  const PORT = 3000;
+  app.listen(PORT, () => {
+    console.log(`Serveur en écoute sur http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.error("Erreur lors de l'initialisation de la base de données :", err);
+});
