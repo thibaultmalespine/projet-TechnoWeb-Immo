@@ -1,5 +1,10 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -14,3 +19,5 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
     console.log(`Server is running at http://localhost:3000`);
 });
+
+export default app;
