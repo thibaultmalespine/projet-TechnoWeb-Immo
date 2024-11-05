@@ -21,9 +21,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// Utilisation des routes pour les annonces
-app.use(router);
-
 // Initialiser la base de données puis lancer le serveur
 initializeDatabase().then(() => {
   const PORT = 3000;

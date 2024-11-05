@@ -1,5 +1,5 @@
 import express from "express";
-import { getConnection } from './bdd.js';
+import { client } from './bdd.js';
 
 const router = express.Router();
 
@@ -12,8 +12,7 @@ router.post('/submit-annonce', async (req, res) => {
   const values = [titre, url_annonce, description, type, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine];
 
   try {
-    const connection = getConnection();
-    const [result] = await connection.execute(sql, values);
+    const [result] = await client.query(sql, values);
     console.log('Annonce insérée', result);
     res.send('Annonce ajoutée avec succès');
   } catch (err) {
