@@ -11,6 +11,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(router);
 
 // Middleware pour servir les fichiers statiques
 app.use('/static', express.static(path.join(__dirname, '../public/static/')));
