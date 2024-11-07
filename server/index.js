@@ -21,6 +21,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
+// Route annonce
+app.get('/annonce', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/annonce.html'));
+});
+
 // Initialiser la base de données puis lancer le serveur
 initializeDatabase().then(() => {
   const PORT = 3000;
