@@ -4,17 +4,16 @@ import { client } from './bdd.js';
 const router = express.Router();
 
 // Contrôleur pour récupérer toutes les annonces
-router.get('/annonce', async (req, res) => {
+router.get('/annonce/getAll', async (req, res) => {
   try {
-      // Récupérer les annonces depuis la base de données
-      const result = await db.query('SELECT * FROM Annonce');
-      const annonces = result.rows; // Utilisation de `.rows` si vous utilisez pg pour PostgreSQL
+      const result = await client.query('SELECT * FROM Annonce');
+      const annonces = result.rows; // Assurez-vous que cela correspond à votre méthode de base de données
 
-      // Rendre la vue avec les annonces récupérées
-      res.render('annonce', { annonces });
+      // Envoyer les annonces en JSON
+      res.json(annonces);
   } catch (error) {
       console.error("Erreur lors de la récupération des annonces:", error);
-      res.status(500).send("Erreur lors de la récupération des annonces");
+      res.status(500).json({ message: "Erreur lors de la récupération des annonces" });
   }
 });
 
