@@ -3,6 +3,25 @@ import { client } from './bdd.js';
 
 const router = express.Router();
 
+// Contrôleur pour récupérer les annonces
+router.get('/annonce', async (req, res) => {
+  try {
+      // Récupérer les annonces depuis la base de données
+      const result = await db.query('SELECT * FROM Annonce');
+      const annonces = result.rows; // Utilisation de `.rows` si vous utilisez pg pour PostgreSQL
+
+      // Rendre la vue avec les annonces récupérées
+      res.render('annonce', { annonces });
+  } catch (error) {
+      console.error("Erreur lors de la récupération des annonces:", error);
+      res.status(500).send("Erreur lors de la récupération des annonces");
+  }
+});
+
+
+
+
+
 // Route pour recevoir les données du formulaire
 router.post('/submit-annonce', async (req, res) => {
   const { titre, url_annonce, description, type, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine } = req.body;
@@ -23,3 +42,6 @@ router.post('/submit-annonce', async (req, res) => {
 });
 
 export default router;
+
+
+
