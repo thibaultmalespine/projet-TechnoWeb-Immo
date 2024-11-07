@@ -30,3 +30,8 @@ initializeDatabase().then(() => {
 }).catch(err => {
   console.error("Erreur lors de l'initialisation de la base de données :", err);
 });
+
+
+
+
+
