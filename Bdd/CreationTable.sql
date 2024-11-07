@@ -17,15 +17,17 @@ CREATE TABLE Compte (
 CREATE TABLE Ville (
     CodePostal VARCHAR(5) NOT NULL,
     NomVille VARCHAR(100) NOT NULL,
-    PRIMARY KEY (CodePostal, NomVille),
+    PRIMARY KEY (CodePostal, NomVille)
 );
+
 
 -- Table Annonce
 CREATE TABLE Annonce (
     idAnnonce SERIAL PRIMARY KEY,
     URLOriginale VARCHAR NOT NULL,
     NomAnnonce VARCHAR NOT NULL,
-    laVille VARCHAR(5), -- correspond au Code Postal
+    CodePostal VARCHAR(5),  -- Correspond au Code Postal
+    NomVille VARCHAR(100),  -- Correspond au Nom de la Ville
     TypeDeBien VARCHAR(50),
     M2Habitable INT,
     M2Terrains INT,
@@ -35,7 +37,7 @@ CREATE TABLE Annonce (
     Piscine BOOLEAN,
     Meuble BOOLEAN,
     Description TEXT,
-    FOREIGN KEY (laVille) REFERENCES Ville(CodePostal)
+    FOREIGN KEY (CodePostal, NomVille) REFERENCES Ville(CodePostal, NomVille)  -- Clé étrangère composée
 );
 
 -- Table AnnoncesEnregistrees (association entre Compte et Annonce)
