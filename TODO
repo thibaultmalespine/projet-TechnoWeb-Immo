@@ -1,11 +1,8 @@
+- Tester l'api
+
 - Comptes utilisateurs (BDD)
 
 - Formulaire pour ajouter une annonce qui nous intéresse --> évolution vers du scraping envisageable
 
-- CRUD sur la table annonce 
-
 
 - Page d'Authentification
-
-
-- Une Page de test 
