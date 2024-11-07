@@ -15,8 +15,9 @@ CREATE TABLE Compte (
 
 -- Table Ville
 CREATE TABLE Ville (
-    CodePostal VARCHAR(5) PRIMARY KEY,
-    NomVille VARCHAR(100) NOT NULL
+    CodePostal VARCHAR(5) NOT NULL,
+    NomVille VARCHAR(100) NOT NULL,
+    PRIMARY KEY (CodePostal, NomVille),
 );
 
 -- Table Annonce
