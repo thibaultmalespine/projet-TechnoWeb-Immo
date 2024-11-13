@@ -20,8 +20,6 @@ export const getCompteById = async (req, res) => {
 // Contrôleur pour ajouter un compte
 export const createCompte = async (req, res) => {
   const { email, motDePasse } = req.body;
-  console.log(req.body);
-  console.log(email, motDePasse);
   const request = `INSERT INTO Compte (Email, MotDePasse) 
                    VALUES ($1, $2)`;
 
