@@ -5,7 +5,7 @@ import {
   createAnnonce,
   updateAnnonce,
   deleteAnnonce
-} from '../controllers/annonceControleurs.js';
+} from '../controllers/annonceControllers.js';
 
 const router = express.Router();
 
