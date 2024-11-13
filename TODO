@@ -1,8 +1,13 @@
-- Tester l'api
+DO:
+-Page d'accueil pour ajouter une annonce et se connecter
+-Ajouter une annonce à la BDD via le formulaire
+-Page de connexion
+-Ajouter un compte à la BDD via le formulaire de connexion
+-Page d'annonce qui affiche les annonces de la BDD
+-Récupérer toutes les villes de France
 
-- Comptes utilisateurs (BDD)
-
-- Formulaire pour ajouter une annonce qui nous intéresse --> évolution vers du scraping envisageable
 
 
-- Page d'Authentification
+TO DO:
+-Avoir une instance de compte
+-Front: faire fissure
