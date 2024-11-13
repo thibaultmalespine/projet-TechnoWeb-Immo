@@ -1,10 +1,7 @@
-import express from "express";
 import { client } from './bdd.js';
 
-const router = express.Router();
-
-// Route pour récupérer un compte par son ID
-router.get('/compte/get:id', async (req, res) => {
+// Contrôleur pour récupérer un compte par son ID
+export const getCompteById = async (req, res) => {
   const idCompte = req.params.id;
   try {
     const result = await client.query('SELECT * FROM Compte WHERE idCompte = $1', [idCompte]);
@@ -18,10 +15,10 @@ router.get('/compte/get:id', async (req, res) => {
     console.error("Erreur lors de la récupération du compte :", err);
     res.status(500).send("Erreur lors de la récupération du compte");
   }
-});
+};
 
-// Route pour ajouter un compte
-router.post('/compte/submit', async (req, res) => {
+// Contrôleur pour ajouter un compte
+export const createCompte = async (req, res) => {
   const { nom, prenom, email, motDePasse } = req.body;
 
   const request = `INSERT INTO Compte (Nom, Prenom, Email, MotDePasse) 
@@ -37,10 +34,10 @@ router.post('/compte/submit', async (req, res) => {
     console.error("Erreur lors de l'ajout du compte :", err);
     res.status(500).send("Erreur lors de l'ajout du compte");
   }
-});
+};
 
-// Route pour mettre à jour un compte
-router.put('/compte/update:id', async (req, res) => {
+// Contrôleur pour mettre à jour un compte
+export const updateCompte = async (req, res) => {
   const { nom, prenom, email, motDePasse } = req.body;
   const idCompte = req.params.id;
 
@@ -63,10 +60,10 @@ router.put('/compte/update:id', async (req, res) => {
     console.error("Erreur lors de la mise à jour du compte :", err);
     res.status(500).send("Erreur lors de la mise à jour du compte");
   }
-});
+};
 
-// Route pour supprimer un compte par son ID
-router.delete('/compte/delete:id', async (req, res) => {
+// Contrôleur pour supprimer un compte par son ID
+export const deleteCompte = async (req, res) => {
   const idCompte = req.params.id;
 
   const request = `DELETE FROM Compte WHERE idCompte = $1`;
@@ -84,6 +81,4 @@ router.delete('/compte/delete:id', async (req, res) => {
     console.error("Erreur lors de la suppression du compte :", err);
     res.status(500).send("Erreur lors de la suppression du compte");
   }
-});
-
-export default router;
+};

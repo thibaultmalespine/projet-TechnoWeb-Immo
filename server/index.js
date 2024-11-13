@@ -3,8 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import bodyParser from 'body-parser';
-import routerAnnonce from './routesAnnonce.js';
-import routerCompteClient from './routesCompteClient.js';
+import routerAnnonce from './routes/routesAnnonce.js';
+import routerCompteClient from './routes/routesCompteClient.js';
 import { initializeDatabase } from './bdd.js';
 
 const __filename = fileURLToPath(import.meta.url);
