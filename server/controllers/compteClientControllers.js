@@ -1,4 +1,4 @@
-import { client } from './bdd.js';
+import { client } from '../bdd.js';
 
 // Contrôleur pour récupérer un compte par son ID
 export const getCompteById = async (req, res) => {

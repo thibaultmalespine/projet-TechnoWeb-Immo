@@ -1,4 +1,4 @@
-import { client } from './bdd.js';
+import { client } from '../bdd.js';
 
 // Contrôleur pour récupérer toutes les annonces
 export const getAllAnnonces = async (req, res) => {
