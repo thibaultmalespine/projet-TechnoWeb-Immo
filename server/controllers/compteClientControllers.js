@@ -19,12 +19,13 @@ export const getCompteById = async (req, res) => {
 
 // Contrôleur pour ajouter un compte
 export const createCompte = async (req, res) => {
-  const { nom, prenom, email, motDePasse } = req.body;
+  const { email, motDePasse } = req.body;
+  console.log(req.body);
+  console.log(email, motDePasse);
+  const request = `INSERT INTO Compte (Email, MotDePasse) 
+                   VALUES ($1, $2)`;
 
-  const request = `INSERT INTO Compte (Nom, Prenom, Email, MotDePasse) 
-                   VALUES ($1, $2, $3, $4)`;
-
-  const values = [nom, prenom, email, motDePasse];
+  const values = [email, motDePasse];
 
   try {
     const result = await client.query(request, values);

@@ -36,7 +36,8 @@ https://geo.api.gouv.fr/decoupage-administratif/communes
 psql -U userpostgres -h localhost -p 5433
 
 mdp : userpostgres
-
-\i ./CreationTable.sql
-
+\o /dev/null
+\i ./Bdd/CreationTable.sql
+\i ./Bdd/insert_villes.sql
+\o
 \d
