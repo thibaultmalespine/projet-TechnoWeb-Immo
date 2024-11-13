@@ -7,8 +7,8 @@ DROP TABLE AnnoncesEnregistrees CASCADE;
 -- Table Compte
 CREATE TABLE Compte (
     idCompte SERIAL PRIMARY KEY,
-    Nom VARCHAR(100) NOT NULL,
-    Prenom VARCHAR(100) NOT NULL,
+    Nom VARCHAR(100),
+    Prenom VARCHAR(100),
     Email VARCHAR(100) NOT NULL UNIQUE,
     MotDePasse VARCHAR(255) NOT NULL
 );

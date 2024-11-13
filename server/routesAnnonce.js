@@ -17,7 +17,6 @@ router.get('/annonce/getAll', async (req, res) => {
   }
 });
 
-
 // Route pour récupérer une annonce
 router.get('/annonce/get:id', async (req, res)=>{
   const idAnnonce =  req.params.id;
@@ -96,6 +95,3 @@ router.delete('/annonce/delete:id', async (req, res) => {
 
 
 export default router;
-
-
-
