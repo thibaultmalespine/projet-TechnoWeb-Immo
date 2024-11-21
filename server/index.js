@@ -1,11 +1,10 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import bodyParser from 'body-parser';
+import express from 'express';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { initializeDatabase } from './bdd.js';
 import routerAnnonce from './routes/routesAnnonce.js';
 import routerCompteClient from './routes/routesCompteClient.js';
-import { initializeDatabase } from './bdd.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
