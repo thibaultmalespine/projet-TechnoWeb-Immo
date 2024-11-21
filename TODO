@@ -1,14 +1,18 @@
 DO:
--Page d'accueil pour ajouter une annonce et se connecter
--Ajouter une annonce à la BDD via le formulaire
--Page de connexion
--Ajouter un compte à la BDD via le formulaire de connexion
--Page d'annonce qui affiche les annonces de la BDD
--Récupérer toutes les villes de France
+- Page d'accueil pour ajouter une annonce et se connecter
+- Ajouter une annonce à la BDD via le formulaire
+- Page de connexion
+- Ajouter un compte à la BDD via le formulaire de connexion
+- Page d'annonce qui affiche les annonces de la BDD
+- Récupérer toutes les villes de France
 
 
 
 TO DO:
--Réparer la route post de annonce (et surement les autres) --> clé primaire de ville a changé depuis 
--Avoir une instance de compte
--Front: faire fissure
+- Pouvoir s'authentifier
+- Lier les annonces à un compte + afficher les annonces en fonction du compte
+- Avoir une instance de compte (???)
+- Réparer les routes update et delete de annonce--> clé primaire de ville a changé  
+- Ajouter typescript au projet
+- Selectionner automatiquement la ville lors de la saisie 
+- Front: faire fissure
