@@ -41,7 +41,7 @@ export const createAnnonce = async (req, res) => {
   try {
     const result = await client.query(request, values);
     console.log('Annonce ajoutée avec succès');
-    res.send('Annonce ajoutée avec succès');
+    res.redirect('/');
   } catch (err) {
     console.error("Erreur lors de l'ajout de l'annonce :", err);
     res.status(500).send("Erreur lors de l'ajout de l'annonce");
