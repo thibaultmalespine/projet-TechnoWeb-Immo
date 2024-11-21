@@ -13,6 +13,7 @@ export const getCompte = async (req, res) => {
       res.status(404).send('Compte non trouvé');
     }
     else{
+      req.session.email = email;
       res.json(result.rows[0]);
     }
 
@@ -33,6 +34,8 @@ export const createCompte = async (req, res) => {
   try {
     const result = await client.query(request, values);
     console.log('Compte ajouté avec succès');
+    // définir le compte actuellement connecté comme étant le nouveau compte
+    req.session.email = email;
     res.send('Compte ajouté avec succès');
   } catch (err) {
     console.error("Erreur lors de l'ajout du compte :", err);
