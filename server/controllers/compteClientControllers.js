@@ -1,16 +1,21 @@
 import { client } from '../bdd.js';
 
-// Contrôleur pour récupérer un compte par son ID
-export const getCompteById = async (req, res) => {
-  const idCompte = req.params.id;
+// Contrôleur pour récupérer un compte
+export const getCompte = async (req, res) => {
+  const email = req.query.email;
+  const motDePasse = req.query.motDePasse;
+
+  
   try {
-    const result = await client.query('SELECT * FROM Compte WHERE idCompte = $1', [idCompte]);
+    const result = await client.query('SELECT * FROM Compte WHERE email = $1 and motdepasse = $2', [email, motDePasse]);
     
     if (result.rowCount === 0) {
-      return res.status(404).send('Compte non trouvé');
+      res.status(404).send('Compte non trouvé');
+    }
+    else{
+      res.json(result.rows[0]);
     }
 
-    res.json(result.rows[0]);
   } catch (err) {
     console.error("Erreur lors de la récupération du compte :", err);
     res.status(500).send("Erreur lors de la récupération du compte");
