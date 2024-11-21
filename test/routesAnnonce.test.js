@@ -4,37 +4,53 @@ import { getAllAnnonces, getAnnonceById, createAnnonce, updateAnnonce, deleteAnn
 
 
 describe("Tests des fonctions de la BDD", () => {
+  // Après chaque test, on nettoie les données
+  //afterEach(async () => {
+    //await client.query("DELETE FROM Annonce WHERE NomAnnonce = 'Test Annonce'");
+  //});
 
   it("createAnnonce devrait insérer une nouvelle annonce", async () => {
-      // Données factices pour tester la fonction
-      const body = {
-            titre: 'Test Annonce',
-            url_annonce: 'https://www.test.com',
-            description: 'Test description',
-            type: 'Maison',
-            codep: '75000',
-            ville: 'Paris',
-            prix: 500000,
-            m2_habitable: 120,
-            m2_terrain: 200,
-            meuble: true,
-            particulier_pro: 'Particulier',
-            garage: true,
-            piscine: false,
-          };
-    
-    await fetch("http://localhost:3000/annonce/submit", {
-        method: "POST", 
-        headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body)
-    })
+    // Données factices pour tester la fonction
+    const body = {
+      titre: 'Test Annonce',
+      url_annonce: 'https://www.test.com',
+      description: 'Test description',
+      type: 'Maison',
+      codep: '81000',
+      ville: 'Albi',
+      prix: 500000,
+      m2_habitable: 120,
+      m2_terrain: 200,
+      meuble: true,
+      particulier_pro: 'Particulier',
+      garage: true,
+      piscine: false,
+    };
 
+    // Simuler une requête POST
+    console.log("Envoi de la requête POST...");
+    const response = await fetch("http://localhost:3000/annonce/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
     
-    const data = await fetch("http://localhost:3000/annonce/getAll")
-    console.log(data);
-  });
+
+    console.log("Réponse POST reçue :", response.status);
+    expect(response.ok).toBe(true);
+  
+    console.log("Envoi de la requête GET...");
+    const dataResponse = await fetch("http://localhost:3000/annonce/getAll");
+    console.log("Réponse GET reçue :", dataResponse.status);
+  
+    const data = await dataResponse.json();
+    console.log("Données reçues :", data);
+  
+    expect(data).toContainEqual(expect.objectContaining({ titre: "Test Annonce" }));
+  }, 10000); // Timeout augmenté pour le test
+});
   
 
 
@@ -189,4 +205,4 @@ describe("Tests des fonctions de la BDD", () => {
     expect(resultAfterDelete.rowCount).toBe(0);
     expect(res.send).toHaveBeenCalledWith("Annonce supprimée avec succès");
   }); */
-});
+//});

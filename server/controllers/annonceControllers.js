@@ -31,12 +31,15 @@ export const getAnnonceById = async (req, res) => {
 
 // Contrôleur pour ajouter une annonce
 export const createAnnonce = async (req, res) => {
+
   const { titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine } = req.body;
 
   const request = `INSERT INTO Annonce (NomAnnonce, URLOriginale, Description, TypeDeBien, CodePostal, NomVille, Prix, M2Habitable, M2Terrains, Meuble, ParticulierPro, Garage, Piscine) 
                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`;
 
   const values = [titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine];
+
+  console.log(values)
 
   try {
     const result = await client.query(request, values);
