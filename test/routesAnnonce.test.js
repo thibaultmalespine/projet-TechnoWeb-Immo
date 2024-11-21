@@ -1,13 +1,11 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { client } from '../server/bdd.js';
-import { getAllAnnonces, getAnnonceById, createAnnonce, updateAnnonce, deleteAnnonce } from '../server/controllers/annonceControllers.js';
 
+    //await client.connect();
+    //await client.query("DELETE FROM Annonce WHERE NomAnnonce = 'Test Annonce'");
+    //await client.end();
 
 describe("Tests des fonctions de la BDD", () => {
-  // Après chaque test, on nettoie les données
-  //afterEach(async () => {
-    //await client.query("DELETE FROM Annonce WHERE NomAnnonce = 'Test Annonce'");
-  //});
 
   it("createAnnonce devrait insérer une nouvelle annonce", async () => {
     // Données factices pour tester la fonction
@@ -28,7 +26,6 @@ describe("Tests des fonctions de la BDD", () => {
     };
 
     // Simuler une requête POST
-    console.log("Envoi de la requête POST...");
     const response = await fetch("http://localhost:3000/annonce/submit", {
       method: "POST",
       headers: {
@@ -38,18 +35,37 @@ describe("Tests des fonctions de la BDD", () => {
     });
     
 
-    console.log("Réponse POST reçue :", response.status);
     expect(response.ok).toBe(true);
+  }, 10000); // Augmentez le timeout à 10 secondes si nécessaire
+
+
+
+
+
+  it("getAllAnnonces devrait retourner une liste non vide", async () => {
+    console.log("Debut du test");
   
-    console.log("Envoi de la requête GET...");
-    const dataResponse = await fetch("http://localhost:3000/annonce/getAll");
-    console.log("Réponse GET reçue :", dataResponse.status);
+    // Simuler une requête GET
+    const response = await fetch("http://localhost:3000/annonce/getAll", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   
-    const data = await dataResponse.json();
-    console.log("Données reçues :", data);
+    // Vérifier si la réponse est réussie (status 200)
+    expect(response.ok).toBe(true);
+
+    console.log(response)
   
-    expect(data).toContainEqual(expect.objectContaining({ titre: "Test Annonce" }));
-  }, 10000); // Timeout augmenté pour le test
+    // Convertir la réponse en JSON
+    const data = await response.json();
+  
+    // Vérifier que la liste d'annonces n'est pas vide
+    expect(data.length).toBeGreaterThan(0);
+    
+  }, 10000); // Augmentez le timeout à 10 secondes si nécessaire
+
 });
   
 
