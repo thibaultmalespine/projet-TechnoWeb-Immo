@@ -39,8 +39,6 @@ export const createAnnonce = async (req, res) => {
 
   const values = [titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine];
 
-  console.log(values)
-
   try {
     const result = await client.query(request, values);
     console.log('Annonce ajoutée avec succès');
