@@ -11,12 +11,15 @@ DO:
 
 
 TO DO:
+- Finir les tests
+- Ajouter typescript au projet
+
+
 - Créer une page pour afficher les informations d'un compte 
 - Séparer les pages s'identifier et se connecter
 - Modifier le test getAll par getAccount
 - Séparer les routes login et getAccount
 
 - Réparer les routes update et delete de annonce--> clé primaire de ville a changé   ( a voir lorsque on en aura besoin)
-- Ajouter typescript au projet
 - Selectionner automatiquement la ville lors de la saisie 
 - Front: faire fissure

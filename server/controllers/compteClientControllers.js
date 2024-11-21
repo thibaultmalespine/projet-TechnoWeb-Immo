@@ -4,17 +4,14 @@ import { client } from '../bdd.js';
 export const getCompte = async (req, res) => {
   const email = req.query.email;
   const motDePasse = req.query.motDePasse;
-
-  
   try {
     const result = await client.query('SELECT * FROM Compte WHERE email = $1 and motdepasse = $2', [email, motDePasse]);
-    
     if (result.rowCount === 0) {
       res.status(404).send('Compte non trouvé');
     }
     else{
       req.session.email = email;
-      res.json(result.rows[0]);
+      res.status(301).redirect('/mesAnnonces.html')
     }
 
   } catch (err) {

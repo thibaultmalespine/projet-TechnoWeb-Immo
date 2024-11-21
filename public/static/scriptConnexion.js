@@ -8,10 +8,8 @@ loginForm.addEventListener('submit',async (event) => {
     const data = Object.fromEntries(formData.entries());
   
         const response = await fetch(`/compte/login?email=${data.email}&motDePasse=${data.motDePasse}`);
-        if (response.ok) {
-            const result = await response.json();
-            console.log(result);
-            alert("connexion réussi")
+        if (response.redirected) {
+            document.location.href = response.url
         } else if(response.status === 404) {
             alert("compte non trouvé")
         }

@@ -3,115 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
-    <link href="./static/styleIndex.css" rel="stylesheet">
+    <title>Connexion</title>
+    <link href="./static/styleConnexion.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <a href="/connexion" class="login-link">Se connecter / Créer un compte</a>
-    </header>
+    <div class="container">
+        <h1>Connexion</h1>
 
-    <h1>Accueil</h1>
+        <!-- Formulaire de connexion -->
+        <form action="/compte/login" method="get" id="login-form">
+            <h2>Se connecter</h2>
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" required>
 
-    <!-- Bouton pour afficher le formulaire -->
-    <button class="toggle-btn" onclick="toggleForm()">Ajouter une annonce</button>
+            <label for="motDePasse">Mot de passe :</label>
+            <input type="password" id="motDePasse" name="motDePasse" required>
 
+            <button type="submit">Connexion</button>
+        </form>
 
-    <!-- Formulaire -->
-    <form id="annonceForm" action="./annonce/submit" method="POST" onsubmit="closeForm()">
+        <hr>
 
+        <!-- Formulaire de création de compte -->
+        <form action="/compte/submit" method="post" id="signup-form">
+            <h2>Créer un compte</h2>
+            <label for="new-email">Email :</label>
+            <input type="email" id="new-email" name="email" required>
 
-        <!-- Titre Annonce -->
-        <label for="titre">Titre de l'annonce</label>
-        <input type="text" id="titre" name="titre" placeholder="Entrez un titre d'annonce" required>
+            <label for="new-motDePasse">Mot de passe :</label>
+            <input type="password" id="new-motDePasse" name="motDePasse" required>
 
+            <button type="submit">Créer un compte</button>
+        </form>
+    </div>
+    <script src="./static/scriptConnexion.js"></script>
 
-        <!-- URL -->
-        <label for="url_annonce">URL de l'annonce</label>
-        <input type="url" id="url_annonce" name="url_annonce" placeholder="Entrez l'URL" required>
-
-
-        <!-- Description -->
-        <label for="description">Description</label>
-        <textarea id="description" name="description" rows="5" placeholder="Entrez une description du bien" required></textarea>
-
-
-        <!-- Type de bien -->
-        <label for="type">Type de bien</label>
-        <select id="type" name="type" required>
-            <option value="">Sélectionnez le type de bien</option>
-            <option value="Maison">Maison</option>
-            <option value="Appartement">Appartement</option>
-            <option value="Terrain">Terrain</option>
-            <option value="Garage">Garage</option>
-            <option value="Autre">Autre</option>
-        </select>
-
-
-        <!-- Nom de ville -->
-        <label for="ville">Nom de la ville</label>
-        <input type="text" id="ville" name="ville" placeholder="Entrez le nom de la ville" required>
-
-
-        <!-- Code postal -->
-        <label for="codep">Code Postal de la Ville</label>
-        <input type="text" id="codep" name="codep" maxlength="5" placeholder="Entrez le code postal" required>
-
-
-        <!-- Prix -->
-        <label for="prix">Prix (€)</label>
-        <input type="number" id="prix" name="prix" min="0" placeholder="Entrez le prix en euros" required>
-
-
-        <!-- Mètres carrés habitables -->
-        <label for="m2_habitable">M² Habitables</label>
-        <input type="number" id="m2_habitable" name="m2_habitable" min="0" placeholder="Surface habitable en m²">
-
-
-        <!-- Mètres carrés de terrains -->
-        <label for="m2_terrain">M² de Terrains</label>
-        <input type="number" id="m2_terrain" name="m2_terrain" min="0" placeholder="Surface des terrains en m²">
-
-
-        <!-- Meublé -->
-        <label for="meuble">Meublé</label>
-        <select id="meuble" name="meuble">
-            <option value="False">Non</option>
-            <option value="True">Oui</option>
-        </select>
-
-
-        <!-- Particulier ou Pro -->
-        <label for="particulier_pro">Type de vendeur</label>
-        <select id="particulier_pro" name="particulier_pro">
-            <option value="">Sélectionnez</option>
-            <option value="Particulier">Particulier</option>
-            <option value="Professionnel">Professionnel</option>
-        </select>
-
-
-        <!-- Garage -->
-        <label for="garage">Garage</label>
-        <select id="garage" name="garage">
-            <option value="False">Non</option>
-            <option value="True">Oui</option>
-        </select>
-
-
-        <!-- Piscine -->
-        <label for="piscine">Piscine</label>
-        <select id="piscine" name="piscine">
-            <option value="False">Non</option>
-            <option value="True">Oui</option>
-        </select>
-
-
-        <!-- Submit Button -->
-        <button type="submit">Créer l'annonce</button>
-
-
-    </form>
-
-    <script src="./static/script.js"></script>
 </body>
 </html>

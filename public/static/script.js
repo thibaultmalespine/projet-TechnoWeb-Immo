@@ -1,5 +1,4 @@
 // Fonction pour afficher/masquer le formulaire
-
 function toggleForm() {
     var form = document.getElementById("annonceForm");
     if (form.style.display === "block") {

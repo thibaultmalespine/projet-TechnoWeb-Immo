@@ -14,10 +14,8 @@ export const getAllAnnonces = async (req, res) => {
 
 // Contrôleur pour récupérer une annonce par son ID
 export const getAnnonceByAccount = async (req, res) => {
-  console.log(req.session.email);
   try {
     const result = await client.query('SELECT * FROM Annonce WHERE lecompte = $1', [req.session.email]);
-    
     if (result.rowCount === 0) {
       return res.status(404).send('Annonce non trouvée');
     }
@@ -47,7 +45,7 @@ export const createAnnonce = async (req, res) => {
   try {
     const result = await client.query(request, values);
     console.log('Annonce ajoutée avec succès');
-    res.redirect('/');
+    res.redirect('/mesAnnonces.html');
   } catch (err) {
     console.error("Erreur lors de l'ajout de l'annonce :", err);
     res.status(500).send("Erreur lors de l'ajout de l'annonce");
