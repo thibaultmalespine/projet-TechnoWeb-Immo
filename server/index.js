@@ -13,38 +13,24 @@ const __dirname = dirname(__filename);
 const app = express();
 
 // MIDDLEWARE 
-app.use(bodyParser.urlencoded({ extended: true }));
-//Middleware json, très important pour utiliser fetch et envoyer du json au body
-app.use(express.json());
-app.use(session({
+app.use(bodyParser.urlencoded({ extended: true })); // Midlleware pour récupérer les données issues d'un formulaire
+app.use(express.json()); // Middleware json, très important pour utiliser fetch et envoyer du json au body
+app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de stocker le compte client connecté
   secret: 'mysecret',
   resave: false,
   saveUninitialized: true
-}));
+})); 
+
+app.use(express.static(path.join(__dirname, '../public'))); // Middleware pour servir les fichiers statiques
+
 
 // API REST
 app.use(routerAnnonce);
 app.use(routerCompteClient);
 
-
-// Middleware pour servir les fichiers statiques
-app.use('/static', express.static(path.join(__dirname, '../public/static/')));
-
-
-
-// Route principale
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-// Route annonce
-app.get('/annonce', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/annonce.html'));
-});
-
-// Route connexion
-app.get('/connexion', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/connexion.html'))
+// Redirection mauvaise adresse
+app.get("/*", (req, res ) => {
+  res.redirect("/")
 })
 
 // Initialiser la base de données puis lancer le serveur
@@ -56,8 +42,3 @@ initializeDatabase().then(() => {
 }).catch(err => {
   console.error("Erreur lors de l'initialisation de la base de données :", err);
 });
-
-
-
-
-
