@@ -5,14 +5,18 @@ DO:
 - Ajouter un compte à la BDD via le formulaire de connexion
 - Page d'annonce qui affiche les annonces de la BDD
 - Récupérer toutes les villes de France
+- Pouvoir s'authentifier / Avoir une instance de compte 
+- Lier les annonces à un compte + afficher les annonces en fonction du compte
 
 
 
 TO DO:
-- Pouvoir s'authentifier
-- Lier les annonces à un compte + afficher les annonces en fonction du compte
-- Avoir une instance de compte (???)
-- Réparer les routes update et delete de annonce--> clé primaire de ville a changé  
+- Créer une page pour afficher les informations d'un compte 
+- Séparer les pages s'identifier et se connecter
+- Modifier le test getAll par getAccount
+- Séparer les routes login et getAccount
+
+- Réparer les routes update et delete de annonce--> clé primaire de ville a changé   ( a voir lorsque on en aura besoin)
 - Ajouter typescript au projet
 - Selectionner automatiquement la ville lors de la saisie 
 - Front: faire fissure
