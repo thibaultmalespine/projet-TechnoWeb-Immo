@@ -1,16 +1,12 @@
 import express from 'express';
 import {
-  getAllAnnonces,
-  getAnnonceById,
-  createAnnonce,
-  updateAnnonce,
-  deleteAnnonce
+  createAnnonce, deleteAnnonce, getAllAnnonces, getAnnonceByAccount, updateAnnonce
 } from '../controllers/annonceControllers.js';
 
 const router = express.Router();
 
 router.get('/annonce/getAll', getAllAnnonces);
-router.get('/annonce/get:id', getAnnonceById);
+router.get('/annonce/getAnnonceByAccount', getAnnonceByAccount);
 router.post('/annonce/submit', createAnnonce);
 router.put('/annonce/update:id', updateAnnonce);
 router.delete('/annonce/delete:id', deleteAnnonce);

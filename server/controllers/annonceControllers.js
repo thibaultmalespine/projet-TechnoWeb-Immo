@@ -13,16 +13,16 @@ export const getAllAnnonces = async (req, res) => {
 };
 
 // Contrôleur pour récupérer une annonce par son ID
-export const getAnnonceById = async (req, res) => {
-  const idAnnonce = req.params.id;
+export const getAnnonceByAccount = async (req, res) => {
+  console.log(req.session.email);
   try {
-    const result = await client.query('SELECT * FROM Annonce WHERE idAnnonce = $1', [idAnnonce]);
+    const result = await client.query('SELECT * FROM Annonce WHERE lecompte = $1', [req.session.email]);
     
     if (result.rowCount === 0) {
       return res.status(404).send('Annonce non trouvée');
     }
 
-    res.json(result.rows[0]);
+    res.json(result.rows);
   } catch (err) {
     console.error("Erreur lors de la récupération de l'annonce :", err);
     res.status(500).send("Erreur lors de la récupération de l'annonce");
@@ -33,13 +33,11 @@ export const getAnnonceById = async (req, res) => {
 export const createAnnonce = async (req, res) => {
 
   const { titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine } = req.body;
+  const lecompte = req.session.email;
+  const request = `INSERT INTO Annonce (NomAnnonce, URLOriginale, Description, TypeDeBien, CodePostal, NomVille, Prix, M2Habitable, M2Terrains, Meuble, ParticulierPro, Garage, Piscine, LeCompte) 
+                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
 
-  const request = `INSERT INTO Annonce (NomAnnonce, URLOriginale, Description, TypeDeBien, CodePostal, NomVille, Prix, M2Habitable, M2Terrains, Meuble, ParticulierPro, Garage, Piscine) 
-                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`;
-
-  const values = [titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine];
-
-  console.log(values)
+  const values = [titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine, lecompte];
 
   try {
     const result = await client.query(request, values);

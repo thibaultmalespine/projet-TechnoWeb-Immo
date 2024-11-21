@@ -36,6 +36,7 @@ CREATE TABLE Annonce (
     Garage BOOLEAN,
     Piscine BOOLEAN,
     Meuble BOOLEAN,
+    LeCompte VARCHAR(100) NOT NULL REFERENCES Compte(email) ,
     Description TEXT,
     FOREIGN KEY (CodePostal, NomVille) REFERENCES Ville(CodePostal, NomVille)  -- Clé étrangère composée
 );

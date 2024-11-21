@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import express from 'express';
+import session from 'express-session';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeDatabase } from './bdd.js';
@@ -10,10 +11,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
 
+// MIDDLEWARE 
+app.use(bodyParser.urlencoded({ extended: true }));
 //Middleware json, très important pour utiliser fetch et envoyer du json au body
 app.use(express.json());
+app.use(session({
+  secret: 'mysecret',
+  resave: false,
+  saveUninitialized: true
+}));
 
 // API REST
 app.use(routerAnnonce);
