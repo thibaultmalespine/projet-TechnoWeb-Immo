@@ -13,7 +13,5 @@ loginForm.addEventListener('submit',async (event) => {
         } else if(response.status === 404) {
             alert("compte non trouvé")
         }
-  
-
 
 })

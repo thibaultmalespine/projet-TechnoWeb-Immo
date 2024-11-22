@@ -32,20 +32,22 @@ export const createAnnonce = async (req, res) => {
 
   const { titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine } = req.body;
   
-  let {lecompte} = req.body ;
+  // TEMPORAIRE //
+  let {lecompte} = req.body;
   if (lecompte === undefined) {
     lecompte = req.session.email;
   }
-  console.log(lecompte);
+  // TEMPORAIRE //
+
   const request = `INSERT INTO Annonce (NomAnnonce, URLOriginale, Description, TypeDeBien, CodePostal, NomVille, Prix, M2Habitable, M2Terrains, Meuble, ParticulierPro, Garage, Piscine, LeCompte) 
-                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
+                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`;
 
   const values = [titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine, lecompte];
 
   try {
     const result = await client.query(request, values);
     console.log('Annonce ajoutée avec succès');
-    res.redirect('/mesAnnonces.html');
+    res.send(result.rows[0])
   } catch (err) {
     console.error("Erreur lors de l'ajout de l'annonce :", err);
     res.status(500).send("Erreur lors de l'ajout de l'annonce");
@@ -82,7 +84,6 @@ export const updateAnnonce = async (req, res) => {
 // Contrôleur pour supprimer une annonce par son ID
 export const deleteAnnonce = async (req, res) => {
   const idAnnonce = req.params.id;
-
   const request = `DELETE FROM Annonce WHERE idAnnonce = $1`;
 
   try {
