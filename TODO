@@ -12,9 +12,8 @@ DO:
 
 TO DO:
 Thibault
-- Enlever annonce getAll et ajouter getAnnonceById
-- Réparer les routes update et delete de annonce--> clé primaire de ville a changé   ( a voir lorsque on en aura besoin)
 - Ajouter typescript au projet
+- Enlever annonce getAll et ajouter getAnnonceById
 
 Armand
 - Finir les tests

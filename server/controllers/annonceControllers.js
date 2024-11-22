@@ -60,9 +60,9 @@ export const updateAnnonce = async (req, res) => {
   const idAnnonce = req.params.id;
 
   const request = `UPDATE Annonce
-                   SET NomAnnonce = $1, URLOriginale = $2, Description = $3, TypeDeBien = $4, laVille = $5, Prix = $6, 
-                       M2Habitable = $7, M2Terrains = $8, Meuble = $9, ParticulierPro = $10, Garage = $11, Piscine = $12
-                   WHERE idAnnonce = $13`;
+                   SET NomAnnonce = $1, URLOriginale = $2, Description = $3, TypeDeBien = $4, codePostal = $5, NomVille = $6, Prix = $7, 
+                       M2Habitable = $8, M2Terrains = $9, Meuble = $10, ParticulierPro = $11, Garage = $12, Piscine = $13
+                   WHERE idAnnonce = $14`;
 
   const values = [titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine, idAnnonce];
 
