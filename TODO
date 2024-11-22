@@ -11,16 +11,17 @@ DO:
 
 
 TO DO:
-- Corriger le controleur createCompte pour renvoyer le json du compte ajouté
-- Finir les tests
+Thibault
+- Enlever annonce getAll et ajouter getAnnonceById
+- Réparer les routes update et delete de annonce--> clé primaire de ville a changé   ( a voir lorsque on en aura besoin)
 - Ajouter typescript au projet
 
-
+Armand
+- Finir les tests
 - Créer une page pour afficher les informations d'un compte 
 - Séparer les pages s'identifier et se connecter
 - Modifier le test getAll par getAccount
-- Séparer les routes login et getAccount
 
-- Réparer les routes update et delete de annonce--> clé primaire de ville a changé   ( a voir lorsque on en aura besoin)
+Plus tard
 - Selectionner automatiquement la ville lors de la saisie 
 - Front: faire fissure

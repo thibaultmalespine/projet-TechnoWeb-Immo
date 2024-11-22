@@ -24,7 +24,7 @@ export const getCompte = async (req, res) => {
 export const createCompte = async (req, res) => {
   const { email, motDePasse } = req.body;
   const request = `INSERT INTO Compte (Email, MotDePasse) 
-                   VALUES ($1, $2)`;
+                   VALUES ($1, $2) RETURNING *`;
 
   const values = [email, motDePasse];
 
@@ -33,7 +33,7 @@ export const createCompte = async (req, res) => {
     console.log('Compte ajouté avec succès');
     // définir le compte actuellement connecté comme étant le nouveau compte
     req.session.email = email;
-    res.status(301).redirect('/pages/mesAnnonces.html')
+    res.send(result.rows[0]);
   } catch (err) {
     console.error("Erreur lors de l'ajout du compte :", err);
     res.status(500).send("Erreur lors de l'ajout du compte");
