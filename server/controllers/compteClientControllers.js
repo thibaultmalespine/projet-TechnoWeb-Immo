@@ -11,7 +11,7 @@ export const getCompte = async (req, res) => {
     }
     else{
       req.session.email = email;
-      res.status(301).redirect('/mesAnnonces.html')
+      res.status(301).redirect('/pages/mesAnnonces.html')
     }
 
   } catch (err) {
