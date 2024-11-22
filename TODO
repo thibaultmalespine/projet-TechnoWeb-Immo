@@ -11,6 +11,7 @@ DO:
 
 
 TO DO:
+- Corriger le controleur createCompte pour renvoyer le json du compte ajouté
 - Finir les tests
 - Ajouter typescript au projet
 

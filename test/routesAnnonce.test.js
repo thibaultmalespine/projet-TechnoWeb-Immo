@@ -32,6 +32,9 @@ describe("Tests des fonctions de la BDD", () => {
       },
       body: JSON.stringify(body),
     });
+    const data = await response.text();
+    console.log(data);
+    
     expect(response.ok).toBe(true);
   }, 10000); // Augmentez le timeout à 10 secondes si nécessaire
 
@@ -50,7 +53,6 @@ describe("Tests des fonctions de la BDD", () => {
     // Vérifier si la réponse est réussie (status 200)
     expect(response.ok).toBe(true);
 
-    console.log(response)
   
     // Convertir la réponse en JSON
     const data = await response.json();

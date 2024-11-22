@@ -33,7 +33,7 @@ export const createCompte = async (req, res) => {
     console.log('Compte ajouté avec succès');
     // définir le compte actuellement connecté comme étant le nouveau compte
     req.session.email = email;
-    res.send('Compte ajouté avec succès');
+    res.status(301).redirect('/pages/mesAnnonces.html')
   } catch (err) {
     console.error("Erreur lors de l'ajout du compte :", err);
     res.status(500).send("Erreur lors de l'ajout du compte");
