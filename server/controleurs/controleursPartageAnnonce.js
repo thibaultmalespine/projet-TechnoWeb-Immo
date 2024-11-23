@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { client } from '../bdd.js';
+import Annonce from '../modeles/modeleAnnonce.js';
 
 // Controleur pour générer un lien de partage
 export function generateLink (req, res) {
@@ -12,8 +12,8 @@ export function generateLink (req, res) {
 export async function getAnnonce (req, res) {
     try {
         const {email} = jwt.verify(req.params.token, 'secret_key');
-        const result = await client.query('SELECT * FROM Annonce WHERE lecompte = $1', [email]);
-        res.json(result.rows);
+        const annonces = await Annonce.getByAccount(email);
+        res.json(annonces);
     } catch (err) {
         res.status(401).send('Lien invalide ou expiré');
     }
