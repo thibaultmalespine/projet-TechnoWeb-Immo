@@ -21,9 +21,14 @@ app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de 
   resave: false,
   saveUninitialized: true
 })); 
-
-app.use(express.static(path.join(__dirname, '../public'))); // Middleware pour servir les fichiers statiques
-
+app.use((req, res, next) => {
+  // Vérifie que l'utilisateur est connecté, le redirige vers la page de connection sinon
+  if (! req.session.email && req.originalUrl !== '/' && req.originalUrl.endsWith("html") && ! req.originalUrl.startsWith("/share")) {
+    return res.redirect("/");
+  }
+  next();
+});
+app.use(express.static(path.join(__dirname, '..','public'))); // Middleware pour servir les fichiers statiques
 
 // API REST
 app.use(routerAnnonce);
