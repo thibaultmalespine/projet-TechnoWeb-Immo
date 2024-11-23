@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/annonce/getAll', getAllAnnonces);
 router.get('/annonce/getAnnonceByAccount', getAnnonceByAccount);
 router.post('/annonce/submit', createAnnonce);
-router.put('/annonce/update:id', updateAnnonce);
+router.put('/annonce/update', updateAnnonce);
 router.delete('/annonce/delete:id', deleteAnnonce);
 
 export default router;

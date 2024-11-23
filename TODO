@@ -12,7 +12,9 @@ DO:
 
 TO DO:
 Thibault
-- Ajouter typescript au projet
+- Ajout d'un dossier modeles pour séparer le controleur et le model
+- Ajouter un middleware qui contrôle la connexion (on doit être identifier à un compte pour pouvoir utiliser le site)
+- Ajouter typescript au projet (peut être)
 - Enlever annonce getAll et ajouter getAnnonceById
 
 Armand
