@@ -9,11 +9,11 @@ DO:
 - Lier les annonces à un compte + afficher les annonces en fonction du compte
 - Pouvoir partager ses annonces à l'aide d'un lien
 - Ajout d'un dossier modeles pour séparer le controleur et le model
+- Ajouter un middleware qui contrôle la connexion (on doit être identifier à un compte pour pouvoir utiliser le site)
 
 
 TO DO:
 Thibault
-- Ajouter un middleware qui contrôle la connexion (on doit être identifier à un compte pour pouvoir utiliser le site)
 - Ajouter typescript au projet (peut être)
 - Enlever annonce getAll et ajouter getAnnonceById
 
