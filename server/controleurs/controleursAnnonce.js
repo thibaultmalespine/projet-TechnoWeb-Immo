@@ -15,7 +15,7 @@ export const getAllAnnonces = async (req, res) => {
 export const getAnnonceByAccount = async (req, res) => {
   try {
     const annonces = await Annonce.getByAccount(req.session.email);
-    res.json(annonces);
+    res.status(200).json(annonces);
   } catch (err) {
     console.error("Erreur lors de la récupération de l'annonce :", err);
     res.status(500).send("Erreur lors de la récupération de l'annonce");
@@ -29,14 +29,13 @@ export const createAnnonce = async (req, res) => {
    if (lecompte === undefined) {
    lecompte = req.session.email;
    }
-   const data = {...req.body};
-   data["lecompte"] = lecompte;
+   const data = {...req.body, "lecompte" : lecompte};
    // TEMPORAIRE //
 
   try {
     const nouvelleAnnonce = await Annonce.create(data);
     console.log('Annonce ajoutée avec succès');
-    res.send(nouvelleAnnonce)
+    res.status(201).send(nouvelleAnnonce)
   } catch (err) {
     console.error("Erreur lors de l'ajout de l'annonce :", err);
     res.status(500).send("Erreur lors de l'ajout de l'annonce");
@@ -49,7 +48,7 @@ export const updateAnnonce = async (req, res) => {
   try {
     const annonceModifiée = await Annonce.update(req.body);
 
-    if (annonceModifiée === undefined) {
+    if (! annonceModifiée) {
       return res.status(404).send('Annonce non trouvée');
     }
 
@@ -63,12 +62,11 @@ export const updateAnnonce = async (req, res) => {
 
 // Contrôleur pour supprimer une annonce par son ID
 export const deleteAnnonce = async (req, res) => {
-  const idAnnonce = req.params.id;
 
   try {
-    const annonceSupprimée = await Annonce.delete(idAnnonce)
+    const annonceSupprimée = await Annonce.delete(req.params.id)
 
-    if (annonceSupprimée.rowCount === 0) {
+    if (! annonceSupprimée) {
       return res.status(404).send('Annonce non trouvée');
     }
 
