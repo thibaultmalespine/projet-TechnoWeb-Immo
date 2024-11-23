@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Annonces</title>
-    <script src="/scripts/scriptPartageAnnonce.js"></script> 
+    <script src="/scripts/scriptMesAnnonces.js"></script> 
 </head>
 <body>
     <header>
@@ -13,48 +13,8 @@
     <h1>Liste des Annonces Immobilières</h1>
     <div id="annonces-container"></div>
 
-    <script>
-        async function fetchAnnonces() {
-            try {
-                const response = await fetch('/annonce/getAnnonceByAccount');
-                if (response.ok) {
-                    const annonces = await response.json();
-    
-                    const container = document.getElementById('annonces-container');
-                    annonces.forEach(annonce => {
-    
-                        const annonceDiv = document.createElement('div');
-                        annonceDiv.classList.add('annonce');
-                        
-                        annonceDiv.innerHTML = `
-                            <h2>${annonce.nomannonce}</h2>
-                            <p>Ville : ${annonce.nomville}</p>
-                            <p>Code Postal   : ${annonce.codepostal}</p>
-                            <p>Type de bien : ${annonce.typedebien}</p>
-                            <p>Surface habitable : ${annonce.m2habitable} m²</p>
-                            <p>Surface du terrain : ${annonce.m2terrains} m²</p>
-                            <p>Prix : ${annonce.prix} €</p>
-                            <p>Propriétaire : ${annonce.particulierpro}</p>
-                            ${annonce.garage ? '<p>Garage disponible</p>' : ''}
-                            ${annonce.piscine ? '<p>Piscine disponible</p>' : ''}
-                            ${annonce.meuble ? '<p>Meublé</p>' : ''}
-                            <p>Description : ${annonce.description}</p>
-                            <hr>
-                        `;
-                        
-                        container.appendChild(annonceDiv);
-                    });
-                }
-            } catch (error) {
-                console.error("Erreur lors du chargement des annonces:", error);
-            }
-        }
 
-        // Appeler la fonction pour récupérer et afficher les annonces
-        fetchAnnonces();
-    </script>
-
-    <button onclick="shared()">Partager mes annonces</button>
-    <p id="sharingLink"></p>
+    <button onclick="generateShareLink()">Partager mes annonces</button>
+    <p id="shareLink"></p>
 </body>
 </html>

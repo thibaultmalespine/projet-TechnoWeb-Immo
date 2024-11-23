@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   createCompte, deleteCompte, login, updateCompte
-} from '../controllers/compteClientControllers.js';
+} from '../controleurs/controleursCompteClient.js';
 
 const router = express.Router();
 
