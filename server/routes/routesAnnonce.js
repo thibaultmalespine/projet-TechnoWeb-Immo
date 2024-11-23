@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   createAnnonce, deleteAnnonce, getAllAnnonces, getAnnonceByAccount, updateAnnonce
-} from '../controllers/annonceControllers.js';
+} from '../controleurs/controleursAnnonce.js';
 
 const router = express.Router();
 

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { initializeDatabase } from './bdd.js';
 import routerAnnonce from './routes/routesAnnonce.js';
 import routerCompteClient from './routes/routesCompteClient.js';
-import routerSharingToken from './sharingToken.js';
+import routerSharingToken from './routes/routesPartageAnnonce.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
