@@ -1,10 +1,9 @@
-import { client } from '../bdd.js';
+import Annonce from "../modeles/modeleAnnonce.js";
 
 // Contrôleur pour récupérer toutes les annonces
 export const getAllAnnonces = async (req, res) => {
   try {
-    const result = await client.query('SELECT * FROM Annonce');
-    const annonces = result.rows;
+    const annonces = await Annonce.getAll();
     res.json(annonces);
   } catch (error) {
     console.error("Erreur lors de la récupération des annonces:", error);
@@ -15,9 +14,8 @@ export const getAllAnnonces = async (req, res) => {
 // Contrôleur pour récupérer les annonces associées au compte connecté
 export const getAnnonceByAccount = async (req, res) => {
   try {
-    const result = await client.query('SELECT * FROM Annonce WHERE lecompte = $1', [req.session.email]);
-
-    res.json(result.rows);
+    const annonces = await Annonce.getByAccount(req.session.email);
+    res.json(annonces);
   } catch (err) {
     console.error("Erreur lors de la récupération de l'annonce :", err);
     res.status(500).send("Erreur lors de la récupération de l'annonce");
@@ -26,25 +24,19 @@ export const getAnnonceByAccount = async (req, res) => {
 
 // Contrôleur pour ajouter une annonce
 export const createAnnonce = async (req, res) => {
-
-  const { titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine } = req.body;
-  
-  // TEMPORAIRE //
-  let {lecompte} = req.body;
-  if (lecompte === undefined) {
-    lecompte = req.session.email;
-  }
-  // TEMPORAIRE //
-
-  const request = `INSERT INTO Annonce (NomAnnonce, URLOriginale, Description, TypeDeBien, CodePostal, NomVille, Prix, M2Habitable, M2Terrains, Meuble, ParticulierPro, Garage, Piscine, LeCompte) 
-                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`;
-
-  const values = [titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine, lecompte];
+   // TEMPORAIRE //
+   let {lecompte} = req.body;
+   if (lecompte === undefined) {
+   lecompte = req.session.email;
+   }
+   const data = {...req.body};
+   data["lecompte"] = lecompte;
+   // TEMPORAIRE //
 
   try {
-    const result = await client.query(request, values);
+    const nouvelleAnnonce = await Annonce.create(data);
     console.log('Annonce ajoutée avec succès');
-    res.send(result.rows[0])
+    res.send(nouvelleAnnonce)
   } catch (err) {
     console.error("Erreur lors de l'ajout de l'annonce :", err);
     res.status(500).send("Erreur lors de l'ajout de l'annonce");
@@ -53,25 +45,16 @@ export const createAnnonce = async (req, res) => {
 
 // Contrôleur pour mettre à jour une annonce
 export const updateAnnonce = async (req, res) => {
-  const { titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine } = req.body;
-  const idAnnonce = req.params.id;
-
-  const request = `UPDATE Annonce
-                   SET NomAnnonce = $1, URLOriginale = $2, Description = $3, TypeDeBien = $4, codePostal = $5, NomVille = $6, Prix = $7, 
-                       M2Habitable = $8, M2Terrains = $9, Meuble = $10, ParticulierPro = $11, Garage = $12, Piscine = $13
-                   WHERE idAnnonce = $14`;
-
-  const values = [titre, url_annonce, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine, idAnnonce];
 
   try {
-    const result = await client.query(request, values);
+    const annonceModifiée = await Annonce.update(req.body);
 
-    if (result.rowCount === 0) {
+    if (annonceModifiée === undefined) {
       return res.status(404).send('Annonce non trouvée');
     }
 
     console.log('Annonce mise à jour');
-    res.send('Annonce mise à jour avec succès');
+    res.send(annonceModifiée);
   } catch (err) {
     console.error("Erreur lors de la mise à jour de l'annonce :", err);
     res.status(500).send("Erreur lors de la mise à jour de l'annonce");
@@ -81,17 +64,16 @@ export const updateAnnonce = async (req, res) => {
 // Contrôleur pour supprimer une annonce par son ID
 export const deleteAnnonce = async (req, res) => {
   const idAnnonce = req.params.id;
-  const request = `DELETE FROM Annonce WHERE idAnnonce = $1`;
 
   try {
-    const result = await client.query(request, [idAnnonce]);
+    const annonceSupprimée = await Annonce.delete(idAnnonce)
 
-    if (result.rowCount === 0) {
+    if (annonceSupprimée.rowCount === 0) {
       return res.status(404).send('Annonce non trouvée');
     }
 
     console.log('Annonce supprimée');
-    res.send('Annonce supprimée avec succès');
+    res.send(annonceSupprimée);
   } catch (err) {
     console.error("Erreur lors de la suppression de l'annonce :", err);
     res.status(500).send("Erreur lors de la suppression de l'annonce");
