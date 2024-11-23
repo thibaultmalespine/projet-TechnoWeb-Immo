@@ -1,0 +1,34 @@
+
+
+.annonce {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin: 16px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    }
+  
+.annonce h2 {
+margin: 0 0 8px;
+color: #333;
+font-size: 20px;
+}
+
+.annonce p {
+margin: 4px 0;
+color: #555;
+font-size: 14px;
+}
+
+.annonce hr {
+border: none;
+border-top: 1px solid #eee;
+margin: 16px 0;
+}
+
+.annonce:hover {
+transform: translateY(-5px);
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
