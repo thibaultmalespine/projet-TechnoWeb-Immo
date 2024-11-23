@@ -1,18 +1,15 @@
-import { client } from '../bdd.js';
+import Compte from '../modeles/modeleCompteClient.js';
 
 // Contrôleur pour authentifier un compte
 export const login = async (req, res) => {
-  const {email, motDePasse} = req.body;
   try {
-    const result = await client.query('SELECT * FROM Compte WHERE email = $1 and motdepasse = $2', [email, motDePasse]);
-    if (result.rowCount === 0) {
-      res.status(404).send('Compte non trouvé');
+    const compteClient = await Compte.get(req.body);
+    if (!compteClient) {
+      return res.status(404).send('Compte non trouvé');
     }
-    else{
-      req.session.email = email;
-      res.sendStatus(200);
-    }
-
+    
+    req.session.email = req.body.email;
+    res.sendStatus(200);
   } catch (err) {
     console.error("Erreur lors de la récupération du compte :", err);
     res.status(500).send("Erreur lors de la récupération du compte");
@@ -21,18 +18,11 @@ export const login = async (req, res) => {
 
 // Contrôleur pour ajouter un compte
 export const createCompte = async (req, res) => {
-  const { email, motDePasse } = req.body;
-  const request = `INSERT INTO Compte (Email, MotDePasse) 
-                   VALUES ($1, $2) RETURNING *`;
-
-  const values = [email, motDePasse];
-
   try {
-    const result = await client.query(request, values);
+    const nouveauCompte = await Compte.create(req.body);
     console.log('Compte ajouté avec succès');
-    // définir le compte actuellement connecté comme étant le nouveau compte
-    req.session.email = email;
-    res.status(201).send(result.rows[0]);
+    req.session.email = email; // définir le compte actuellement connecté comme étant le nouveau compte
+    res.status(201).send(nouveauCompte);
   } catch (err) {
     console.error("Erreur lors de l'ajout du compte :", err);
     res.status(500).send("Erreur lors de l'ajout du compte");
@@ -41,24 +31,14 @@ export const createCompte = async (req, res) => {
 
 // Contrôleur pour mettre à jour un compte
 export const updateCompte = async (req, res) => {
-  const { nom, prenom, email, motDePasse } = req.body;
-  const idCompte = req.params.id;
-
-  const request = `UPDATE Compte
-                   SET Nom = $1, Prenom = $2, Email = $3, MotDePasse = $4
-                   WHERE idCompte = $5`;
-
-  const values = [nom, prenom, email, motDePasse, idCompte];
-
   try {
-    const result = await client.query(request, values);
+    const compteModifié = await Compte.update(req.body);
 
-    if (result.rowCount === 0) {
+    if (!compteModifié) {
       return res.status(404).send('Compte non trouvé');
     }
-
     console.log('Compte mis à jour');
-    res.send('Compte mis à jour avec succès');
+    res.send(compteModifié);
   } catch (err) {
     console.error("Erreur lors de la mise à jour du compte :", err);
     res.status(500).send("Erreur lors de la mise à jour du compte");
@@ -67,19 +47,15 @@ export const updateCompte = async (req, res) => {
 
 // Contrôleur pour supprimer un compte par son ID
 export const deleteCompte = async (req, res) => {
-  const idCompte = req.params.id;
-
-  const request = `DELETE FROM Compte WHERE idCompte = $1`;
-
   try {
-    const result = await client.query(request, [idCompte]);
+    const compteSupprimé = await Compte.delete(req.params.id);
 
-    if (result.rowCount === 0) {
+    if (!compteSupprimé) {
       return res.status(404).send('Compte non trouvé');
     }
 
     console.log('Compte supprimé');
-    res.send('Compte supprimé avec succès');
+    res.send(compteSupprimé);
   } catch (err) {
     console.error("Erreur lors de la suppression du compte :", err);
     res.status(500).send("Erreur lors de la suppression du compte");

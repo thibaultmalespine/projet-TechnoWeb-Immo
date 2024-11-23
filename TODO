@@ -20,6 +20,7 @@ Thibault
 Armand
 - Finir les tests
 - Créer une page pour afficher les informations d'un compte 
+- Créer une page pour afficher les annonces partagées 
 - Séparer les pages s'identifier et se connecter
 - Modifier le test getAll par getAccount
 
