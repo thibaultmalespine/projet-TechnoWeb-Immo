@@ -12,13 +12,10 @@ export const getAllAnnonces = async (req, res) => {
   }
 };
 
-// Contrôleur pour récupérer une annonce par son ID
+// Contrôleur pour récupérer les annonces associées au compte connecté
 export const getAnnonceByAccount = async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM Annonce WHERE lecompte = $1', [req.session.email]);
-    if (result.rowCount === 0) {
-      return res.status(404).send('Annonce non trouvée');
-    }
 
     res.json(result.rows);
   } catch (err) {

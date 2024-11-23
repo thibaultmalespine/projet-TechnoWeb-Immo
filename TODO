@@ -7,7 +7,7 @@ DO:
 - Récupérer toutes les villes de France
 - Pouvoir s'authentifier / Avoir une instance de compte 
 - Lier les annonces à un compte + afficher les annonces en fonction du compte
-
+- Pouvoir partager ses annonces à l'aide d'un lien
 
 
 TO DO:

@@ -7,13 +7,16 @@ loginForm.addEventListener('submit',async (event) => {
     // Récupération des données du formulaire
     const formData = new FormData(loginForm);
     const data = Object.fromEntries(formData.entries());
-  
-        const response = await fetch(`/compte/login?email=${data.email}&motDePasse=${data.motDePasse}`);
-        if (response.ok) {
-            document.location.href = '/pages/mesAnnonces.html'
-        } else if(response.status === 404) {
-            alert("compte non trouvé")
-        }
+    const response = await fetch(`/compte/login`, {
+        method : 'POST',
+        headers : {"Content-type" : "application/json"},
+        body : JSON.stringify(data)
+    });
+    if (response.ok) {
+        document.location.href = '/pages/mesAnnonces.html'
+    } else if(response.status === 404) {
+        alert("compte non trouvé")
+    }
 })
 
 // Gère l'envoi du formulaire de création de compte
@@ -26,16 +29,16 @@ signupForm.addEventListener('submit',async (event) => {
     const formData = new FormData(signupForm);
     const data = Object.fromEntries(formData.entries());
   
-        const response = await fetch(`/compte/submit`, {
-            method : 'POST',
-            headers : {
-                'content-type' : 'application/json'
-            },
-            body : JSON.stringify(data)
-        });
-        if (response.ok) {
-            document.location.href = '/pages/mesAnnonces.html'
-        } else if(response.status === 500) {
-            alert("erreur du serveur, veuillez réessayer plus tard")
-        }
+    const response = await fetch(`/compte/createCompte`, {
+        method : 'POST',
+        headers : {
+            'Content-type' : 'application/json'
+        },
+        body : JSON.stringify(data)
+    });
+    if (response.ok) {
+        document.location.href = '/pages/mesAnnonces.html'
+    } else if(response.status === 500) {
+        alert("erreur du serveur, veuillez réessayer plus tard")
+    }
 })

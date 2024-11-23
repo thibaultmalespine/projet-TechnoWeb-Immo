@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import { initializeDatabase } from './bdd.js';
 import routerAnnonce from './routes/routesAnnonce.js';
 import routerCompteClient from './routes/routesCompteClient.js';
+import routerSharingToken from './sharingToken.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,6 +28,9 @@ app.use(express.static(path.join(__dirname, '../public'))); // Middleware pour s
 // API REST
 app.use(routerAnnonce);
 app.use(routerCompteClient);
+
+// PARTAGE D'ANNONCES
+app.use(routerSharingToken);
 
 // Redirection mauvaise adresse
 app.get("/*", (req, res ) => {

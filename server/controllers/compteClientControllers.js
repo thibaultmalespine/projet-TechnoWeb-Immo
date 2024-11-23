@@ -1,9 +1,8 @@
 import { client } from '../bdd.js';
 
-// Contrôleur pour récupérer un compte
-export const getCompte = async (req, res) => {
-  const email = req.query.email;
-  const motDePasse = req.query.motDePasse;
+// Contrôleur pour authentifier un compte
+export const login = async (req, res) => {
+  const {email, motDePasse} = req.body;
   try {
     const result = await client.query('SELECT * FROM Compte WHERE email = $1 and motdepasse = $2', [email, motDePasse]);
     if (result.rowCount === 0) {
@@ -11,7 +10,7 @@ export const getCompte = async (req, res) => {
     }
     else{
       req.session.email = email;
-      res.status(301).redirect('/pages/mesAnnonces.html')
+      res.sendStatus(200);
     }
 
   } catch (err) {
@@ -33,7 +32,7 @@ export const createCompte = async (req, res) => {
     console.log('Compte ajouté avec succès');
     // définir le compte actuellement connecté comme étant le nouveau compte
     req.session.email = email;
-    res.send(result.rows[0]);
+    res.status(201).send(result.rows[0]);
   } catch (err) {
     console.error("Erreur lors de l'ajout du compte :", err);
     res.status(500).send("Erreur lors de l'ajout du compte");
