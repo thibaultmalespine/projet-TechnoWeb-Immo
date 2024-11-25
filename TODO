@@ -22,6 +22,7 @@ Armand
 - Finir les tests des routes annonces
 - Séparer les pages s'identifier et se connecter
 - Modifier le test getAll par getAccount
+- Faire une route get sur la table Ville (une route, un controleur, un modele)
 
 Plus tard
 - Créer une page pour afficher les informations d'un compte 
