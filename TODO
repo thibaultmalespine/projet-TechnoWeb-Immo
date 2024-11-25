@@ -14,16 +14,17 @@ DO:
 
 TO DO:
 Thibault
-- Ajouter typescript au projet (peut être)
+- Faire les tests des routes comptes
 - Enlever annonce getAll et ajouter getAnnonceById
+- Ajouter typescript au projet (peut être)
 
 Armand
-- Finir les tests
-- Créer une page pour afficher les informations d'un compte 
-- Ajouter un moteur de template au projet pour afficher les annonces partagées ? 
+- Finir les tests des routes annonces
 - Séparer les pages s'identifier et se connecter
 - Modifier le test getAll par getAccount
 
 Plus tard
+- Créer une page pour afficher les informations d'un compte 
+- Ajouter un moteur de template au projet pour afficher les annonces partagées ? 
 - Selectionner automatiquement la ville lors de la saisie 
 - Front: faire fissure
