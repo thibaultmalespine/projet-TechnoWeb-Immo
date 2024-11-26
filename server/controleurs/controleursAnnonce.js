@@ -11,14 +11,25 @@ export const getAllAnnonces = async (req, res) => {
   }
 };
 
+// Contrôleur pour récupérer une annonce par son ID
+export const getAnnonceByID = async (req, res) => {
+  try {
+    const annonce = await Annonce.getByID(req.params.id);
+    res.status(200).json(annonce);
+  } catch (err) {
+    console.error("Erreur lors de la récupération de l'annonce :", err);
+    res.status(500).send("Erreur lors de la récupération de l'annonce");    
+  }
+}
+
 // Contrôleur pour récupérer les annonces associées au compte connecté
 export const getAnnonceByAccount = async (req, res) => {
   try {
     const annonces = await Annonce.getByAccount(req.session.email);
     res.status(200).json(annonces);
   } catch (err) {
-    console.error("Erreur lors de la récupération de l'annonce :", err);
-    res.status(500).send("Erreur lors de la récupération de l'annonce");
+    console.error("Erreur lors de la récupération des annonces :", err);
+    res.status(500).send("Erreur lors de la récupération des annonces");
   }
 };
 

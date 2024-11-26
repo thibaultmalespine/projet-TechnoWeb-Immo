@@ -1,11 +1,12 @@
 import express from 'express';
 import {
-  createAnnonce, deleteAnnonce, getAllAnnonces, getAnnonceByAccount, updateAnnonce
+  createAnnonce, deleteAnnonce, getAllAnnonces, getAnnonceByAccount, getAnnonceByID, updateAnnonce
 } from '../controleurs/controleursAnnonce.js';
 
 const router = express.Router();
 
 router.get('/annonce/getAll', getAllAnnonces);
+router.get('/annocce/getAnnonceByID:id', getAnnonceByID);
 router.get('/annonce/getAnnonceByAccount', getAnnonceByAccount);
 router.post('/annonce/submit', createAnnonce);
 router.put('/annonce/update', updateAnnonce);

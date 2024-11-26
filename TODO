@@ -15,7 +15,7 @@ DO:
 TO DO:
 Thibault
 - Faire les tests des routes comptes
-- Enlever annonce getAll et ajouter getAnnonceById
+- Enlever annonce getAll 
 - Ajouter typescript au projet (peut être)
 
 Armand
