@@ -5,6 +5,10 @@ const Annonce = {
         const result = await client.query('SELECT * FROM Annonce');
         return result.rows;
     },
+    getByID : async (id) =>{
+        const result = await client.query('SELECT * FROM Annonce WHERE idAnnonce = $1', [id]);
+        return result.rows[0];
+    },
     getByAccount: async (email) => {
         const result = await client.query('SELECT * FROM Annonce WHERE lecompte = $1', [email]);
         return result.rows;
