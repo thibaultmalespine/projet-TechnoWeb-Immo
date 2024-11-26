@@ -37,9 +37,9 @@ app.use(routerCompteClient);
 // PARTAGE D'ANNONCES
 app.use(routerSharingToken);
 
-// Redirection mauvaise adresse
+// 404 mauvaise adresse
 app.get("/*", (req, res ) => {
-  res.redirect("/")
+  res.sendStatus(404);
 })
 
 // Initialiser la base de données puis lancer le serveur

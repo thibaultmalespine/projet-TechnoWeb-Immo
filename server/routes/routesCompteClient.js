@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/compte/login', login);
 router.post('/compte/create', createCompte);
 router.put('/compte/update', updateCompte);
-router.delete('/compte/delete:id', deleteCompte);
+router.delete('/compte/delete/:id', deleteCompte);
 
-export default router;
+export default router;  
 

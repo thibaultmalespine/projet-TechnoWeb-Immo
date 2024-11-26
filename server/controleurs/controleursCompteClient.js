@@ -9,7 +9,7 @@ export const login = async (req, res) => {
     }
     
     req.session.email = req.body.email;
-    res.sendStatus(200);
+    res.status(200).send(compteClient);
   } catch (err) {
     console.error("Erreur lors de la récupération du compte :", err);
     res.status(500).send("Erreur lors de la récupération du compte");
@@ -21,7 +21,7 @@ export const createCompte = async (req, res) => {
   try {
     const nouveauCompte = await Compte.create(req.body);
     console.log('Compte ajouté avec succès');
-    req.session.email = email; // définir le compte actuellement connecté comme étant le nouveau compte
+    req.session.email = req.body.email; // définir le compte actuellement connecté comme étant le nouveau compte
     res.status(201).send(nouveauCompte);
   } catch (err) {
     console.error("Erreur lors de l'ajout du compte :", err);
