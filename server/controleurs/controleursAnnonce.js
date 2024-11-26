@@ -82,7 +82,7 @@ export const deleteAnnonce = async (req, res) => {
     }
 
     console.log('Annonce supprimée');
-    res.send(annonceSupprimée);
+    res.status(200).send(annonceSupprimée);
   } catch (err) {
     console.error("Erreur lors de la suppression de l'annonce :", err);
     res.status(500).send("Erreur lors de la suppression de l'annonce");
