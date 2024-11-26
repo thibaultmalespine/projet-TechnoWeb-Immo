@@ -21,10 +21,9 @@ app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de 
   resave: false,
   saveUninitialized: true
 })); 
-app.use((req, res, next) => {
-  // Vérifie que l'utilisateur est connecté, le redirige vers la page de connection sinon
-  if (! req.session.email && req.originalUrl !== '/' && req.originalUrl.endsWith("html") && ! req.originalUrl.startsWith("/share")) {
-    return res.redirect("/");
+app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès au page html, renvoie un 403 acces denied sinon
+  if (! req.session.email && req.originalUrl !== 'index.html' && req.originalUrl.endsWith(".html")) {
+    res.sendStatus(403);
   }
   next();
 });
