@@ -10,11 +10,11 @@ DO:
 - Pouvoir partager ses annonces à l'aide d'un lien
 - Ajout d'un dossier modeles pour séparer le controleur et le model
 - Ajouter un middleware qui contrôle la connexion (on doit être identifier à un compte pour pouvoir utiliser le site)
+- Faire les tests des routes de la table compte
 
 
 TO DO:
 Thibault
-- Faire les tests des routes comptes
 - Enlever annonce getAll 
 - Ajouter typescript au projet (peut être)
 
