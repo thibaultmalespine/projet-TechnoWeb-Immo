@@ -38,7 +38,8 @@ export const updateCompte = async (req, res) => {
       return res.status(404).send('Compte non trouvé');
     }
     console.log('Compte mis à jour');
-    res.send(compteModifié);
+    req.session.email = req.body.email; // on change l'email stocké dans l'objet request par la nouvelle email
+    res.status(200).send(compteModifié);
   } catch (err) {
     console.error("Erreur lors de la mise à jour du compte :", err);
     res.status(500).send("Erreur lors de la mise à jour du compte");
