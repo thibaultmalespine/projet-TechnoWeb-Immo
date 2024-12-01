@@ -1,12 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { client } from '../server/bdd';
+import Annonce from '../server/modeles/modeleAnnonce.js';
     
 
 describe("Tests des fonctions de la BDD", () => {
 
-  it("createAnnonce devrait insérer une nouvelle annonce", async () => {
+  // Annule la transaction après chaque test pour isoler les données
+  afterEach(async () => {
+    await client.query('ROLLBACK');
+  });
 
-    // Données factices pour tester la fonction
+  it("create devrait insérer une nouvelle annonce", async () => {
+    // Préparation des données de test
     const body = {
       titre: 'Test Annonce',
       url_annonce: 'https://www.test.com',
@@ -21,22 +26,43 @@ describe("Tests des fonctions de la BDD", () => {
       particulier_pro: 'Particulier',
       garage: true,
       piscine: false,
-      lecompte: "thibault.malespine@orange.fr"
+      lecompte: "armandlecourt2003@gmail.com",
     };
 
-    // Simuler une requête POST
-    const response = await fetch("http://localhost:3000/annonce/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    const data = await response.text();
-    console.log(data);
-    
-    expect(response.ok).toBe(true);
-  }, 10000); // Augmentez le timeout à 10 secondes si nécessaire
+    // Appelle la méthode create pour insérer les données
+    const result = await Annonce.create(body);
+
+    // Vérifie que l'annonce a bien été créée avec les bonnes données
+    expect(result).toBeDefined();
+    expect(result.NomAnnonce).toBe(body.titre);
+    expect(result.URLOriginale).toBe(body.url_annonce);
+    expect(result.Description).toBe(body.description);
+    expect(result.TypeDeBien).toBe(body.type);
+    expect(result.CodePostal).toBe(body.codep);
+    expect(result.NomVille).toBe(body.ville);
+    expect(result.Prix).toBe(body.prix);
+    expect(result.M2Habitable).toBe(body.m2_habitable);
+    expect(result.M2Terrains).toBe(body.m2_terrain);
+    expect(result.Meuble).toBe(body.meuble);
+    expect(result.ParticulierPro).toBe(body.particulier_pro);
+    expect(result.Garage).toBe(body.garage);
+    expect(result.Piscine).toBe(body.piscine);
+    expect(result.LeCompte).toBe(body.lecompte);
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   it("getAllAnnonces devrait retourner une liste non vide", async () => {
