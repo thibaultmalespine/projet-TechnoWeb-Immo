@@ -22,9 +22,17 @@ app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de 
   saveUninitialized: true
 })); 
 app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès au page html, renvoie un 403 acces denied sinon
-  if (! req.session.email && req.originalUrl !== 'index.html' && req.originalUrl.endsWith(".html")) {
-    res.sendStatus(403);
+  // Autoriser l'accès à index.html et creationCompte.html
+  const allowedPages = ['index.html', 'creationCompte.html'];
+
+  if (
+    !req.session.email && 
+    req.originalUrl.endsWith(".html") && 
+    !allowedPages.some(page => req.originalUrl.includes(page))
+  ) {
+    return res.sendStatus(403); // Accès interdit
   }
+  
   next();
 });
 app.use(express.static(path.join(__dirname, '..','public'))); // Middleware pour servir les fichiers statiques

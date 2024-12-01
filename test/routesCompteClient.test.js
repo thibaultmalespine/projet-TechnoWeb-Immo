@@ -59,8 +59,8 @@ describe("Tests de la table Compte", () => {
         expect(response.status).toBe(200);
         
         const compteModifié = await response.json();
-        console.log(compteModifié);
-        console.log(data);
+        //console.log(compteModifié);
+        //console.log(data);
         expect(compteModifié.idcompte).toBe(data.idCompte);
         expect(compteModifié.nom).toBe(data.nom);
         expect(compteModifié.prenom).toBe(data.prenom);
