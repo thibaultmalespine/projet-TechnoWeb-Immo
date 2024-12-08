@@ -1,10 +1,6 @@
 import { client } from '../bdd.js';
 
 const Annonce = {
-    getAll : async () => {
-        const result = await client.query('SELECT * FROM Annonce');
-        return result.rows;
-    },
     getByID : async (id) =>{
         const result = await client.query('SELECT * FROM Annonce WHERE idAnnonce = $1', [id]);
         return result.rows[0];

@@ -1,16 +1,5 @@
 import Annonce from "../modeles/modeleAnnonce.js";
 
-// Contrôleur pour récupérer un compte ?
-export const getAllAnnonces = async (req, res) => {
-  try {
-    const annonces = await Annonce.getAll();
-    res.json(annonces);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des annonces:", error);
-    res.status(500).json({ message: "Erreur lors de la récupération des annonces" });
-  }
-};
-
 
 // Contrôleur pour récupérer une annonce par son ID
 export const getAnnonceByID = async (req, res) => {
