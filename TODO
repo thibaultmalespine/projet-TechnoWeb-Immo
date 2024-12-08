@@ -12,13 +12,15 @@ DO:
 - Ajouter un middleware qui contrôle la connexion (on doit être identifier à un compte pour pouvoir utiliser le site)
 - Faire les tests des routes de la table compte
 - Cryptage des mots de passe de la table compte 
-
+- Utilisation de Supertest pour les tests end to end
 
 TO DO:
 Thibault
 - Faire plus de tests
 - Ajouter typescript au projet (peut être)
 - Méthode de recherche sur la table ville ?
+- Gestion des erreurs
+- Couverture et pertinence des tests unitaires
 
 Armand
 - Finir les tests des routes annonces
