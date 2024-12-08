@@ -41,13 +41,5 @@ CREATE TABLE Annonce (
     FOREIGN KEY (CodePostal, NomVille) REFERENCES Ville(CodePostal, NomVille)  -- Clé étrangère composée
 );
 
--- Table AnnoncesEnregistrees (association entre Compte et Annonce)
-CREATE TABLE AnnoncesEnregistrees (
-    leCompte INT,
-    lAnnonce INT,
-    FOREIGN KEY (leCompte) REFERENCES Compte(idCompte),
-    FOREIGN KEY (lAnnonce) REFERENCES Annonce(idAnnonce),
-    PRIMARY KEY (leCompte, lAnnonce)
-);
 
 
