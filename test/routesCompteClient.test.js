@@ -1,99 +1,90 @@
+import request from 'supertest';
 import { describe, expect, it } from 'vitest';
+import app from '../server/index.js';
 
+let compteTest = {};
 describe("Tests de la table Compte", () => {
-    let compteTest = {};
     it("insertion dans la table", async () => {
         const data = {
             email : "emailTEST@TEST.com",
             motdepasse : "mot de passe TEST"
-        }
-        const response = await fetch("http://localhost:3000/compte/create", {
-            method : "POST",
-            headers : {
-                "content-type" : "application/json"
-            },
-            body : JSON.stringify(data)
-        });
+        };
+        
+        const response = await request(app) 
+            .post("/compte/create")
+            .send(data)
+            .set("Content-Type", "application/json");
+        
         expect(response.status).toBe(201); 
 
-        compteTest = await response.json();
+        compteTest = response.body;
 
         expect(compteTest).toHaveProperty("idcompte");
         expect(compteTest.email).toBe(data.email);
         expect(compteTest.motdepasse).toBe(data.motdepasse);       
-    })
+    });
 
-    it("connection au compte nouvellement crée", async () =>{
-        const response = await fetch("http://localhost:3000/compte/login", {
-            method : "POST",
-            headers : {
-                "content-type" : "application/json"
-            },
-            body : JSON.stringify({
-                email : compteTest.email,
-                motdepasse : compteTest.motdepasse
+    it("connexion au compte nouvellement créé", async () => {
+        const response = await request(app)
+            .post("/compte/login")
+            .send({
+                email: compteTest.email,
+                motdepasse: compteTest.motdepasse
             })
-        })
-
+            .set("Content-Type", "application/json");
+        
         expect(response.status).toBe(200);
 
-        const compteConnecté = await response.json();
+        const compteConnecté = response.body;
         expect(compteConnecté.idcompte).toBe(compteTest.idcompte);
-    })
+    });
 
-    it("modification du compte crée", async ()=>{
+    it("modification du compte créé", async () => {
         const data = {
             idCompte : compteTest.idcompte,
             nom : "nomTest",
             prenom : "prenomTest",
             email : "emailModifiéTEST@TEST.com",
-            motdepasse : "mot de passe modifé TEST"
-        }
+            motdepasse : "mot de passe modifié TEST"
+        };
 
-        const response = await fetch(`http://localhost:3000/compte/update`, {
-            method : "PUT",
-            headers : {"content-type" : "application/json"},
-            body : JSON.stringify(data)
-        })
+        const response = await request(app)  
+            .put("/compte/update")
+            .send(data)
+            .set("Content-Type", "application/json");
         
         expect(response.status).toBe(200);
         
-        const compteModifié = await response.json();
+        const compteModifié = response.body;
    
         expect(compteModifié.idcompte).toBe(data.idCompte);
         expect(compteModifié.nom).toBe(data.nom);
         expect(compteModifié.prenom).toBe(data.prenom);
         expect(compteModifié.email).toBe(data.email);
         expect(compteModifié.motdepasse).toBe(data.motdepasse);
+    });
 
-    })
-    
-    it("suppression du compte crée", async () => {
-        const response = await fetch(`http://localhost:3000/compte/delete/${compteTest.idcompte}`, {
-            method : "DELETE",
-            headers : {"content-type" : "application/json"}
-        })
-
+    it("suppression du compte créé", async () => {
+        const response = await request(app)
+            .delete(`/compte/delete/${compteTest.idcompte}`)
+            .set("Content-Type", "application/json");
+        
         expect(response.status).toBe(200);
 
-        const compteSupprimé = await response.json();
+        const compteSupprimé = response.body;
 
         expect(compteSupprimé.idcompte).toBe(compteTest.idcompte);
 
-        // on ne doit pas pouvoir récupérer le compte une fois supprimé
-        const response2 = await fetch("http://localhost:3000/compte/login", {
-            method : "POST",
-            headers : {
-                "content-type" : "application/json"
-            },
-            body : JSON.stringify({
-                email : compteTest.email,
-                motdepasse : compteTest.motdepasse
+        // Vérification qu'on ne peut plus récupérer le compte après suppression
+        const response2 = await request(app)  // Vérification de la réponse 404 après suppression
+            .post("/compte/login")
+            .send({
+                email: compteTest.email,
+                motdepasse: compteTest.motdepasse
             })
-        })
+            .set("Content-Type", "application/json");
 
         expect(response2.status).toBe(404);
-    })
-
+    });
 
 });
