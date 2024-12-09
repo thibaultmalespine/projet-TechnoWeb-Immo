@@ -9,7 +9,6 @@ export const login = async (req, res) => {
     if (!compteClient) {
       return res.status(404).send('Email incorrect');
     }
-    console.log(compteClient);
     if (! bcrypt.compare(motdepasse, compteClient.motdepasse)) {
       return res.status(404).send('Mot de passe incorrect');
     } 

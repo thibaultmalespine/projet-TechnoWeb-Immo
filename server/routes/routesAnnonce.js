@@ -5,7 +5,7 @@ import {
 
 const router = express.Router();
 
-router.get('/annocce/getAnnonceByID:id', getAnnonceByID);
+router.get('/annonce/getAnnonceByID:id', getAnnonceByID);
 router.get('/annonce/getAnnonceByAccount', getAnnonceByAccount);
 router.post('/annonce/submit', createAnnonce);
 router.put('/annonce/update', updateAnnonce);
