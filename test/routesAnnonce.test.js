@@ -2,9 +2,23 @@ import request from 'supertest';
 import { describe, expect, it } from 'vitest';
 import app from '../server/index.js';
 
-describe("Tests des routes d'Annonce", () => {
-  let annonceTest;
+process.env.PORT = 3002;
 
+describe("Tests des routes d'Annonce", async () => {
+  let compteTest;
+  let annonceTest;
+  
+    const data = {
+      email : "emailTEST2@TEST.com",
+      motdepasse : "mot de passe TEST"
+    };
+    
+    compteTest = await request(app) 
+      .post("/compte/create")
+      .send(data)
+      .set("Content-Type", "application/json");
+  
+ 
   it("Test de la route submit pour insérer une annonce", async () => {
     // Préparation des données de test
     const body = {
@@ -56,4 +70,10 @@ describe("Tests des routes d'Annonce", () => {
     expect(response.body.nomannonce).toBe("Titre de l'annonce Mise à Jour"); 
     expect(parseInt(response.body.prix)).toBe(800000); 
   });
+
+
+    await request(app)
+    .delete(`/compte/delete/${compteTest.idcompte}`)
+    .set("Content-Type", "application/json");
+
 });

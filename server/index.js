@@ -51,7 +51,7 @@ app.get("/*", (req, res ) => {
 
 // Initialiser la base de données puis lancer le serveur
 initializeDatabase().then(() => {
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`Serveur en écoute sur http://localhost:${PORT}`);
   });

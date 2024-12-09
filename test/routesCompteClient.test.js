@@ -2,8 +2,12 @@ import request from 'supertest';
 import { describe, expect, it } from 'vitest';
 import app from '../server/index.js';
 
+process.env.PORT = 3001;
+
 let compteTest = {};
 describe("Tests de la table Compte", () => {
+
+    
     it("insertion dans la table", async () => {
         const data = {
             email : "emailTEST@TEST.com",
