@@ -45,11 +45,10 @@ export const createAnnonce = async (req, res) => {
 
 // Contrôleur pour mettre à jour une annonce
 export const updateAnnonce = async (req, res) => {
-
   try {
     const annonceModifiée = await Annonce.update(req.body);
-
     if (! annonceModifiée) {
+      console.log('Annonce non trouvée');
       return res.status(404).send('Annonce non trouvée');
     }
 
