@@ -16,14 +16,16 @@ DO:
 
 TO DO:
 Thibault
-- Faire plus de tests --> Couverture et pertinence des tests unitaires
-- Gestion des erreurs
-- Méthode de recherche sur la table ville ?
+- MODIFIER LES NOMS DES ROUTES POUR COLLER AU ATTENTE DU SUJET
+- Tester le 403
+- Faire les routes sur la table Ville (une route, un controleur, un modele)
+- Faire plus de tests --> faire un fonction de trie pour récupérer une/des villes + la tester 
+- IMAGINER UN 401 ET FAIRE LE TEST ASSOCIE  
+- Gestion des erreurs (500 avec express --> middleware de gestion d'erreur)
 
 Armand
 - Finir les tests des routes annonces
-- Modifier le test getAll par getAccount
-- Faire une route get sur la table Ville (une route, un controleur, un modele)
+
 
 Plus tard
 - Créer une page pour afficher les informations d'un compte 

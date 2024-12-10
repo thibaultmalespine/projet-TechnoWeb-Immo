@@ -14,7 +14,7 @@ describe("Tests des routes d'Annonce", async () => {
     };
     
     compteTest = await request(app) 
-      .post("/compte/create")
+      .post("/compte")
       .send(data)
       .set("Content-Type", "application/json");
   
@@ -35,12 +35,12 @@ describe("Tests des routes d'Annonce", async () => {
       particulier_pro: 'Particulier',
       garage: true,
       piscine: false,
-      lecompte: "thibault.malespine@orange.fr",
+      lecompte: "emailTEST2@TEST.com",
     };
 
     // Utiliser supertest pour simuler une requête POST
     const response = await request(app)
-      .post("/annonce/submit")
+      .post("/annonce")
       .send(body)
       .set("Content-Type", "application/json");
 

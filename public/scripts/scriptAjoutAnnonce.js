@@ -25,7 +25,7 @@ form.addEventListener('submit', async (event) => {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    const response = await fetch("/annonce/submit", {
+    const response = await fetch("/annonce", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
