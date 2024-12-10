@@ -15,7 +15,7 @@ describe("Tests de la table Compte", () => {
         };
         
         const response = await request(app) 
-            .post("/compte/create")
+            .post("/compte")
             .send(data)
             .set("Content-Type", "application/json");
         

@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/annonce/getAnnonceByID:id', getAnnonceByID);
 router.get('/annonce/getAnnonceByAccount', getAnnonceByAccount);
-router.post('/annonce/submit', createAnnonce);
+router.post('/annonce', createAnnonce);
 router.put('/annonce/update', updateAnnonce);
 router.delete('/annonce/delete:id', deleteAnnonce);
 

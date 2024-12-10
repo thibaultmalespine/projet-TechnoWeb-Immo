@@ -6,7 +6,7 @@ import {
 const router = express.Router();
 
 router.post('/compte/login', login);
-router.post('/compte/create', createCompte);
+router.post('/compte', createCompte);
 router.put('/compte/update', updateCompte);
 router.delete('/compte/delete/:id', deleteCompte);
 
