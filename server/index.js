@@ -21,16 +21,17 @@ app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de 
   resave: false,
   saveUninitialized: true
 })); 
-app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès au page html, renvoie un 403 acces denied sinon
-  // Autoriser l'accès à index.html et creationCompte.html
-  const allowedPages = ['index.html', 'creationCompte.html'];
+app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès au page html, renvoie un 401 acces denied sinon
+  // Autoriser l'accès aux pages nécessaires à l'authentification et à la création de compte
+  const allowedPages = ['/','/index.html','/styles/styleIndex.css','/scripts/scriptIndex.js', '/pages/creationCompte.html', '/compte','/compte/login'];
 
   if (
-    !req.session.email && 
-    req.originalUrl.endsWith(".html") && 
-    !allowedPages.some(page => req.originalUrl.includes(page))
+    !req.session.email &&  
+    !allowedPages.includes(req.originalUrl.trim())
   ) {
-    return res.sendStatus(403); // Accès interdit
+    const error = new Error('Accès interdit. Authentification requise.');
+    error.status = 401; 
+    return next(error);
   }
   
   next();
@@ -45,9 +46,28 @@ app.use(routerCompteClient);
 app.use(routerSharingToken);
 
 // 404 mauvaise adresse
-app.get("/*", (req, res ) => {
-  res.sendStatus(404);
+app.use((req, res, next ) => {
+  const error = new Error('Ressource non trouvée.');
+  error.status = 404;
+  next(error);
 })
+
+// gestionnaire d'erreurs
+app.use((err, req, res, next) => {
+  // Détermine le statut HTTP de l'erreur, avec un défaut à 500 (erreur serveur)
+  const statusCode = err.status || 500;
+
+  // Structure de la réponse d'erreur
+  const errorResponse = {
+    success: false,
+    message: err.message || 'Une erreur inattendue est survenue.',
+    status: statusCode,
+  };
+
+  // Envoie la réponse JSON au client
+  res.status(statusCode).json(errorResponse);
+})
+
 
 // Initialiser la base de données puis lancer le serveur
 initializeDatabase().then(() => {

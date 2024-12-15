@@ -67,6 +67,11 @@ describe("Tests des routes d'Annonce", async () => {
      const response = await agent.get(`/annonce/${idannonce}`);
      expect(response.status).toBe(200);
      expect(response.body.urloriginale).toBe("https://www.test.com");
+
+     // Test de la protection de la ressource 
+     /**
+      * A faire + modifier la route pour renvoyer un 403
+      */
   })
 
   it("Test de la route get", async () => {

@@ -1,6 +1,6 @@
 async function fetchAnnonces() {
     try {
-        const response = await fetch('/annonce/getAnnonceByAccount');
+        const response = await fetch('/annonce');
         if (response.ok) {
             const annonces = await response.json();
 
