@@ -15,11 +15,11 @@ DO:
 - Cryptage des mots de passe de la table compte 
 - Utilisation de Supertest pour les tests end to end
 - Tester le 401 (dans le test de la route post /compte/login)
+- Tester le 403 (dans le test de la route get:id /annonce/:id)  
+- Middleware de gestion d'erreur)
 
 TO DO:
 Thibault
-- IMAGINER UN 403 ET FAIRE LE TEST ASSOCIE --> essayer d'accéder à une annonce qui n'est pas à l'agent (à la personne connectée)  
-- Gestion des erreurs (500 avec express --> middleware de gestion d'erreur)
 - Faire les routes sur la table Ville (une route, un controleur, un modele)
 - Faire plus de tests --> faire un fonction de trie pour récupérer une/des villes + la tester 
 

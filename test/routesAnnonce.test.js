@@ -6,9 +6,12 @@ process.env.PORT = 3002;
 
 describe("Tests des routes d'Annonce", async () => {
   const agent = request.agent(app); // définit un agent pour conserver les cookies entre les requêtes
+  const agent2 = request.agent(app); // définit un autre agent pour conserver les cookies entre les requêtes
 
   let compteTest;
+  let autreCompteTest;
   let idannonce;
+  let idAutreAnnonce;
   let annonceTest =  {
     nomannonce: 'Test Annonce',
     urloriginale: 'https://www.test.com',
@@ -33,23 +36,28 @@ describe("Tests des routes d'Annonce", async () => {
       motdepasse : "mot de passe TEST"
     };
     
-    const response = await agent
-      .post("/compte")
-      .send(data)
-      .set("Content-Type", "application/json");
-    
+    const response = await request(app).post("/compte").send(data).set("Content-Type", "application/json");
     compteTest = response.body;
     
-    // login du compte test
-    await agent 
-    .post("/compte/login")
-    .send(data)
-    .set("Content-Type", "application/json");
+    // login du compte test par l'agent
+    await agent .post("/compte/login").send(data).set("Content-Type", "application/json");
+
+    // ajout d'un 2ème compte pour tester le 403
+    const data2 = {
+      email : "emailTEST3@TEST.com",
+      motdepasse : "mot de passe TEST"
+    };
+    const response2 = await request(app).post("/compte").send(data2).set("Content-Type", "application/json");
+    autreCompteTest = response2.body;
+
+    // login du compte test par l'agent2
+    await agent2 .post("/compte/login").send(data2).set("Content-Type", "application/json");
+    
   })
 
   it("Test de la route post", async () => {
 
-    // Utiliser supertest pour simuler une requête POST
+    // Ajout d'une annonce
     const response = await agent
       .post("/annonce")
       .send(annonceTest)
@@ -61,14 +69,26 @@ describe("Tests des routes d'Annonce", async () => {
     // Assertions
     expect(response.status).toBe(201); // Vérifier le statut HTTP
     expect(response.body.nomannonce).toBe(annonceTest.nomannonce); // Vérifier les données retournées
+
+    // Ajout d'une autre annonce par l'agent2
+    const response2 = await agent2
+    .post("/annonce")
+    .send(annonceTest)
+    .set("Content-Type", "application/json");
+
+    idAutreAnnonce = response2.body.idannonce;
   });
 
   it("Test de la route get:id", async () => {
+    // test récupération d'une annonce appartenant à l'agent
      const response = await agent.get(`/annonce/${idannonce}`);
      expect(response.status).toBe(200);
      expect(response.body.urloriginale).toBe("https://www.test.com");
 
-     // Test de la protection de la ressource 
+     // Test de la protection de la ressource (accès avec agent à une annonce de agent2)
+     const response2 = await agent.get(`/annonce/${idAutreAnnonce}`);
+     expect(response2.status).toBe(403);
+     
      /**
       * A faire + modifier la route pour renvoyer un 403
       */
@@ -116,12 +136,26 @@ describe("Tests des routes d'Annonce", async () => {
     const response2 = await agent.get(`/annonce/${idannonce}`);
     expect(response2.status).toBe(404);
 
+
+    // suppression de l'annonce de l'agent2
+    const response3 = await agent2
+    .delete(`/annonce/${idAutreAnnonce}`)
+    .set("Content-Type", "application/json");
+
+    expect(response3.status).toBe(200);
+
+
+
   })
 
   afterAll(async () => {
     // supprimer le compte test
     await agent  
     .delete(`/compte/${compteTest.idcompte}`)
+    .set("Content-Type", "application/json");
+
+    await agent2
+    .delete(`/compte/${autreCompteTest.idcompte}`)
     .set("Content-Type", "application/json");
   })
 

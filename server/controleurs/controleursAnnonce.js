@@ -6,7 +6,10 @@ export const getAnnonceByID = async (req, res) => {
   try {
     const annonce = await Annonce.getByID(req.params.id);
     if (! annonce) {
-      res.status(404).send("annonce non trouvée !")
+      return res.status(404).send("annonce non trouvée !");
+    }
+    if(annonce.lecompte != req.session.email){
+      return res.status(403).send("annonce appartenant à quelqu'un d'autre !");
     }
     res.status(200).json(annonce);
   } catch (err) {
