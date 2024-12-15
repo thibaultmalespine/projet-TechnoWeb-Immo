@@ -22,7 +22,7 @@ const Compte = {
   },
   delete: async (idCompte) => {
     const result = await client.query('DELETE FROM Compte WHERE idCompte = $1 RETURNING *', [idCompte]);
-    return result.rows[0];
+    return result.rowCount;
   }
 };
 

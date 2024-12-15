@@ -37,8 +37,10 @@ export const createCompte = async (req, res) => {
 
 // Contrôleur pour mettre à jour un compte
 export const updateCompte = async (req, res) => {
+  const id = req.params.id;
+  const data = {...req.body, idCompte : id};
   try {
-    const compteModifié = await Compte.update(req.body);
+    const compteModifié = await Compte.update(data);
     if (!compteModifié) {
       return res.status(404).send('Compte non trouvé');
     }
@@ -55,15 +57,14 @@ export const updateCompte = async (req, res) => {
 // Contrôleur pour supprimer un compte par son ID
 export const deleteCompte = async (req, res) => {
   try {
-    const compteSupprimé = await Compte.delete(req.params.id);
+    const rowCount = await Compte.delete(req.params.id);
 
-    if (!compteSupprimé) {
+    if (rowCount === 0) {
       return res.status(404).send('Compte non trouvé');
     }
 
     console.log('Compte supprimé');
-    compteSupprimé.motdepasse = req.body.motdepasse;
-    res.send(compteSupprimé);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Erreur lors de la suppression du compte :", err);
     res.status(500).send("Erreur lors de la suppression du compte");
