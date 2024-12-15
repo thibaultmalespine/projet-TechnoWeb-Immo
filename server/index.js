@@ -23,7 +23,7 @@ app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de 
 })); 
 app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès au page html, renvoie un 401 acces denied sinon
   // Autoriser l'accès aux pages nécessaires à l'authentification et à la création de compte
-  const allowedPages = ['/','/index.html','/styles/styleIndex.css','/scripts/scriptIndex.js', '/pages/creationCompte.html', '/compte','/compte/login'];
+  const allowedPages = ['/','/index.html','/styles/styleIndex.css','/scripts/scriptIndex.js','/scripts/scriptCreationCompte.js', '/pages/creationCompte.html', '/compte','/compte/login'];
 
   if (
     !req.session.email &&  

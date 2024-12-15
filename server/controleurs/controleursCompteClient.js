@@ -26,7 +26,6 @@ export const createCompte = async (req, res) => {
   try {
     const nouveauCompte = await Compte.create(req.body);
     console.log('Compte ajouté avec succès');
-    req.session.email = req.body.email; // définir le compte actuellement connecté comme étant le nouveau compte
     nouveauCompte.motdepasse = req.body.motdepasse;
     res.status(201).send(nouveauCompte);
   } catch (err) {

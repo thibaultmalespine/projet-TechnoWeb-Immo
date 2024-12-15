@@ -14,8 +14,10 @@ signupForm.addEventListener('submit',async (event) => {
         },
         body : JSON.stringify(data)
     });
-    if (response.ok) {
-        document.location.href = '/pages/mesAnnonces.html'
+    
+    if (response.status === 201) {
+        alert("compte ajouté avec succès !")
+        document.location.href = '/index.html'
     } else if(response.status === 500) {
         alert("erreur du serveur, veuillez réessayer plus tard")
     }
