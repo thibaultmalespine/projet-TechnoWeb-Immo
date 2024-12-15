@@ -11,6 +11,7 @@ DO:
 - Ajout d'un dossier modeles pour séparer le controleur et le model
 - Ajouter un middleware qui contrôle la connexion (on doit être identifier à un compte pour pouvoir utiliser le site)
 - Faire les tests des routes de la table compte
+- Faire les tests des routes de la table annonce
 - Cryptage des mots de passe de la table compte 
 - Utilisation de Supertest pour les tests end to end
 
@@ -24,7 +25,6 @@ Thibault
 - Gestion des erreurs (500 avec express --> middleware de gestion d'erreur)
 
 Armand
-- Finir les tests des routes annonces
 
 
 Plus tard
