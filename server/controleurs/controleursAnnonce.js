@@ -5,6 +5,9 @@ import Annonce from "../modeles/modeleAnnonce.js";
 export const getAnnonceByID = async (req, res) => {
   try {
     const annonce = await Annonce.getByID(req.params.id);
+    if (! annonce) {
+      res.status(404).send("annonce non trouvée !")
+    }
     res.status(200).json(annonce);
   } catch (err) {
     console.error("Erreur lors de la récupération de l'annonce :", err);
@@ -25,13 +28,8 @@ export const getAnnonceByAccount = async (req, res) => {
 
 // Contrôleur pour ajouter une annonce
 export const createAnnonce = async (req, res) => {
-   // TEMPORAIRE //
-   let {lecompte} = req.body;
-   if (lecompte === undefined) {
-   lecompte = req.session.email;
-   }
-   const data = {...req.body, "lecompte" : lecompte};
-   // TEMPORAIRE //
+
+   const data = {...req.body, lecompte : req.session.email};
 
   try {
     const nouvelleAnnonce = await Annonce.create(data);
@@ -45,13 +43,14 @@ export const createAnnonce = async (req, res) => {
 
 // Contrôleur pour mettre à jour une annonce
 export const updateAnnonce = async (req, res) => {
+  const id = req.params.id;
+  const data = {...req.body, idannonce : id, lecompte : req.session.email};
   try {
-    const annonceModifiée = await Annonce.update(req.body);
+    const annonceModifiée = await Annonce.update(data);
     if (! annonceModifiée) {
       console.log('Annonce non trouvée');
       return res.status(404).send('Annonce non trouvée');
     }
-
     console.log('Annonce mise à jour');
     res.send(annonceModifiée);
   } catch (err) {
@@ -64,14 +63,14 @@ export const updateAnnonce = async (req, res) => {
 export const deleteAnnonce = async (req, res) => {
 
   try {
-    const annonceSupprimée = await Annonce.delete(req.params.id)
+    const rowCount = await Annonce.delete(req.params.id)
 
-    if (! annonceSupprimée) {
+    if (rowCount === 0) {
       return res.status(404).send('Annonce non trouvée');
     }
 
     console.log('Annonce supprimée');
-    res.status(200).send(annonceSupprimée);
+    res.sendStatus(200);
   } catch (err) {
     console.error("Erreur lors de la suppression de l'annonce :", err);
     res.status(500).send("Erreur lors de la suppression de l'annonce");
