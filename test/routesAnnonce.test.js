@@ -116,7 +116,7 @@ describe("Tests des routes d'Annonce", async () => {
   afterAll(async () => {
     // supprimer le compte test
     await agent  
-    .delete(`/compte/delete/${compteTest.idcompte}`)
+    .delete(`/compte/${compteTest.idcompte}`)
     .set("Content-Type", "application/json");
   })
 
