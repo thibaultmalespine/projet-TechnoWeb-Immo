@@ -26,7 +26,7 @@ const Annonce = {
     },
     delete : async(id) => {
         const result = await client.query(`DELETE FROM Annonce WHERE idannonce = $1`, [id]);
-        return result.rows[0];
+        return result.rowCount;
     }
 
 }

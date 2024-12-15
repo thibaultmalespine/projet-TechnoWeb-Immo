@@ -5,10 +5,10 @@ import {
 
 const router = express.Router();
 
-router.get('/annonce/getAnnonceByID:id', getAnnonceByID);
-router.get('/annonce/getAnnonceByAccount', getAnnonceByAccount);
+router.get('/annonce', getAnnonceByAccount);
+router.get('/annonce/:id', getAnnonceByID);
 router.post('/annonce', createAnnonce);
-router.put('/annonce/update', updateAnnonce);
-router.delete('/annonce/delete:id', deleteAnnonce);
+router.put('/annonce/:id', updateAnnonce);
+router.delete('/annonce/:id', deleteAnnonce);
 
 export default router;
