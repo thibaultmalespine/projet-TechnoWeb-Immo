@@ -21,7 +21,7 @@ app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de 
   resave: false,
   saveUninitialized: true
 })); 
-app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès au page html, renvoie un 401 acces denied sinon
+app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès aux pages html, renvoie un 401 acces denied sinon
   // Autoriser l'accès aux pages nécessaires à l'authentification et à la création de compte
   const allowedPages = ['/','/index.html','/styles/styleIndex.css','/scripts/scriptIndex.js','/scripts/scriptCreationCompte.js', '/pages/creationCompte.html', '/compte','/compte/login'];
 
@@ -71,7 +71,7 @@ app.use((err, req, res, next) => {
 
 // Initialiser la base de données puis lancer le serveur
 initializeDatabase().then(() => {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(`Serveur en écoute sur http://localhost:${PORT}`);
   });
