@@ -1,3 +1,12 @@
+!! Front avec Next.js (React + TailwindCSS) !!
+
+Fonctionnalités ?
+- Afficher les annonces liées aux comptes 
+- Afficher les informations du compte
+- Formulaire pour ajouter une annonce
+- Saisie automatique du code postal + ville
+- Voir la localisation des annonces sur une carte
+
 DO:
 - Page d'accueil pour ajouter une annonce et se connecter
 - Ajouter une annonce à la BDD via le formulaire
@@ -20,14 +29,12 @@ DO:
 
 TO DO:
 Thibault
-- Faire les routes sur la table Ville (une route, un controleur, un modele)
-- Faire plus de tests --> faire un fonction de trie pour récupérer une/des villes + la tester 
 
 Armand
 
 
 Plus tard
 - Créer une page pour afficher les informations d'un compte 
-- Ajouter un moteur de template au projet pour afficher les annonces partagées ? 
+- Ajouter un moteur de template au projet pour afficher les annonces partagées ? NON
 - Selectionner automatiquement la ville lors de la saisie 
 - Front: faire fissure
