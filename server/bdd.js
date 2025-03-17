@@ -2,11 +2,11 @@
 import pg from 'pg';
 const { Client } = pg
 export const client = new Client({
-  host: 'localhost',
-  user: 'userpostgres',
-  password: 'userpostgres',
-  database: 'userpostgres',
-  port: 5433,
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'userpostgres',
+  password: process.env.DB_PASSWORD || 'userpostgres',
+  database: process.env.DB_NAME || 'userpostgres',
+  port: process.env.DB_PORT || 5433,
 })
 
 

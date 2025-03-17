@@ -2,7 +2,7 @@ import request from 'supertest';
 import { describe, expect, it } from 'vitest';
 import app from '../server/index.js';
 
-process.env.PORT = 3001;
+process.env.PORT = 3004;
 
 describe("Tests de la table Compte", () => {
     const agent = request.agent(app); // définit un agent pour conserver les cookies entre les requêtes
@@ -30,7 +30,7 @@ describe("Tests de la table Compte", () => {
     it("Test de la route post /compte/login", async () => {
         // Test 401 accès non authentifié
         // Une requête sur une ressource devrait renvoyer un 401 
-        const accesNonAuthorisé = await request(app).get('/pages/mesAnnonces.html');
+        const accesNonAuthorisé = await agent.get('/pages/mesAnnonces.html');
         expect(accesNonAuthorisé.status).toBe(401)
 
         // Authentification
@@ -41,12 +41,13 @@ describe("Tests de la table Compte", () => {
         
         expect(response.status).toBe(200);
         compteTest = response.body;
-
+        // Test que le compte connecté correspond au compte de test
         const compteConnecté = response.body;
         expect(compteConnecté.idcompte).toBe(compteTest.idcompte);
 
         // Une requête sur une ressource doit fonctionner maintenant
         const accesAuthorisé = await agent.get('/pages/mesAnnonces.html');
+
         expect(accesAuthorisé.status).toBe(200)
     });
 
