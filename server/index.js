@@ -36,7 +36,7 @@ app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l
   
   next();
 });
-app.use(express.static(path.join(__dirname, '..','public'))); // Middleware pour servir les fichiers statiques
+app.use(express.static(path.join(__dirname, '..','old-public'))); // Middleware pour servir les fichiers statiques
 
 // API REST
 app.use(routerAnnonce);
