@@ -8,8 +8,8 @@ export const login = async (req, res) => {
     const compteClient = await Compte.get(req.body);
     if (!compteClient) {
       return res.status(404).send('Email incorrect');
-    }
-    if (! bcrypt.compare(motdepasse, compteClient.motdepasse)) {
+    }    
+    if (! await bcrypt.compare(motdepasse, compteClient.motdepasse)) {
       return res.status(404).send('Mot de passe incorrect');
     } 
     req.session.email = req.body.email;
@@ -29,8 +29,15 @@ export const createCompte = async (req, res) => {
     nouveauCompte.motdepasse = req.body.motdepasse;
     res.status(201).send(nouveauCompte);
   } catch (err) {
-    console.error("Erreur lors de l'ajout du compte :", err);
-    res.status(500).send("Erreur lors de l'ajout du compte");
+    if (err.code === '23505') { // Code d'erreur pour violation de contrainte d'unicité
+      console.error('Erreur : Ce email existe déjà');
+      res.status(409).send("Ce email existe déjà");
+
+    }
+    else{
+      console.error("Erreur lors de l'ajout du compte :", err);
+      res.status(500).send("Erreur lors de l'ajout du compte");
+    }
   }
 };
 

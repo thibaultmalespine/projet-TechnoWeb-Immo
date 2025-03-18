@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import express from 'express';
 import session from 'express-session';
 import path, { dirname } from 'path';
@@ -13,13 +14,22 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
+//Gestion du cross origin
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:3001'], // Autorise uniquement ce domaine
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
+  credentials: true, // Autorise l’envoi des cookies
+  allowedHeaders: ['Content-Type'],
+};
+
 // MIDDLEWARE 
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true })); // Midlleware pour récupérer les données issues d'un formulaire
 app.use(express.json()); // Middleware json, très important pour utiliser fetch et envoyer du json au body
 app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de stocker le compte client connecté
   secret: 'mysecret',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
 })); 
 app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès aux pages html, renvoie un 401 acces denied sinon
   // Autoriser l'accès aux pages nécessaires à l'authentification et à la création de compte

@@ -2,10 +2,29 @@
 
 import { LoginForm } from "@/components/login-form";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function Page() {
-  const handleLogin = (formData) => {
-    alert("Données du formulaire : \nemail : "+formData["email"].value +"\npassword : "+formData["password"].value);
-    // Ici : appel API, redirection, gestion d'erreur...
+  const handleLogin = async (formData) => {
+
+    event.preventDefault()
+    
+    // Récupération des données du formulaire
+    const data = {
+      email : formData["email"].value,
+      motdepasse : formData["password"].value
+    }
+
+    const response = await fetch(`${API_URL}/compte/login`, {
+      method : 'POST',
+      headers : {"Content-type" : "application/json"},
+      body : JSON.stringify(data),
+    });
+    if (response.ok) {
+      document.location.href = '/annonces'
+    } else if(response.status === 404) {
+      alert(await response.text())
+    }
   };
 
   return (
