@@ -15,8 +15,11 @@ export function SignUpForm({ className, onSignUp, ...props }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (onSignUp) {
-      onSignUp({ firstName, lastName, email, password }) // On transmet les données
+    if (onSignUp && password === confirmPassword) {
+      onSignUp({ prenom : firstName, nom : lastName, email, motdepasse : password }) // On transmet les données
+    }
+    else if(password != confirmPassword){
+      alert("Il semblerait que vous ayez fait une erreur lors de la saisie de votre mot de passe...")
     }
   }
 

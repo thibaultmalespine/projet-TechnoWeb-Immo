@@ -8,9 +8,9 @@ const Compte = {
     return result.rows[0]; // Retourne le premier résultat ou undefined si non trouvé
   },
   create: async (data) => {
-    const {email, motdepasse} = data;
+    const {prenom, nom, email, motdepasse} = data;
     const mot_de_passe_crypté = await bcrypt.hash(motdepasse, 10);
-    const result = await client.query('INSERT INTO Compte (Email, motdepasse) VALUES ($1, $2) RETURNING *', [email, mot_de_passe_crypté]);
+    const result = await client.query('INSERT INTO Compte (Prenom, Nom, Email, motdepasse) VALUES ($1, $2, $3, $4) RETURNING *', [prenom, nom, email, mot_de_passe_crypté]);
     return result.rows[0];
   },
   update: async (data) => {
