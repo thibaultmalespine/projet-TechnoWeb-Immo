@@ -10,6 +10,8 @@ const Annonce = {
         return result.rows;
     },
     create : async(data) =>{
+        console.log(data);
+        
         const { nomannonce, urloriginale, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine, lecompte } = data;
 
         const result = await client.query(`INSERT INTO Annonce (NomAnnonce, URLOriginale, Description, TypeDeBien, CodePostal, NomVille, Prix, M2Habitable, M2Terrains, Meuble, ParticulierPro, Garage, Piscine, LeCompte) 

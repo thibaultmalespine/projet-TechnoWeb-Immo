@@ -1,14 +1,17 @@
 "use client"
 
-import { LoadingScreen } from "@/components/loading-screen"
+import { LoadingScreen } from "@/components/loading/loading-screen"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, Plus } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { AnnonceCard } from "./annonce-card"
 import { AnnoncesFilters } from "./annonces-filters"
 
 export function AnnoncesList({ annonces: initialAnnonces, isLoading = false }) {
+  const router = useRouter()
   const [annonces, setAnnonces] = useState(initialAnnonces || [])
   const [filteredAnnonces, setFilteredAnnonces] = useState(initialAnnonces || [])
   const [sortOption, setSortOption] = useState("recent")
@@ -93,6 +96,10 @@ export function AnnoncesList({ annonces: initialAnnonces, isLoading = false }) {
     setFilteredAnnonces(sorted)
   }
 
+  const handleAddAnnonce = () => {
+    router.push("/annonces/ajouter")
+  }
+
   if (isLoading) {
     return <LoadingScreen fullScreen={false} message="Chargement des annonces..." />
   }
@@ -100,10 +107,16 @@ export function AnnoncesList({ annonces: initialAnnonces, isLoading = false }) {
   return (
     <div>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-        <h2 className="text-2xl font-bold">
-          {filteredAnnonces.length} annonce{filteredAnnonces.length !== 1 ? "s" : ""} disponible
-          {filteredAnnonces.length !== 1 ? "s" : ""}
-        </h2>
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+          <h2 className="text-2xl font-bold">
+            {filteredAnnonces.length} annonce{filteredAnnonces.length !== 1 ? "s" : ""} disponible
+            {filteredAnnonces.length !== 1 ? "s" : ""}
+          </h2>
+
+          <Button onClick={handleAddAnnonce} className="bg-primary hover:bg-primary/90">
+            <Plus className="mr-2 h-4 w-4" /> Ajouter une annonce
+          </Button>
+        </div>
 
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Trier par:</span>
