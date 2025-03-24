@@ -38,7 +38,6 @@ export default function AnnoncesPage() {
     getAnnonces();    
   }, []); // [] assure que l'effet ne sera exécuté qu'une seule fois, au montage du composant
   
-  console.log(annonces);
 
   return (
     <div className="container mx-4 py-8 w-auto">
