@@ -18,7 +18,6 @@ export default function AjouterAnnoncePage() {
       });
 
       if (response.ok) {
-        const data = await response.json();
         redirect("/annonces")       
       } else {
         throw new Error('Erreur lors de l\'envoie de l\'annonce');
