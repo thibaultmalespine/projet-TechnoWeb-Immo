@@ -14,11 +14,12 @@ export default function Page() {
       email : formData["email"].value,
       motdepasse : formData["password"].value
     }
-
+  
     const response = await fetch(`${API_URL}/compte/login`, {
       method : 'POST',
       headers : {"Content-type" : "application/json"},
       body : JSON.stringify(data),
+      credentials: 'include',  // Permet d'inclure les cookies (session) dans la requête
     });
     if (response.ok) {
       document.location.href = '/annonces'

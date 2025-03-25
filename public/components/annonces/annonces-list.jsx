@@ -1,6 +1,5 @@
 "use client"
 
-import { LoadingScreen } from "@/components/loading/loading-screen"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -10,7 +9,7 @@ import { useEffect, useState } from "react"
 import { AnnonceCard } from "./annonce-card"
 import { AnnoncesFilters } from "./annonces-filters"
 
-export function AnnoncesList({ annonces: initialAnnonces, isLoading = false }) {
+export function AnnoncesList({ annonces: initialAnnonces }) {
   const router = useRouter()
   const [annonces, setAnnonces] = useState(initialAnnonces || [])
   const [filteredAnnonces, setFilteredAnnonces] = useState(initialAnnonces || [])
@@ -98,10 +97,6 @@ export function AnnoncesList({ annonces: initialAnnonces, isLoading = false }) {
 
   const handleAddAnnonce = () => {
     router.push("/annonces/ajouter")
-  }
-
-  if (isLoading) {
-    return <LoadingScreen fullScreen={false} message="Chargement des annonces..." />
   }
 
   return (

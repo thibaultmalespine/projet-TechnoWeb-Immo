@@ -10,7 +10,6 @@ const Annonce = {
         return result.rows;
     },
     create : async(data) =>{
-        console.log(data);
         
         const { nomannonce, urloriginale, description, type, codep, ville, prix, m2_habitable, m2_terrain, meuble, particulier_pro, garage, piscine, lecompte } = data;
 
