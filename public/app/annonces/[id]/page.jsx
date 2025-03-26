@@ -3,49 +3,48 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { getAnnonceById } from "@/lib/api"
-import {
-  ArrowLeft,
-  Building,
-  Car,
-  Euro,
-  Home,
-  MapPin,
-  Maximize2,
-  PocketIcon as Pool,
-  Ruler,
-  Sofa,
-  User
-} from "lucide-react"
+import { deleteAnnonceById, getAnnonceById } from "@/lib/api"
+import { ArrowLeft, Car, Euro, Home, MapPin, Maximize2, PocketIcon as Pool, Ruler, Sofa, Trash2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { notFound, useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 import Loading from "../loading"
 
 
-export default function AnnoncePage({ params }) {
+export default function AnnoncePage() {
     const [annonce, setAnnonce] = useState({});  // État pour stocker l' annonce
     const [loading, setLoading] = useState(true);  // État pour gérer le chargement
     const [formattedPrice, setFormattedPrice] = useState();
-
+    const [error, setError] = useState();
+    const params = useParams();
+    const router = useRouter();
 
     useEffect(()=>{
       const fetchAnnonce = async () => {
-      try {
-        const annonceData = await getAnnonceById(params.id);
-        setAnnonce(annonceData); 
-        setFormattedPrice(annonceData.prix)
-        
-      } finally {
-        setLoading(false);  // Fin du chargement
+        try {
+          const annonceData = await getAnnonceById(params.id);
+          setAnnonce(annonceData); 
+          setFormattedPrice(annonceData.prix)
+        } catch {
+          setError(true);
+        } finally {
+          setLoading(false);  // Fin du chargement
+        }
       }
-      }
-   
-      fetchAnnonce()
-
-      
-
+      fetchAnnonce();       
     },[]);
+
+    useEffect(() => {
+      if (error) {
+        notFound();
+      }
+    }, [error])
+
+    function handleDeleteButton(){
+      deleteAnnonceById(params.id);
+      router.push("/annonces");
+    }
 
   if (loading) {
     return (
@@ -63,6 +62,7 @@ export default function AnnoncePage({ params }) {
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
+          {/* Titre, Code postal, Image */}
           <div>
             <h1 className="text-3xl font-bold mb-2">{annonce.nomannonce}</h1>
             <div className="flex items-center gap-2 text-muted-foreground mb-4">
@@ -71,7 +71,6 @@ export default function AnnoncePage({ params }) {
                 {annonce.codepostal} {annonce.nomville}
               </span>
             </div>
-
             <div className="relative h-[400px] w-full rounded-lg overflow-hidden">
               <Image
                 src={"/placeholder.svg"}
@@ -82,6 +81,7 @@ export default function AnnoncePage({ params }) {
             </div>
           </div>
 
+          {/*Caractéristiques*/}
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
             <Card>
               <CardContent className="p-4 flex flex-col items-center justify-center text-center">
@@ -115,15 +115,16 @@ export default function AnnoncePage({ params }) {
               <CardContent className="p-4 flex flex-col items-center justify-center text-center">
                 <Home className="h-8 w-8 text-primary mb-2" />
                 <p className="text-sm text-muted-foreground">Type de bien</p>
-                <p className="font-bold text-xl">{annonce.typedebien}</p>
+                <p className="font-bold text-xl">{annonce.type}</p>
               </CardContent>
             </Card>
           </div>
 
+          {/* Description */}
           <div>
             <h2 className="text-2xl font-bold mb-4">Description</h2>
             <div className="prose max-w-none">
-              {annonce.description.split("\n").map((paragraph, index) => (
+              {annonce.description && annonce.description.split("\n").map((paragraph, index) => (
                 <p key={index} className="mb-4">
                   {paragraph}
                 </p>
@@ -131,6 +132,7 @@ export default function AnnoncePage({ params }) {
             </div>
           </div>
 
+          {/* Badges garage, piscine, meublé */}
           <div>
             <h2 className="text-2xl font-bold mb-4">Caractéristiques</h2>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -159,57 +161,16 @@ export default function AnnoncePage({ params }) {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="space-y-6">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold">Prix</h3>
-                <p className="text-2xl font-bold text-primary">{formattedPrice} €</p>
-              </div>
-
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center gap-2">
-                  {annonce.particulierpro === "Particulier" ? (
-                    <User className="h-5 w-5 text-muted-foreground" />
-                  ) : (
-                    <Building className="h-5 w-5 text-muted-foreground" />
-                  )}
-                  <span>{annonce.particulierpro}</span>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <Button className="w-full">Contacter le vendeur</Button>
-                <Button variant="outline" className="w-full">
-                  Sauvegarder l'annonce
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-xl font-bold mb-4">Vendeur</h3>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
-                  {annonce.particulierpro === "Particulier" ? (
-                    <User className="h-6 w-6" />
-                  ) : (
-                    <Building className="h-6 w-6" />
-                  )}
-                </div>
-                <div>
-                  <p className="font-medium">{annonce.lecompte}</p>
-                  <p className="text-sm text-muted-foreground">{annonce.particulierpro}</p>
-                </div>
-              </div>
-              <Button variant="outline" className="w-full">
-                Voir toutes ses annonces
-              </Button>
-            </CardContent>
-          </Card>
+        
+          {/* Bouton supprimer */}
+          <div className="grid md:grid-cols-3 gap-4">
+            <Button onClick={handleDeleteButton} variant="destructive" size="sm" className="flex items-center gap-2 col-start-3">
+              <Trash2 className="h-4 w-4" />
+              <span>Supprimer</span>
+            </Button>
+          
+          </div>
+    
         </div>
       </div>
     </div>

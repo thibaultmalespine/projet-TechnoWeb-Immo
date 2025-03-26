@@ -1,7 +1,7 @@
 "use client"
 
 import { AjouterAnnonceForm } from "@/components/annonces/ajouter-annonce-form";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -16,9 +16,9 @@ export default function AjouterAnnoncePage() {
         body : JSON.stringify(formData),
         credentials: 'include',  // Permet d'inclure les cookies (session) dans la requête
       });
-
+      
       if (response.ok) {
-        redirect("/annonces")       
+        router.push("/annonces");
       } else {
         throw new Error('Erreur lors de l\'envoie de l\'annonce');
       }

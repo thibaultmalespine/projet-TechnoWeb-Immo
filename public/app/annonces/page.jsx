@@ -28,7 +28,7 @@ export default function AnnoncesPage() {
   }
   return (
     <div className="container mx-4 py-8 w-auto">
-      <h1 className="text-3xl font-bold mb-8">Toutes nos annonces immobilières</h1>
+      <h1 className="text-3xl font-bold mb-8">Toutes vos annonces immobilières</h1>
       <AnnoncesList annonces={annonces} />
     </div>
   )

@@ -12,11 +12,11 @@ import { useState } from "react"
 export function AnnoncesFilters({ onFilterChange }) {
   const [filters, setFilters] = useState({
     search: "",
-    typeDeBien: "",
+    typedebien: "",
     prixMin: 0,
     prixMax: 1000000,
     surfaceMin: 0,
-    particulierPro: "",
+    particulierpro: "",
     garage: false,
     piscine: false,
     meuble: false,
@@ -60,7 +60,7 @@ export function AnnoncesFilters({ onFilterChange }) {
         </div>
 
         <div className="flex gap-2">
-          <Select value={filters.typeDeBien} onValueChange={(value) => handleFilterChange("typeDeBien", value)}>
+          <Select value={filters.typeDeBien} onValueChange={(value) => handleFilterChange("typedebien", value)}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Type de bien" />
             </SelectTrigger>
@@ -119,7 +119,7 @@ export function AnnoncesFilters({ onFilterChange }) {
                 <div className="space-y-2">
                   <h4 className="font-medium">Vendeur</h4>
                   <Select
-                    value={filters.particulierPro}
+                    value={filters.particulierpro}
                     onValueChange={(value) => handleFilterChange("particulierPro", value)}
                   >
                     <SelectTrigger>

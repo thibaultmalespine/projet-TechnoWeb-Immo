@@ -30,41 +30,41 @@ export function AnnoncesList({ annonces: initialAnnonces }) {
       const searchLower = filters.search.toLowerCase()
       filtered = filtered.filter(
         (annonce) =>
-          annonce.NomAnnonce.toLowerCase().includes(searchLower) ||
-          annonce.Description?.toLowerCase().includes(searchLower) ||
-          annonce.NomVille.toLowerCase().includes(searchLower),
+          annonce.nomannonce.toLowerCase().includes(searchLower) ||
+          annonce.description?.toLowerCase().includes(searchLower) ||
+          annonce.nomville.toLowerCase().includes(searchLower),
       )
     }
 
     // Filtre par type de bien
-    if (filters.typeDeBien) {
-      filtered = filtered.filter((annonce) => annonce.TypeDeBien === filters.typeDeBien)
+    if (filters.typedebien) {
+      filtered = filtered.filter((annonce) => annonce.typedebien === filters.typedebien)
     }
 
     // Filtre par prix
-    filtered = filtered.filter((annonce) => annonce.Prix >= filters.prixMin && annonce.Prix <= filters.prixMax)
+    filtered = filtered.filter((annonce) => annonce.prix >= filters.prixMin && annonce.prix <= filters.prixMax)
 
     // Filtre par surface
     if (filters.surfaceMin > 0) {
-      filtered = filtered.filter((annonce) => annonce.M2Habitable >= filters.surfaceMin)
+      filtered = filtered.filter((annonce) => annonce.m2habitable >= filters.surfaceMin)
     }
 
     // Filtre par vendeur
-    if (filters.particulierPro) {
-      filtered = filtered.filter((annonce) => annonce.ParticulierPro === filters.particulierPro)
+    if (filters.particulierpro) {
+      filtered = filtered.filter((annonce) => annonce.particulierpro === filters.particulierpro)
     }
 
     // Filtres booléens
     if (filters.garage) {
-      filtered = filtered.filter((annonce) => annonce.Garage)
+      filtered = filtered.filter((annonce) => annonce.garage)
     }
 
     if (filters.piscine) {
-      filtered = filtered.filter((annonce) => annonce.Piscine)
+      filtered = filtered.filter((annonce) => annonce.piscine)
     }
 
     if (filters.meuble) {
-      filtered = filtered.filter((annonce) => annonce.Meuble)
+      filtered = filtered.filter((annonce) => annonce.meuble)
     }
 
     setFilteredAnnonces(filtered)
@@ -76,13 +76,13 @@ export function AnnoncesList({ annonces: initialAnnonces }) {
 
     switch (value) {
       case "prixAsc":
-        sorted.sort((a, b) => a.Prix - b.Prix)
+        sorted.sort((a, b) => a.prix - b.prix)
         break
       case "prixDesc":
-        sorted.sort((a, b) => b.Prix - a.Prix)
+        sorted.sort((a, b) => b.prix - a.prix)
         break
       case "surfaceDesc":
-        sorted.sort((a, b) => (b.M2Habitable || 0) - (a.M2Habitable || 0))
+        sorted.sort((a, b) => (b.m2habitable || 0) - (a.m2habitable || 0))
         break
       case "recent":
         // Ici on suppose que les annonces les plus récentes ont un ID plus élevé
