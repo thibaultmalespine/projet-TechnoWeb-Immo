@@ -1,13 +1,13 @@
 !! Front avec Next.js (React + TailwindCSS) !!
 
 Fonctionnalités ?
-- Afficher les annonces liées aux comptes 
 - Afficher les informations du compte
 - Formulaire pour ajouter une annonce
 - Saisie automatique du code postal + ville
 - Voir la localisation des annonces sur une carte
 
 DO:
+- Afficher les annonces liées aux comptes 
 - Page d'accueil pour ajouter une annonce et se connecter
 - Ajouter une annonce à la BDD via le formulaire
 - Page de connexion

@@ -18,7 +18,7 @@ export function AjouterAnnonceForm({ onSubmit, isSubmitting = false }) {
     nomannonce: "",
     codep: "",
     ville: "",
-    typedebien: "",
+    type: "",
     m2_habitable: "",
     m2_terrain: "",
     prix: "",
