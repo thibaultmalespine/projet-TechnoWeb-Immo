@@ -8,6 +8,7 @@ import { initializeDatabase } from './bdd.js';
 import routerAnnonce from './routes/routesAnnonce.js';
 import routerCompteClient from './routes/routesCompteClient.js';
 import routerSharingToken from './routes/routesPartageAnnonce.js';
+import routerScraper from './routes/routesScraper.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -54,6 +55,9 @@ app.use(routerCompteClient);
 
 // PARTAGE D'ANNONCES
 app.use(routerSharingToken);
+
+// SCRAPPING
+app.use(routerScraper);
 
 // 404 mauvaise adresse
 app.use((req, res, next ) => {

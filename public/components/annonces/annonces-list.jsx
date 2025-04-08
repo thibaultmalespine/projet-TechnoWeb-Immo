@@ -17,6 +17,8 @@ export function AnnoncesList({ annonces: initialAnnonces }) {
 
   useEffect(() => {
     if (initialAnnonces) {
+      console.log(initialAnnonces);
+      
       setAnnonces(initialAnnonces)
       setFilteredAnnonces(initialAnnonces)
     }
@@ -108,7 +110,7 @@ export function AnnoncesList({ annonces: initialAnnonces }) {
             {filteredAnnonces.length !== 1 ? "s" : ""}
           </h2>
 
-          <Button onClick={handleAddAnnonce} className="bg-primary hover:bg-primary/90">
+          <Button onClick={handleAddAnnonce} className="bg-primary hover:bg-primary/90 cursor-pointer">
             <Plus className="mr-2 h-4 w-4" /> Ajouter une annonce
           </Button>
         </div>
@@ -116,7 +118,7 @@ export function AnnoncesList({ annonces: initialAnnonces }) {
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Trier par:</span>
           <Select value={sortOption} onValueChange={handleSortChange}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] cursor-pointer" >
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

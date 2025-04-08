@@ -36,7 +36,7 @@ export function AnnoncesFilters({ onFilterChange }) {
       prixMin: 0,
       prixMax: 1000000,
       surfaceMin: 0,
-      particulierPro: "",
+      particulierpro: "",
       garage: false,
       piscine: false,
       meuble: false,
@@ -61,7 +61,7 @@ export function AnnoncesFilters({ onFilterChange }) {
 
         <div className="flex gap-2">
           <Select value={filters.typeDeBien} onValueChange={(value) => handleFilterChange("typedebien", value)}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] cursor-pointer">
               <SelectValue placeholder="Type de bien" />
             </SelectTrigger>
             <SelectContent>
@@ -76,17 +76,17 @@ export function AnnoncesFilters({ onFilterChange }) {
 
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2 cursor-pointer">
                 <SlidersHorizontal className="h-4 w-4" />
                 Filtres
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
               <div className="grid gap-4">
-                <div className="space-y-2">
-                  <h4 className="font-medium">Prix</h4>
+                <div className="space-y-4">
+                  <h4 className="font-medium text-lg">Prix</h4>
                   <div className="grid grid-cols-2 gap-2">
-                    <div>
+                    <div className="space-y-2">
                       <Label htmlFor="prixMin">Min</Label>
                       <Input
                         id="prixMin"
@@ -95,7 +95,7 @@ export function AnnoncesFilters({ onFilterChange }) {
                         onChange={(e) => handleFilterChange("prixMin", Number.parseInt(e.target.value) || 0)}
                       />
                     </div>
-                    <div>
+                    <div className="space-y-2">
                       <Label htmlFor="prixMax">Max</Label>
                       <Input
                         id="prixMax"
@@ -120,9 +120,9 @@ export function AnnoncesFilters({ onFilterChange }) {
                   <h4 className="font-medium">Vendeur</h4>
                   <Select
                     value={filters.particulierpro}
-                    onValueChange={(value) => handleFilterChange("particulierPro", value)}
+                    onValueChange={(value) => handleFilterChange("particulierpro", value)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="cursor-pointer">
                       <SelectValue placeholder="Tous" />
                     </SelectTrigger>
                     <SelectContent>
@@ -138,7 +138,7 @@ export function AnnoncesFilters({ onFilterChange }) {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="garage">Garage</Label>
-                      <Switch
+                      <Switch className="cursor-pointer"
                         id="garage"
                         checked={filters.garage}
                         onCheckedChange={(checked) => handleFilterChange("garage", checked)}
@@ -146,7 +146,7 @@ export function AnnoncesFilters({ onFilterChange }) {
                     </div>
                     <div className="flex items-center justify-between">
                       <Label htmlFor="piscine">Piscine</Label>
-                      <Switch
+                      <Switch className="cursor-pointer"
                         id="piscine"
                         checked={filters.piscine}
                         onCheckedChange={(checked) => handleFilterChange("piscine", checked)}
@@ -154,7 +154,7 @@ export function AnnoncesFilters({ onFilterChange }) {
                     </div>
                     <div className="flex items-center justify-between">
                       <Label htmlFor="meuble">Meublé</Label>
-                      <Switch
+                      <Switch className="cursor-pointer"
                         id="meuble"
                         checked={filters.meuble}
                         onCheckedChange={(checked) => handleFilterChange("meuble", checked)}
@@ -163,7 +163,7 @@ export function AnnoncesFilters({ onFilterChange }) {
                   </div>
                 </div>
 
-                <Button variant="outline" onClick={handleReset}>
+                <Button variant="outline" onClick={handleReset} className="cursor-pointer">
                   Réinitialiser les filtres
                 </Button>
               </div>

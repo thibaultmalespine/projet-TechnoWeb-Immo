@@ -44,3 +44,19 @@ export async function deleteAnnonceById(id){
     throw new Error(`Erreur lors de la supprission de l'annonce id ${id}`);
   }
 }
+
+// Fonction pour scrapper une annonce leboncoin
+export async function scrap(url){
+  const response = await fetch(`${API_URL}/scraper`, {
+    method: 'POST',
+    headers: { "Content-type": "application/json" },
+    credentials: 'include',  // Permet d'inclure les cookies (session) dans la requête
+    body: JSON.stringify(url)
+  });
+
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error(`Erreur lors du fetch de l'annonce`);
+  }
+}

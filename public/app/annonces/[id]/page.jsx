@@ -115,7 +115,7 @@ export default function AnnoncePage() {
               <CardContent className="p-4 flex flex-col items-center justify-center text-center">
                 <Home className="h-8 w-8 text-primary mb-2" />
                 <p className="text-sm text-muted-foreground">Type de bien</p>
-                <p className="font-bold text-xl">{annonce.type}</p>
+                <p className="font-bold text-xl">{annonce.typedebien}</p>
               </CardContent>
             </Card>
           </div>
@@ -164,7 +164,7 @@ export default function AnnoncePage() {
         
           {/* Bouton supprimer */}
           <div className="grid md:grid-cols-3 gap-4">
-            <Button onClick={handleDeleteButton} variant="destructive" size="sm" className="flex items-center gap-2 col-start-3">
+            <Button onClick={handleDeleteButton} variant="destructive" size="sm" className="flex items-center gap-2 col-start-3 cursor-pointer">
               <Trash2 className="h-4 w-4" />
               <span>Supprimer</span>
             </Button>
