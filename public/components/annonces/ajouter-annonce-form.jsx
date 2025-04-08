@@ -109,9 +109,9 @@ export function AjouterAnnonceForm({ onSubmit, isSubmitting = false }) {
 
             {/* Type de bien */}
             <div className="space-y-2">
-              <Label htmlFor="typedebien">Type de bien*</Label>
-              <Select onValueChange={(value) => handleSelectChange("typedebien", value)} value={formData.typedebien}>
-                <SelectTrigger id="typedebien">
+              <Label htmlFor="type">Type de bien*</Label>
+              <Select onValueChange={(value) => handleSelectChange("type", value)} value={formData.type}>
+                <SelectTrigger id="type">
                   <SelectValue placeholder="Sélectionnez un type de bien" />
                 </SelectTrigger>
                 <SelectContent>
@@ -239,7 +239,7 @@ export function AjouterAnnonceForm({ onSubmit, isSubmitting = false }) {
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
+          <Button type="submit" className="w-full cursor-pointer" disabled={isSubmitting}>
             {isSubmitting ? "Envoi en cours..." : "Ajouter l'annonce"}
           </Button>
         </form>

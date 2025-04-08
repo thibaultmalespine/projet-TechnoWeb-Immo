@@ -1,5 +1,5 @@
 
-import { Button } from "@heroui/button"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
-import { Input } from "@heroui/input"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 
@@ -42,12 +42,6 @@ export function LoginForm({
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Mot de passe</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Mot de passe oublié ?
-                  </a>
                 </div>
                 <Input id="password" type="password" required />
               </div>

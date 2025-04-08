@@ -1,6 +1,7 @@
 "use client"
 
 import { AjouterAnnonceForm } from "@/components/annonces/ajouter-annonce-form";
+import ScraperButton from "@/components/ScraperButton";
 import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -29,7 +30,11 @@ export default function AjouterAnnoncePage() {
   }
   return (
     <div className="container mx-10 py-4 size-auto">
+      <div className="flex justify-between">
+
         <h1 className="text-2xl font-bold mb-6 m-4">Ajouter une nouvelle annonce</h1>   
+        <ScraperButton/>
+      </div>
         <AjouterAnnonceForm onSubmit={postAnnonces}/>
     </div>
   )
