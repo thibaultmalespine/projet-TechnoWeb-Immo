@@ -45,6 +45,21 @@ export async function deleteAnnonceById(id){
   }
 }
 
+// Fonction pour récupérer un compte client
+export async function getCompte() {
+  const response = await fetch(`${API_URL}/compte`, {
+    method: 'GET',
+    headers: { "Content-type": "application/json" },
+    credentials: 'include',  // Permet d'inclure les cookies (session) dans la requête
+  });
+
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error('Erreur lors de la récupération des annonces');
+  }
+}
+
 // Fonction pour scrapper une annonce leboncoin
 export async function scrap(url){
   const response = await fetch(`${API_URL}/scraper`, {

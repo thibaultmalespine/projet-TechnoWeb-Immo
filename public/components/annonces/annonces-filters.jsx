@@ -76,8 +76,8 @@ export function AnnoncesFilters({ onFilterChange }) {
 
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="gap-2 cursor-pointer">
-                <SlidersHorizontal className="h-4 w-4" />
+              <Button variant="outline" className="gap-2 cursor-pointer border-1 border-solid">
+                <SlidersHorizontal className="h-4 w-4 " />
                 Filtres
               </Button>
             </PopoverTrigger>
