@@ -25,7 +25,7 @@ DO:
 - Utilisation de Supertest pour les tests end to end
 - Tester le 401 (dans le test de la route post /compte/login)
 - Tester le 403 (dans le test de la route get:id /annonce/:id)  
-- Middleware de gestion d'erreur)
+- Middleware de gestion d'erreur
 
 TO DO:
 Thibault

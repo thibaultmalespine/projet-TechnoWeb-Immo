@@ -4,12 +4,12 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { deleteAnnonceById, getAnnonceById } from "@/lib/api"
-import { ArrowLeft, Car, Euro, Home, MapPin, Maximize2, PocketIcon as Pool, Ruler, Sofa, Trash2 } from "lucide-react"
+import { ArrowLeft, Car, Euro, Home, MapPin, Maximize2, WavesLadder, Ruler, Sofa, Trash2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound, useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
-import Loading from "../loading"
+import Loading from "../../loading"
 
 
 export default function AnnoncePage() {
@@ -146,7 +146,7 @@ export default function AnnoncePage() {
 
               <div className="flex items-center gap-2">
                 <Badge variant={annonce.piscine ? "default" : "outline"} className="h-8">
-                  <Pool className="h-4 w-4 mr-2" />
+                  <WavesLadder className="h-4 w-4 mr-2" />
                   Piscine
                 </Badge>
                 <span>{annonce.piscine ? "Oui" : "Non"}</span>

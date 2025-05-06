@@ -1,6 +1,22 @@
 import bcrypt from 'bcryptjs';
 import Compte from '../modeles/modeleCompteClient.js';
 
+
+// Contrôleur pour récupérer un compte
+export const getCompte = async (req, res) => {
+  const email = req.session.email;
+  try {
+    const compteClient = await Compte.get({email});
+    if (!compteClient) {
+      return res.status(404).send('Email incorrect');
+    } 
+    res.status(200).send(compteClient);
+  } catch (err) {
+    console.error("Erreur lors de la récupération du compte :", err);
+    res.status(500).send("Erreur lors de la récupération du compte");
+  }
+}
+
 // Contrôleur pour authentifier un compte
 export const login = async (req, res) => {
   const {motdepasse} = req.body;
@@ -19,8 +35,8 @@ export const login = async (req, res) => {
     compteClient.motdepasse = motdepasse;
     res.status(200).send(compteClient);
   } catch (err) {
-    console.error("Erreur lors de la récupération du compte :", err);
-    res.status(500).send("Erreur lors de la récupération du compte");
+    console.error("Erreur lors du login à un compte :", err);
+    res.status(500).send("Erreur lors du login à un compte");
   }
 };
 

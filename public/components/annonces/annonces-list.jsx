@@ -118,7 +118,7 @@ export function AnnoncesList({ annonces: initialAnnonces }) {
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Trier par:</span>
           <Select value={sortOption} onValueChange={handleSortChange}>
-            <SelectTrigger className="w-[180px] cursor-pointer" >
+            <SelectTrigger className="w-[180px] cursor-pointer " >
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

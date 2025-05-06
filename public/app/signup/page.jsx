@@ -12,15 +12,15 @@ export default function SignUpPage() {
     const response = await fetch(`${API_URL}/compte`, {
       method : 'POST',
       headers : {
-          'Content-type' : 'application/json'
+        'Content-type' : 'application/json'
       },
       body : JSON.stringify(userData),
     });
     
     if (response.status === 201) {
-        document.location.href = '/annonces'
+      document.location.href = '/annonces'
     } else if(response.status === 500) {
-        alert("erreur du serveur, veuillez réessayer plus tard")
+      alert("erreur du serveur, veuillez réessayer plus tard")
     }
 }
 

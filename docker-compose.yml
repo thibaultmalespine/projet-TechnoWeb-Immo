@@ -12,7 +12,7 @@ services:
       - ./Bdd/insert_villes.sql:/docker-entrypoint-initdb.d/02-insert_villes.sql
       - ./Bdd/insert_comptes_et_annonces.sql:/docker-entrypoint-initdb.d/03-insert_comptes_et_annonces.sql
     ports:
-      - "5433:5432"  # Port 5433 sur l'hôte, 5432 dans le conteneur
+      - "5432:5432"  # Port 5433 sur l'hôte, 5432 dans le conteneur
   api:
     build: .  # Utilise le Dockerfile
     depends_on:
