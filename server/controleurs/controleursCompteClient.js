@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import Compte from '../modeles/modeleCompteClient.js';
+import { getAnnonceByAccount } from './controleursAnnonce.js';
 
 
 // Contrôleur pour récupérer un compte
@@ -15,7 +16,7 @@ export const getCompte = async (req, res) => {
     console.error("Erreur lors de la récupération du compte :", err);
     res.status(500).send("Erreur lors de la récupération du compte");
   }
-}
+};
 
 // Contrôleur pour authentifier un compte
 export const login = async (req, res) => {
@@ -28,7 +29,7 @@ export const login = async (req, res) => {
     //première condition pour utiliser des données de test, à supprimer part la suite
     if (motdepasse != "hashed_password1" && motdepasse != "hashed_password2" && motdepasse != "hashed_password3"){
       if (! await bcrypt.compare(motdepasse, compteClient.motdepasse)) {
-        return res.status(404).send('Mot de passe incorrect teminator');
+        return res.status(404).send('Mot de passe incorrect');
       } 
     }   
     req.session.email = req.body.email;
@@ -70,7 +71,6 @@ export const updateCompte = async (req, res) => {
       return res.status(404).send('Compte non trouvé');
     }
     console.log('Compte mis à jour');
-    req.session.email = req.body.email; // on change l'email stocké dans l'objet request par la nouvelle email
     compteModifié.motdepasse = req.body.motdepasse;
     res.status(200).send(compteModifié);
   } catch (err) {
