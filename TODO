@@ -1,7 +1,7 @@
 !! Front avec Next.js (React + TailwindCSS) !!
 
 Fonctionnalités ?
-- Afficher les informations du compte
+- Afficher les informations du compte --> bouton de déconnexion à gérer
 - Formulaire pour ajouter une annonce
 - Saisie automatique du code postal + ville
 - Voir la localisation des annonces sur une carte

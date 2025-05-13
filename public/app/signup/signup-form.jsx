@@ -97,7 +97,7 @@ export function SignUpForm({ className, onSignUp, ...props }) {
             </div>
             <div className="mt-4 text-center text-sm">
               Vous avez déjà un compte ?{" "}
-              <a href="login" className="underline underline-offset-4">
+              <a href="/" className="underline underline-offset-4">
                 Connectez-vous
               </a>
             </div>

@@ -14,10 +14,10 @@ const Compte = {
     return result.rows[0];
   },
   update: async (data) => {
-    const {idCompte, nom, prenom, email, motdepasse} = data;
+    const {idCompte, nom, prenom, motdepasse} = data;
     const mot_de_passe_crypté = await bcrypt.hash(motdepasse, 10);
-    const result = await client.query('UPDATE Compte SET Nom = $1, Prenom = $2, Email = $3, motdepasse = $4 WHERE idCompte = $5 RETURNING *', 
-                                      [nom, prenom, email, mot_de_passe_crypté, idCompte]);
+    const result = await client.query('UPDATE Compte SET Nom = $1, Prenom = $2, motdepasse = $3 WHERE idCompte = $4 RETURNING *', 
+                                      [nom, prenom, mot_de_passe_crypté, idCompte]);
     return result.rows[0];
   },
   delete: async (idCompte) => {

@@ -1,6 +1,6 @@
 "use client"
 
-import { SignUpForm } from "@/components/signup-form";
+import { SignUpForm } from "./signup-form";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 

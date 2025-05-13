@@ -60,6 +60,23 @@ export async function getCompte() {
   }
 }
 
+// Fonction pour modifier un compte client
+export async function updateCompte(id, data) {
+  const response = await fetch(`${API_URL}/compte/${id}`, {
+    method: 'PUT',
+    headers: { "Content-type": "application/json" },
+    credentials: 'include',  // Permet d'inclure les cookies (session) dans la requête
+    body: JSON.stringify(data)
+
+  });
+
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error('Une erreur est survenue lors de la mise à jour du compte');
+  }
+}
+
 // Fonction pour scrapper une annonce leboncoin
 export async function scrap(url){
   const response = await fetch(`${API_URL}/scraper`, {

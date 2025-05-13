@@ -81,7 +81,7 @@ export function AnnoncesFilters({ onFilterChange }) {
                 Filtres
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80">
+            <PopoverContent className="w-80 border-1 border-solid">
               <div className="grid gap-4">
                 <div className="space-y-4">
                   <h4 className="font-medium text-lg">Prix</h4>
@@ -138,7 +138,7 @@ export function AnnoncesFilters({ onFilterChange }) {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="garage">Garage</Label>
-                      <Switch className="cursor-pointer"
+                      <Switch className="cursor-pointer "
                         id="garage"
                         checked={filters.garage}
                         onCheckedChange={(checked) => handleFilterChange("garage", checked)}
