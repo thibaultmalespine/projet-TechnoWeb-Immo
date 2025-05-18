@@ -1,14 +1,13 @@
 import bcrypt from 'bcryptjs';
 import Compte from '../modeles/modeleCompteClient.js';
-import { getAnnonceByAccount } from './controleursAnnonce.js';
 
 
 // Contrôleur pour récupérer un compte
 export const getCompte = async (req, res) => {
-  const email = req.session.email;
   try {
-    const compteClient = await Compte.get({email});
+    const compteClient = await Compte.get({"email" : req.session.email});
     if (!compteClient) {
+      console.log("email incorrect");
       return res.status(404).send('Email incorrect');
     } 
     res.status(200).send(compteClient);

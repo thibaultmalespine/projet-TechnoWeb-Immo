@@ -6,7 +6,7 @@ export const client = new Client({
   user: process.env.DB_USER || 'userpostgres',
   password: process.env.DB_PASSWORD || 'userpostgres',
   database: process.env.DB_NAME || 'userpostgres',
-  port: process.env.DB_PORT || 5433,
+  port: process.env.DB_PORT || 5432,
 })
 
 

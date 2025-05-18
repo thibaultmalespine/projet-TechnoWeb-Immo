@@ -31,6 +31,9 @@ app.use(session({ // Middleware pour utiliser l'objet session, ce qui permet de 
   secret: 'mysecret',
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    httpOnly: false
+  }
 })); 
 app.use((req, res, next) => { // Vérifie que l'utilisateur est connecté pour l'accès aux pages html, renvoie un 401 acces denied sinon
   // Autoriser l'accès aux pages nécessaires à l'authentification et à la création de compte
