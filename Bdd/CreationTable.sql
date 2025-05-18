@@ -31,7 +31,7 @@ CREATE TABLE Annonce (
     TypeDeBien VARCHAR(50),
     M2Habitable INT,
     M2Terrains INT,
-    Prix DECIMAL(15, 2),
+    Prix INT,
     ParticulierPro VARCHAR CHECK (ParticulierPro IN ('Particulier', 'Professionnel')),
     Garage BOOLEAN,
     Piscine BOOLEAN,
