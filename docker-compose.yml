@@ -9,8 +9,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data 
       - ./Bdd/CreationTable.sql:/docker-entrypoint-initdb.d/01-CreationTable.sql
-      - ./Bdd/insert_comptes_et_annonces.sql:/docker-entrypoint-initdb.d/02-insert_comptes_et_annonces.sql
-      - ./Bdd/insert_villes.sql:/docker-entrypoint-initdb.d/03-insert_villes.sql
+      - ./Bdd/insert_villes.sql:/docker-entrypoint-initdb.d/02-insert_villes.sql
+      - ./Bdd/insert_comptes_et_annonces.sql:/docker-entrypoint-initdb.d/03-insert_comptes_et_annonces.sql
     ports:
       - "5432:5432"  # Port 5433 sur l'hôte, 5432 dans le conteneur
   api:
