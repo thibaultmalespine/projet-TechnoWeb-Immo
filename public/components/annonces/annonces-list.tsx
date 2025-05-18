@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Annonce } from "@/lib/services/annoncesServices";
-import { AlertCircle, Plus } from "lucide-react";
+import { AlertCircle, MapPin, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnnonceCard } from "./annonce-card";
@@ -117,9 +117,12 @@ export function AnnoncesList({ annonces: initialAnnonces }: AnnoncesListProps) {
             {filteredAnnonces.length !== 1 ? "s" : ""}
           </h2>
 
-          <Button onClick={handleAddAnnonce} className="bg-primary hover:bg-primary/90 cursor-pointer">
-            <Plus className="mr-2 h-4 w-4" /> Ajouter une annonce
-          </Button>
+            <Button onClick={handleAddAnnonce} className="bg-primary hover:bg-primary/90 cursor-pointer">
+              <Plus className="mr-2 h-4 w-4" /> Ajouter une annonce
+            </Button>
+            <Button onClick={() => router.push('/map')} className="bg-primary hover:bg-primary/90 cursor-pointer">
+              <MapPin className="mr-2 h-4 w-4" /> Voir sur la map
+            </Button>
         </div>
 
         <div className="flex items-center gap-2">

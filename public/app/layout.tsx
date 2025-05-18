@@ -1,5 +1,7 @@
+import { GoogleMapsProvider } from "@/lib/context/GoogleMapsContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,12 +24,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Utiliser la clé API de l'environnement ou une valeur par défaut
+  const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "REMOVED";
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <GoogleMapsProvider apiKey={googleMapsApiKey}>
+          <Toaster position="bottom-right" />
+          {children}
+        </GoogleMapsProvider>
       </body>
     </html>
   );
