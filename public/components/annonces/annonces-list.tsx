@@ -32,6 +32,7 @@ export function AnnoncesList({ annonces: initialAnnonces }: AnnoncesListProps) {
     prixMin?: number;
     prixMax?: number;
     surfaceMin?: number;
+    surfaceMax?: number;
   }) => {
     let filtered = [...annonces];
 
@@ -59,6 +60,10 @@ export function AnnoncesList({ annonces: initialAnnonces }: AnnoncesListProps) {
 
     if (filters.surfaceMin !== undefined && filters.surfaceMin > 0) {
       filtered = filtered.filter((annonce) => (annonce.m2habitable ?? 0) >= filters.surfaceMin!);
+    }
+
+    if (filters.surfaceMax !== undefined && filters.surfaceMax > 0) {
+      filtered = filtered.filter((annonce) => (annonce.m2habitable ?? 0) <= filters.surfaceMax!);
     }
 
     if (filters.particulierpro) {
@@ -90,6 +95,9 @@ export function AnnoncesList({ annonces: initialAnnonces }: AnnoncesListProps) {
         break;
       case "prixDesc":
         sorted.sort((a, b) => (b.prix ?? 0) - (a.prix ?? 0));
+        break;
+      case "surfaceAsc":
+        sorted.sort((a, b) => (a.m2habitable ?? 0) - (b.m2habitable ?? 0));
         break;
       case "surfaceDesc":
         sorted.sort((a, b) => (b.m2habitable ?? 0) - (a.m2habitable ?? 0));
@@ -135,6 +143,7 @@ export function AnnoncesList({ annonces: initialAnnonces }: AnnoncesListProps) {
               <SelectItem value="recent">Plus récentes</SelectItem>
               <SelectItem value="prixAsc">Prix croissant</SelectItem>
               <SelectItem value="prixDesc">Prix décroissant</SelectItem>
+              <SelectItem value="surfaceAsc">Surface croissante</SelectItem>
               <SelectItem value="surfaceDesc">Surface décroissante</SelectItem>
             </SelectContent>
           </Select>

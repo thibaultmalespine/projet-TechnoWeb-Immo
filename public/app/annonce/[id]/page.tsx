@@ -21,7 +21,7 @@ import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
-export default function AnnoncePage({ params }: { params: { id: string } }) {
+export default function AnnoncePage() {
   const router = useRouter()
   const [annonce, setAnnonce] = useState<Annonce | null>(null)
   const [loading, setLoading] = useState(true)
@@ -50,7 +50,10 @@ export default function AnnoncePage({ params }: { params: { id: string } }) {
 
   const handleDelete = async () => {
     try {
-      await deleteAnnonce(params.id)
+      if(id){
+        await deleteAnnonce(id?.toString())
+      }
+      
       router.push("/annonce")
     } catch (err) {
       setError((err as Error).message || "Erreur lors de la suppression")
@@ -111,7 +114,7 @@ export default function AnnoncePage({ params }: { params: { id: string } }) {
         <CardHeader className="flex flex-row justify-between items-center">
           <CardTitle className="text-2xl">{annonce.nomannonce}</CardTitle>
           <div className="space-x-2">
-            <Button variant="outline" size="icon" onClick={() => router.push(`/annonce/${params.id}/edit`)}>
+            <Button variant="outline" size="icon" onClick={() => router.push(`/annonce/${id}/edit`)}>
               <Edit className="h-4 w-4" />
             </Button>
             <Button variant="destructive" size="icon" onClick={() => setConfirmDelete(true)}>

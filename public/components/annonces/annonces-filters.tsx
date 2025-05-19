@@ -12,7 +12,7 @@ import { Search, SlidersHorizontal } from "lucide-react"
 import { useState } from "react"
 
 type AnnoncesFiltersProps = {
-  onFilterChange: (filters: Partial<Annonce> & { search?: string; prixMin?: number; prixMax?: number; surfaceMin?: number }) => void
+  onFilterChange: (filters: Partial<Annonce> & { search?: string; prixMin?: number; prixMax?: number; surfaceMin?: number; surfaceMax?: number }) => void
 }
 
 export function AnnoncesFilters({ onFilterChange }: AnnoncesFiltersProps) {
@@ -22,6 +22,7 @@ export function AnnoncesFilters({ onFilterChange }: AnnoncesFiltersProps) {
     prixMin: 0,
     prixMax: 1000000,
     surfaceMin: 0,
+    surfaceMax: 1000,
     particulierpro: "",
     garage: false,
     piscine: false,
@@ -41,6 +42,7 @@ export function AnnoncesFilters({ onFilterChange }: AnnoncesFiltersProps) {
       prixMin: 0,
       prixMax: 1000000,
       surfaceMin: 0,
+      surfaceMax: 1000,
       particulierpro: "",
       garage: false,
       piscine: false,
@@ -113,12 +115,27 @@ export function AnnoncesFilters({ onFilterChange }: AnnoncesFiltersProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="font-medium">Surface minimale (m²)</h4>
-                  <Input
-                    type="number"
-                    value={String(Number(filters.surfaceMin))}
-                    onChange={(e) => handleFilterChange("surfaceMin", Number(e.target.value) || 0)}
-                  />
+                  <h4 className="font-medium">Surface (m²)</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="surfaceMin">Min</Label>
+                      <Input
+                        id="surfaceMin"
+                        type="number"
+                        value={String(Number(filters.surfaceMin))}
+                        onChange={(e) => handleFilterChange("surfaceMin", Number(e.target.value) || 0)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="surfaceMax">Max</Label>
+                      <Input
+                        id="surfaceMax"
+                        type="number"
+                        value={String(Number(filters.surfaceMax))}
+                        onChange={(e) => handleFilterChange("surfaceMax", Number(e.target.value) || 0)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">

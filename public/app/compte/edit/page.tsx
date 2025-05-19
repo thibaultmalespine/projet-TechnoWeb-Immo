@@ -22,6 +22,7 @@ export default function EditComptePage() {
     email: "",
     motdepasse: "",
   })
+  const [confirmMotdepasse, setConfirmMotdepasse] = useState("")
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
 
   // Récupérer les données du compte
@@ -53,10 +54,15 @@ export default function EditComptePage() {
   // Gérer les changements dans les champs du formulaire
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setCompte((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+
+    if (name === "confirmMotdepasse") {
+      setConfirmMotdepasse(value)
+    } else {
+      setCompte((prev) => ({
+        ...prev,
+        [name]: value,
+      }))
+    }
 
     // Effacer l'erreur pour ce champ lorsqu'il est modifié
     if (formErrors[name]) {
@@ -80,8 +86,8 @@ export default function EditComptePage() {
       errors.nom = "Le nom doit contenir au moins 2 caractères"
     }
 
-    if (compte.motdepasse && compte.motdepasse.length < 6) {
-      errors.motdepasse = "Le mot de passe doit contenir au moins 6 caractères"
+    if (compte.motdepasse && compte.motdepasse !== confirmMotdepasse) {
+      errors.confirmMotdepasse = "Les mots de passe ne correspondent pas"
     }
 
     setFormErrors(errors)
@@ -179,8 +185,27 @@ export default function EditComptePage() {
                 disabled={isLoading}
               />
               {formErrors.motdepasse && <p className="text-sm font-medium text-destructive">{formErrors.motdepasse}</p>}
-              <p className="text-sm text-muted-foreground pb-5">
+              <p className="text-sm text-muted-foreground">
                 Laissez ce champ vide si vous ne souhaitez pas modifier le mot de passe.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="confirmMotdepasse">Confirmer le mot de passe</Label>
+              <Input
+                id="confirmMotdepasse"
+                name="confirmMotdepasse"
+                type="password"
+                placeholder="Confirmez votre nouveau mot de passe"
+                value={confirmMotdepasse}
+                onChange={handleChange}
+                disabled={isLoading || !compte.motdepasse}
+              />
+              {formErrors.confirmMotdepasse && (
+                <p className="text-sm font-medium text-destructive">{formErrors.confirmMotdepasse}</p>
+              )}
+              <p className="text-sm text-muted-foreground pb-5">
+                Veuillez confirmer votre nouveau mot de passe.
               </p>
             </div>
           </CardContent>

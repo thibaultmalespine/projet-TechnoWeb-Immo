@@ -417,7 +417,7 @@ const MapPage = () => {
                                         variant="outline"
                                         size="sm"
                                         className="mt-2 w-full"
-                                        onClick={() => router.push(`${selectedAnnonce.urloriginale}`)}
+                                        onClick={() => router.push(`/annonce/${selectedAnnonce.idannonce}`)}
                                     >
                                         Voir l&apos;annonce
                                     </Button>
