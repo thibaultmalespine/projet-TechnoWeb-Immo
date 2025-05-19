@@ -1,12 +1,10 @@
-!! Front avec Next.js (React + TailwindCSS) !!
-
-Fonctionnalités ?
-- Afficher les informations du compte --> bouton de déconnexion à gérer
-- Formulaire pour ajouter une annonce
-- Saisie automatique du code postal + ville
-- Voir la localisation des annonces sur une carte
+- image sur les annonces
+- bouton pour partager les annonces
 
 DO:
+- Formulaire pour ajouter une annonce
+- Voir la localisation des annonces sur une carte
+- Afficher les informations du compte + bouton de déconnexion
 - Afficher les annonces liées aux comptes 
 - Page d'accueil pour ajouter une annonce et se connecter
 - Ajouter une annonce à la BDD via le formulaire
@@ -33,8 +31,3 @@ Thibault
 Armand
 
 
-Plus tard
-- Créer une page pour afficher les informations d'un compte 
-- Ajouter un moteur de template au projet pour afficher les annonces partagées ? NON
-- Selectionner automatiquement la ville lors de la saisie 
-- Front: faire fissure

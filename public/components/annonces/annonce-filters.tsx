@@ -14,7 +14,7 @@ import { useState } from "react"
 type VendeurType = "Particulier" | "Professionnel";
 
 type AnnonceFiltersProps = {
-  onFilterChange: (filters: Partial<Annonce> & { search?: string; prixMin?: number; prixMax?: number; surfaceMin?: number }) => void
+  onFilterChange: (filters: Partial<Annonce> & { search?: string; prixMin?: number; prixMax?: number; surfaceMin?: number; surfaceMax?: number }) => void
 }
 
 export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
@@ -24,6 +24,7 @@ export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
     prixMin: 0,
     prixMax: 1000000,
     surfaceMin: 0,
+    surfaceMax: 0,
     particulierpro: undefined as VendeurType | undefined,
     garage: false,
     piscine: false,
@@ -50,6 +51,7 @@ export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
       prixMin: 0,
       prixMax: 1000000,
       surfaceMin: 0,
+      surfaceMax:0,
       particulierpro: undefined,
       garage: false,
       piscine: false,
@@ -121,17 +123,32 @@ export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <h4 className="font-medium">Surface minimale (m²)</h4>
-                  <Input
-                    type="number"
-                    value={String(Number(filters.surfaceMin))}
-                    onChange={(e) => handleFilterChange("surfaceMin", Number(e.target.value) || 0)}
-                  />
+                <div className="space-y-4">
+                  <h4 className="font-medium text-lg">Surface (m²)</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="surfaceMin">Min</Label>
+                      <Input
+                        id="surfaceMin"
+                        type="number"
+                        value={String(Number(filters.surfaceMin))}
+                        onChange={(e) => handleFilterChange("surfaceMin", Number(e.target.value) || 0)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="surfaceMax">Max</Label>
+                      <Input
+                        id="surfaceMax"
+                        type="number"
+                        value={String(Number(filters.surfaceMax))}
+                        onChange={(e) => handleFilterChange("surfaceMax", Number(e.target.value) || 0)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="font-medium">Vendeur</h4>
+                  <h4 className="font-medium text-lg">Vendeur</h4>
                   <Select
                     value={filters.particulierpro ?? "Tous"}
                     onValueChange={(value) => handleFilterChange("particulierpro", value)}
@@ -148,7 +165,7 @@ export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="font-medium">Caractéristiques</h4>
+                  <h4 className="font-medium text-lg">Caractéristiques</h4>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="garage">Garage</Label>

@@ -46,6 +46,9 @@ export function AnnonceList({ annonces: initialAnnonces }: AnnoncesListProps) {
       piscine: filters.piscine,
       meuble: filters.meuble,
     });
+    
+    // Apply current sort option after filtering
+    filtered = sortAnnonces(filtered, sortOption);
 
     setFilteredAnnonces(filtered);
   };
