@@ -28,7 +28,7 @@ import { validateImageFile } from "@/lib/utils";
 import { AlertCircle, ArrowLeft, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const typeBiens = [
@@ -46,6 +46,25 @@ export default function CreateAnnoncePage() {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [dragActive, setDragActive] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [authError, setAuthError] = useState<boolean>(false);
+
+  // Check for authentication cookie
+  const checkAuthentication = () => {
+    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+    const hasAuthCookie = cookies.some((cookie) =>
+      cookie.startsWith("connect.sid=")
+    );
+    if (!hasAuthCookie) {
+      setAuthError(true);
+      return false;
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    // Check authentication when component mounts
+    checkAuthentication();
+  }, []);
 
   const form = useForm<Annonce>({
     defaultValues: {
@@ -125,6 +144,10 @@ export default function CreateAnnoncePage() {
   };
 
   async function onSubmit(values: Annonce) {
+    if (!checkAuthentication()) {
+      return;
+    }
+
     setSubmitError(null);
     setLoading(true);
 
@@ -158,6 +181,21 @@ export default function CreateAnnoncePage() {
       <Card className="p-6">
         <h1 className="text-2xl font-bold mb-6">Créer une nouvelle annonce</h1>
 
+        {authError && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Erreur d&apos;authentification</AlertTitle>
+            <AlertDescription>
+              Vous devez être connecté pour créer une annonce.
+              <div className="mt-2">
+                <Button size="sm" onClick={() => router.push("/")}>
+                  Se connecter
+                </Button>
+              </div>
+            </AlertDescription>
+          </Alert>
+        )}
+
         {submitError && (
           <Alert variant="destructive" className="mb-6">
             <AlertCircle className="h-4 w-4" />
@@ -166,352 +204,362 @@ export default function CreateAnnoncePage() {
           </Alert>
         )}
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
-                name="nomannonce"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Titre de l&apos;annonce *</FormLabel>
-                    <FormControl>
-                      <Input
-                        required
-                        placeholder="Ex: Bel appartement avec vue"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="typedebien"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Type de bien</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+        {!authError && (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="nomannonce"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Titre de l&apos;annonce *</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Sélectionnez un type de bien" />
-                        </SelectTrigger>
+                        <Input
+                          required
+                          placeholder="Ex: Bel appartement avec vue"
+                          {...field}
+                        />
                       </FormControl>
-                      <SelectContent>
-                        {typeBiens.map((type) => (
-                          <SelectItem key={type} value={type}>
-                            {type}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="descriptionbien"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Décrivez votre bien..."
-                      className="resize-none"
-                      rows={5}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="space-y-4">
-              <FormLabel>Images du bien</FormLabel>
-
-              {uploadError && (
-                <Alert variant="destructive" className="mb-4">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{uploadError}</AlertDescription>
-                </Alert>
-              )}
-
-              <div
-                className={`border-2 border-dashed rounded-md p-6 text-center ${
-                  dragActive ? "border-primary bg-primary/10" : "border-gray-300"
-                }`}
-                onDragEnter={handleDrag}
-                onDragOver={handleDrag}
-                onDragLeave={handleDrag}
-                onDrop={handleDrop}
-              >
-                <div className="flex flex-col items-center justify-center space-y-2">
-                  <Upload className="h-8 w-8 text-gray-500" />
-                  <p className="text-sm text-gray-600">
-                    Glissez et déposez vos images ici ou
-                  </p>
-                  <label className="cursor-pointer text-sm text-primary hover:text-primary/80">
-                    Parcourir vos fichiers
-                    <input
-                      type="file"
-                      className="hidden"
-                      accept="image/jpeg,image/png,image/gif,image/webp"
-                      multiple
-                      onChange={handleFileChange}
-                    />
-                  </label>
-                  <p className="text-xs text-gray-500">
-                    JPG, PNG, GIF, WEBP (max 5MB)
-                  </p>
-                </div>
+                <FormField
+                  control={form.control}
+                  name="typedebien"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type de bien</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionnez un type de bien" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {typeBiens.map((type) => (
+                            <SelectItem key={type} value={type}>
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
-              {uploadedFiles.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-                  {uploadedFiles.map((file, index) => (
-                    <div key={index} className="relative group">
-                      <div className="aspect-square rounded-md overflow-hidden bg-gray-100 border">
-                        <div className="h-full w-full relative">
-                          <Image
-                            src={URL.createObjectURL(file)}
-                            alt={file.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeFile(index)}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                      <p className="text-xs mt-1 truncate">{file.name}</p>
-                    </div>
-                  ))}
+              <FormField
+                control={form.control}
+                name="descriptionbien"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Décrivez votre bien..."
+                        className="resize-none"
+                        rows={5}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="space-y-4">
+                <FormLabel>Images du bien</FormLabel>
+
+                {uploadError && (
+                  <Alert variant="destructive" className="mb-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>{uploadError}</AlertDescription>
+                  </Alert>
+                )}
+
+                <div
+                  className={`border-2 border-dashed rounded-md p-6 text-center ${
+                    dragActive
+                      ? "border-primary bg-primary/10"
+                      : "border-gray-300"
+                  }`}
+                  onDragEnter={handleDrag}
+                  onDragOver={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  <div className="flex flex-col items-center justify-center space-y-2">
+                    <Upload className="h-8 w-8 text-gray-500" />
+                    <p className="text-sm text-gray-600">
+                      Glissez et déposez vos images ici ou
+                    </p>
+                    <label className="cursor-pointer text-sm text-primary hover:text-primary/80">
+                      Parcourir vos fichiers
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/jpeg,image/png,image/gif,image/webp"
+                        multiple
+                        onChange={handleFileChange}
+                      />
+                    </label>
+                    <p className="text-xs text-gray-500">
+                      JPG, PNG, GIF, WEBP (max 5MB)
+                    </p>
+                  </div>
                 </div>
-              )}
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
-                name="nomville"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ville</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: Paris" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                {uploadedFiles.length > 0 && (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                    {uploadedFiles.map((file, index) => (
+                      <div key={index} className="relative group">
+                        <div className="aspect-square rounded-md overflow-hidden bg-gray-100 border">
+                          <div className="h-full w-full relative">
+                            <Image
+                              src={URL.createObjectURL(file)}
+                              alt={file.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeFile(index)}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                        <p className="text-xs mt-1 truncate">{file.name}</p>
+                      </div>
+                    ))}
+                  </div>
                 )}
-              />
+              </div>
 
-              <FormField
-                control={form.control}
-                name="codepostal"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Code postal</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: 75001" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="prix"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Prix (€)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Ex: 250000"
-                        {...field}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          field.onChange(value === "" ? undefined : Number(value));
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="particulierpro"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Type de vendeur</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="nomville"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Ville</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Sélectionnez le type de vendeur" />
-                        </SelectTrigger>
+                        <Input placeholder="Ex: Paris" {...field} />
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Particulier">Particulier</SelectItem>
-                        <SelectItem value="Professionnel">
-                          Professionnel
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="codepostal"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Code postal</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: 75001" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="prix"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Prix (€)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Ex: 250000"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(
+                              value === "" ? undefined : Number(value)
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="particulierpro"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type de vendeur</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionnez le type de vendeur" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Particulier">Particulier</SelectItem>
+                          <SelectItem value="Professionnel">
+                            Professionnel
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="m2habitable"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Surface habitable (m²)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Ex: 75"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(
+                              value === "" ? undefined : Number(value)
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="m2terrains"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Surface terrain (m²)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Ex: 500"
+                          {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(
+                              value === "" ? undefined : Number(value)
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <FormField
                 control={form.control}
-                name="m2habitable"
+                name="urloriginale"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Surface habitable (m²)</FormLabel>
+                    <FormLabel>URL originale</FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        placeholder="Ex: 75"
+                        type="url"
+                        placeholder="https://www.exemple.com/annonce"
                         {...field}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          field.onChange(value === "" ? undefined : Number(value));
-                        }}
                       />
                     </FormControl>
+                    <FormDescription>
+                      L&apos;URL d&apos;origine de l&apos;annonce si applicable
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="m2terrains"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Surface terrain (m²)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Ex: 500"
-                        {...field}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          field.onChange(value === "" ? undefined : Number(value));
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="meuble"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-2">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">Meublé</FormLabel>
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="urloriginale"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>URL originale</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="url"
-                      placeholder="https://www.exemple.com/annonce"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    L&apos;URL d&apos;origine de l&apos;annonce si applicable
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="garage"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-2">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">Garage</FormLabel>
+                    </FormItem>
+                  )}
+                />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <FormField
-                control={form.control}
-                name="meuble"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="font-normal">Meublé</FormLabel>
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="piscine"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-2">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">Piscine</FormLabel>
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-              <FormField
-                control={form.control}
-                name="garage"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="font-normal">Garage</FormLabel>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="piscine"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="font-normal">Piscine</FormLabel>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="flex justify-end space-x-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.back()}
-                disabled={loading}
-              >
-                Annuler
-              </Button>
-              <Button type="submit" disabled={loading}>
-                {loading ? "Création en cours..." : "Créer l'annonce"}
-              </Button>
-            </div>
-          </form>
-        </Form>
+              <div className="flex justify-end space-x-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => router.back()}
+                  disabled={loading}
+                >
+                  Annuler
+                </Button>
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Création en cours..." : "Créer l'annonce"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        )}
       </Card>
     </div>
   );

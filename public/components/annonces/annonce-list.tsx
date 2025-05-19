@@ -14,6 +14,7 @@ import { AnnonceListHeader } from "./annonce-list-header";
 
 interface AnnoncesListProps {
   annonces: Annonce[];
+  showHeader?: boolean;
 }
 
 type SortOption = "recent" | "prixAsc" | "prixDesc" | "surfaceAsc" | "surfaceDesc";
@@ -26,7 +27,7 @@ type AnnonceFiltersType = Partial<Annonce> & {
   surfaceMax?: number;
 };
 
-export function AnnonceList({ annonces: initialAnnonces }: AnnoncesListProps) {
+export function AnnonceList({ annonces: initialAnnonces, showHeader = true }: AnnoncesListProps) {
   const router = useRouter();
   const [annonces, setAnnonces] = useState<Annonce[]>(initialAnnonces || []);
   const [filteredAnnonces, setFilteredAnnonces] = useState<Annonce[]>(initialAnnonces || []);
@@ -182,16 +183,20 @@ export function AnnonceList({ annonces: initialAnnonces }: AnnoncesListProps) {
 
   return (
     <div className="relative">
-      <AnnonceListHeader
-        annonceCount={filteredAnnonces.length}
+      {showHeader && (
+        <AnnonceListHeader
+          annonceCount={filteredAnnonces.length}
+          onAddAnnonceClick={navigateToCreateAnnonce}
+          onShowMapClick={navigateToMap}
+          onShareClick={handleShareClick}
+        />
+      )}
+
+      <AnnonceFilters 
+        onFilterChange={handleFilterChange} 
         sortOption={sortOption}
         onSortChange={handleSortChange}
-        onAddAnnonceClick={navigateToCreateAnnonce}
-        onShowMapClick={navigateToMap}
-        onShareClick={handleShareClick}
       />
-
-      <AnnonceFilters onFilterChange={handleFilterChange} />
 
       <AnnonceContent annonces={filteredAnnonces} />
 

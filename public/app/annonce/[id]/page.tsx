@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { type Annonce, deleteAnnonce, getAnnonceByID } from "@/lib/services/annoncesServices"
 import { deleteMultipleImages } from "@/lib/services/uploadServices"
+import { formatPrice } from "@/lib/utils"
 import { AlertCircle, ArrowLeft, ChevronLeft, ChevronRight, Edit, Home, Trash } from "lucide-react"
 import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
@@ -212,9 +213,9 @@ export default function AnnoncePage() {
       </Button>
 
       <Card className="overflow-hidden">
-        <CardHeader className="flex flex-row justify-between items-center">
-          <CardTitle className="text-2xl">{annonce.nomannonce}</CardTitle>
-          <div className="space-x-2">
+        <CardHeader className="sm:flex flex-row justify-between items-center">
+          <CardTitle className="text-2xl flex-3/4">{annonce.nomannonce}</CardTitle>
+          <div className="space-x-2 flex-1/4 flex justify-end">
             <Button variant="outline" size="icon" onClick={() => router.push(`/annonce/${id}/edit`)}>
               <Edit className="h-4 w-4" />
             </Button>
@@ -233,7 +234,7 @@ export default function AnnoncePage() {
               <span className="text-lg font-medium">{annonce.typedebien || "Non spécifié"}</span>
             </div>
             <div className="text-2xl font-bold text-right">
-              {annonce.prix ? `${annonce.prix.toLocaleString()} €` : "Prix non spécifié"}
+              {annonce.prix ? `${formatPrice(annonce.prix)} €` : "Prix non spécifié"}
             </div>
           </div>
 

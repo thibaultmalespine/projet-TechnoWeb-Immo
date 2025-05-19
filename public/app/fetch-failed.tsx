@@ -1,46 +1,43 @@
 "use client";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler } from "react";
 
 export default function FetchFailed() {
   const router = useRouter();
 
-  const handleRedirect: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleRedirect = () => {
     router.push("/");
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-      <div className="text-center max-w-md">
-        <div className="mb-6">
-          <svg
-            className="mx-auto h-16 w-16 text-red-500"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 sm:px-6 md:px-8">
+      <Card className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-2xl shadow-lg">
+        <CardContent className="pt-4 sm:pt-6 text-center">
+          <Alert variant="destructive" className="mb-4 sm:mb-6">
+            <AlertCircle className="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-3 sm:mb-4" />
+            <AlertTitle className="block text-xl sm:text-2xl font-bold text-center">
+              Désolé, les données n&apos;ont pas pu être récupérées
+            </AlertTitle>
+            <AlertDescription className="w-full block text-center text-muted-foreground text-sm sm:text-base mt-2">
+              Vérifiez que vous êtes bien connecté à votre compte.
+            </AlertDescription>
+          </Alert>
+        </CardContent>
+        <CardFooter className="flex justify-center pb-4 sm:pb-6">
+          <Button 
+            onClick={handleRedirect} 
+            variant="default" 
+            size="lg"
+            className="w-full sm:w-auto"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-            />
-          </svg>
-        </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">
-          Désolé, les données n&apos;ont pas pu être récupérées
-        </h1>
-        <p className="text-gray-600 mb-8">
-          Vérifiez que vous êtes bien connecté à votre compte.
-        </p>
-        <button
-          onClick={handleRedirect}
-          className="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Page de connexion
-        </button>
-      </div>
+            Page de connexion
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

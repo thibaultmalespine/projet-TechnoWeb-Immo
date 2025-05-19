@@ -15,9 +15,11 @@ type VendeurType = "Particulier" | "Professionnel";
 
 type AnnonceFiltersProps = {
   onFilterChange: (filters: Partial<Annonce> & { search?: string; prixMin?: number; prixMax?: number; surfaceMin?: number; surfaceMax?: number }) => void
+  sortOption: string;
+  onSortChange: (value: string) => void;
 }
 
-export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
+export function AnnonceFilters({ onFilterChange, sortOption, onSortChange }: AnnonceFiltersProps) {
   const [filters, setFilters] = useState({
     search: "",
     typedebien: "",
@@ -63,7 +65,7 @@ export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
 
   return (
     <div className="mb-6 space-y-4">
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-grow">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
@@ -89,6 +91,22 @@ export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
               <SelectItem value="Local commercial">Local commercial</SelectItem>
             </SelectContent>
           </Select>
+
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground hidden sm:inline">Trier par:</span>
+            <Select value={sortOption} onValueChange={onSortChange}>
+              <SelectTrigger className="w-[180px] cursor-pointer">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="recent">Plus récentes</SelectItem>
+                <SelectItem value="prixAsc">Prix croissant</SelectItem>
+                <SelectItem value="prixDesc">Prix décroissant</SelectItem>
+                <SelectItem value="surfaceAsc">Surface croissante</SelectItem>
+                <SelectItem value="surfaceDesc">Surface décroissante</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
           <Popover>
             <PopoverTrigger asChild>

@@ -27,3 +27,29 @@ export async function generateShareLink(): Promise<string> {
     throw error;
   }
 }
+
+/**
+ * Fetch annonces using a share token
+ * @param token The share token to fetch annonces
+ * @returns Promise with the annonces data
+ */
+export async function getSharedAnnonce(token: string) {
+  try {
+    const response = await fetch(`${API_BASE}/share/${token}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error fetching shared annonces: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch shared annonces:', error);
+    throw error;
+  }
+}

@@ -21,7 +21,11 @@ dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 //Gestion du cross origin
 const corsOptions = {
-  origin: [`${process.env.CLIENT_URL}`, `${process.env.SERVER_URL}`], // Autorise uniquement ce domaine
+  origin: [ // Autorise uniquement ces domaines
+    `${process.env.CLIENT_URL}`, 
+    `${process.env.SERVER_URL}`,
+    "http://192.168.104.254:3000"
+  ], 
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
   credentials: true, // Autorise l’envoi des cookies
   allowedHeaders: ['Content-Type'],
