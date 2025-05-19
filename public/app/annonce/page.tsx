@@ -25,6 +25,7 @@ export default function AnnoncesPage() {
     const fetchAnnonces = async () => {
       try {
         const annoncesData = await getAnnoncesByAccount();
+        
         setAnnoncesState({
           data: annoncesData,
           isLoading: false,

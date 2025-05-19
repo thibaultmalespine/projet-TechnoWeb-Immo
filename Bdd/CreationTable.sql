@@ -1,45 +1,42 @@
 -- SUPPRIMER LES TABLES
-DROP TABLE IF EXISTS Compte CASCADE;
-DROP TABLE IF EXISTS Ville CASCADE;
-DROP TABLE IF EXISTS Annonce CASCADE;
-DROP TABLE IF EXISTS AnnoncesEnregistrees CASCADE;
+DROP TABLE IF EXISTS compte CASCADE;
+DROP TABLE IF EXISTS ville CASCADE;
+DROP TABLE IF EXISTS annonce CASCADE;
+DROP TABLE IF EXISTS annoncesenregistrees CASCADE;
 
 -- Table Compte
-CREATE TABLE Compte (
-    idCompte SERIAL PRIMARY KEY,
-    Nom VARCHAR(100),
-    Prenom VARCHAR(100),
-    Email VARCHAR(100) NOT NULL UNIQUE,
-    MotDePasse VARCHAR(255) NOT NULL
+CREATE TABLE compte (
+    idcompte SERIAL PRIMARY KEY,
+    nom VARCHAR(100),
+    prenom VARCHAR(100),
+    email VARCHAR(100) NOT NULL UNIQUE,
+    motdepasse VARCHAR(255) NOT NULL
 );
 
 -- Table Ville
-CREATE TABLE Ville (
-    CodePostal VARCHAR(5) NOT NULL,
-    NomVille VARCHAR(100) NOT NULL,
-    PRIMARY KEY (CodePostal, NomVille)
+CREATE TABLE ville (
+    codepostal VARCHAR(5) NOT NULL,
+    nomville VARCHAR(100) NOT NULL,
+    PRIMARY KEY (codepostal, nomville)
 );
-
 
 -- Table Annonce
-CREATE TABLE Annonce (
-    idAnnonce SERIAL PRIMARY KEY,
-    URLOriginale VARCHAR NOT NULL,
-    NomAnnonce VARCHAR NOT NULL,
-    CodePostal VARCHAR(5),  -- Correspond au Code Postal
-    NomVille VARCHAR(100),  -- Correspond au Nom de la Ville
-    TypeDeBien VARCHAR(50),
-    M2Habitable INT,
-    M2Terrains INT,
-    Prix INT,
-    ParticulierPro VARCHAR CHECK (ParticulierPro IN ('Particulier', 'Professionnel')),
-    Garage BOOLEAN,
-    Piscine BOOLEAN,
-    Meuble BOOLEAN,
-    LeCompte VARCHAR(100) NOT NULL REFERENCES Compte(email) ,
-    Description TEXT,
-    FOREIGN KEY (CodePostal, NomVille) REFERENCES Ville(CodePostal, NomVille)  -- Clé étrangère composée
+CREATE TABLE annonce (
+    idannonce SERIAL PRIMARY KEY,
+    urloriginale VARCHAR NOT NULL,
+    nomannonce VARCHAR NOT NULL,
+    codepostal VARCHAR(5),  -- Correspond au Code Postal
+    nomville VARCHAR(100),  -- Correspond au Nom de la Ville
+    typedebien VARCHAR(50),
+    m2habitable INT,
+    m2terrains INT,
+    prix INT,
+    particulierpro VARCHAR CHECK (particulierpro IN ('Particulier', 'Professionnel')),
+    garage BOOLEAN,
+    piscine BOOLEAN,
+    meuble BOOLEAN,
+    lecompte VARCHAR(100) NOT NULL REFERENCES compte(email),
+    descriptionbien TEXT,
+    cheminsimages TEXT[],
+    FOREIGN KEY (codepostal, nomville) REFERENCES ville(codepostal, nomville)  -- Clé étrangère composée
 );
-
-
-

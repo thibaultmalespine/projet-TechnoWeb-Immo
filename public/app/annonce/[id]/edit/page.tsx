@@ -152,11 +152,11 @@ export default function EditAnnoncePage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="descriptionbien">Description</Label>
                 <Textarea
-                  id="description"
-                  value={annonce.description || ""}
-                  onChange={(e) => handleChange("description", e.target.value)}
+                  id="descriptionbien"
+                  value={annonce.descriptionbien || ""}
+                  onChange={(e) => handleChange("descriptionbien", e.target.value)}
                   className="min-h-[120px]"
                 />
               </div>

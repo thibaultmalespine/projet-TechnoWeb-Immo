@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, Plus } from "lucide-react";
+import { MapPin, Plus, Share2 } from "lucide-react";
 
 interface AnnonceListHeaderProps {
   annonceCount: number;
@@ -8,6 +8,7 @@ interface AnnonceListHeaderProps {
   onSortChange: (value: string) => void;
   onAddAnnonceClick: () => void;
   onShowMapClick: () => void;
+  onShareClick: () => void;
 }
 
 export function AnnonceListHeader({
@@ -15,7 +16,8 @@ export function AnnonceListHeader({
   sortOption,
   onSortChange,
   onAddAnnonceClick,
-  onShowMapClick
+  onShowMapClick,
+  onShareClick
 }: AnnonceListHeaderProps) {
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
@@ -31,6 +33,10 @@ export function AnnonceListHeader({
         
         <Button onClick={onShowMapClick} className="bg-primary hover:bg-primary/90 cursor-pointer">
           <MapPin className="mr-2 h-4 w-4" /> Voir sur la map
+        </Button>
+
+        <Button onClick={onShareClick} className="bg-primary hover:bg-primary/90 cursor-pointer">
+          <Share2 className="mr-2 h-4 w-4" /> Partager les annonces
         </Button>
       </div>
 

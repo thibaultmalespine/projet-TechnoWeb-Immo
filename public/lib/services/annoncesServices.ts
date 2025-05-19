@@ -4,7 +4,7 @@ export type Annonce = {
   idannonce : string,
   nomannonce: string;
   urloriginale: string;
-  description?: string;
+  descriptionbien?: string;
   typedebien?: string;
   codepostal: string;
   nomville: string;
@@ -16,6 +16,7 @@ export type Annonce = {
   garage?: boolean;
   piscine?: boolean;
   lecompte: string;
+  cheminsimages?: string[]; 
 };
 
 export async function getAnnoncesByAccount() {

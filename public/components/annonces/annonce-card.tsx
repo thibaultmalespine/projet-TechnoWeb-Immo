@@ -25,12 +25,17 @@ import Link from "next/link"
 
 export function AnnonceCard({ annonce }: { annonce: Annonce }) {
   const formattedPrice = annonce.prix && formatPrice(annonce.prix)
+  
+  // Get image source - use first image from cheminsimages if available, otherwise use placeholder
+  const imageSrc = annonce.cheminsimages && annonce.cheminsimages.length > 0
+    ? `${annonce.cheminsimages[0]}`
+    : "/placeholder.svg?height=400&width=600";
 
   return (
     <Card className="overflow-hidden h-full flex flex-col">
       <div className="relative h-48 w-full">
         <Image
-          src={"/placeholder.svg?height=400&width=600"}
+          src={imageSrc}
           alt={annonce.nomannonce}
           fill
           className="object-cover"
@@ -98,8 +103,8 @@ export function AnnonceCard({ annonce }: { annonce: Annonce }) {
           )}
         </div>
 
-        {annonce.description && (
-          <p className="text-sm text-muted-foreground line-clamp-3">{annonce.description}</p>
+        {annonce.descriptionbien && (
+          <p className="text-sm text-muted-foreground line-clamp-3">{annonce.descriptionbien}</p>
         )}
       </CardContent>
 

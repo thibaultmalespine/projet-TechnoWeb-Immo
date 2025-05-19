@@ -16,7 +16,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { type Annonce, deleteAnnonce, getAnnonceByID } from "@/lib/services/annoncesServices"
-import { AlertCircle, ArrowLeft, Edit, Home, Trash } from "lucide-react"
+import { deleteMultipleImages } from "@/lib/services/uploadServices"
+import { AlertCircle, ArrowLeft, ChevronLeft, ChevronRight, Edit, Home, Trash } from "lucide-react"
 import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -27,6 +28,9 @@ export default function AnnoncePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  
+  // Carousel state
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   // Unwrap the promise here
   const { id } = useParams()
@@ -50,13 +54,110 @@ export default function AnnoncePage() {
 
   const handleDelete = async () => {
     try {
-      if(id){
-        await deleteAnnonce(id?.toString())
+      if(id && annonce){
+        // First delete all associated images if any
+        if (annonce.cheminsimages && annonce.cheminsimages.length > 0) {
+          await deleteMultipleImages(annonce.cheminsimages);
+        }
+        
+        // Then delete the annonce itself
+        await deleteAnnonce(id.toString());
       }
       
-      router.push("/annonce")
+      router.push("/annonce");
     } catch (err) {
-      setError((err as Error).message || "Erreur lors de la suppression")
+      setError((err as Error).message || "Erreur lors de la suppression");
+    }
+  }
+
+  // Carousel navigation
+  const nextSlide = () => {
+    if (annonce?.cheminsimages?.length) {
+      setCurrentSlide((prev) => 
+        prev === annonce.cheminsimages!.length - 1 ? 0 : prev + 1
+      )
+    }
+  }
+
+  const prevSlide = () => {
+    if (annonce?.cheminsimages?.length) {
+      setCurrentSlide((prev) => 
+        prev === 0 ? annonce.cheminsimages!.length - 1 : prev - 1
+      )
+    }
+  }
+
+  // Determine what to display - carousel, single image, or placeholder
+  const renderImageSection = () => {
+    if (annonce?.cheminsimages && annonce.cheminsimages.length > 1) {
+      // Render carousel for multiple images
+      return (
+        <div className="relative">
+          <Image
+            src={annonce.cheminsimages[currentSlide]}
+            alt={`Photo de ${annonce.nomannonce} (${currentSlide + 1}/${annonce.cheminsimages.length})`}
+            width={800}
+            height={400}
+            className="w-full h-64 object-cover"
+          />
+          
+          {/* Carousel Controls */}
+          <div className="absolute inset-0 flex justify-between items-center">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-10 w-10 rounded-full bg-black/30 text-white hover:bg-black/50"
+              onClick={prevSlide}
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </Button>
+            
+            <Button
+              variant="ghost" 
+              size="icon"
+              className="h-10 w-10 rounded-full bg-black/30 text-white hover:bg-black/50"
+              onClick={nextSlide}
+            >
+              <ChevronRight className="h-6 w-6" />
+            </Button>
+          </div>
+          
+          {/* Slide indicators */}
+          <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2">
+            {annonce.cheminsimages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-2 h-2 rounded-full ${
+                  index === currentSlide ? "bg-primary" : "bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      )
+    } else if (annonce?.cheminsimages && annonce.cheminsimages.length === 1) {
+      // Render single image
+      return (
+        <Image
+          src={annonce.cheminsimages[0]}
+          alt={`Photo de ${annonce.nomannonce}`}
+          width={800}
+          height={400}
+          className="w-full h-64 object-cover"
+        />
+      )
+    } else {
+      // Render placeholder
+      return (
+        <Image
+          src="/placeholder.svg"
+          alt={`Photo de ${annonce?.nomannonce || 'bien immobilier'}`}
+          width={800}
+          height={400}
+          className="w-full h-64 object-cover"
+        />
+      )
     }
   }
 
@@ -123,13 +224,7 @@ export default function AnnoncePage() {
           </div>
         </CardHeader>
 
-        <Image
-          src="/placeholder.svg"
-          alt={`Photo de ${annonce.nomannonce}`}
-          width={800}
-          height={400}
-          className="w-full h-64 object-cover"
-        />
+        {renderImageSection()}
 
         <CardContent className="p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -146,7 +241,7 @@ export default function AnnoncePage() {
 
           <div>
             <h3 className="text-lg font-semibold mb-2">Description</h3>
-            <p className="text-muted-foreground">{annonce.description || "Aucune description disponible"}</p>
+            <p className="text-muted-foreground">{annonce.descriptionbien || "Aucune description disponible"}</p>
           </div>
 
           <Separator />

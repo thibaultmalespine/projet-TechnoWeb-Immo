@@ -43,7 +43,7 @@ export function AnnonceAjouterForm({ onSubmit, isSubmitting = false }: AnnonceAj
     garage: false,
     piscine: false,
     meuble: false,
-    description: "",
+    descriptionbien: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -187,7 +187,7 @@ export function AnnonceAjouterForm({ onSubmit, isSubmitting = false }: AnnonceAj
             <Textarea
               id="description"
               name="description"
-              value={formData.description || ""}
+              value={formData.descriptionbien || ""}
               onChange={handleChange}
               className="min-h-[120px]"
             />

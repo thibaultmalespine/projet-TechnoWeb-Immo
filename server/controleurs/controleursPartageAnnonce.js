@@ -5,10 +5,10 @@ import Annonce from '../modeles/modeleAnnonce.js';
 export function generateLink (req, res) {
     const {email} = req.session;
     const token = jwt.sign( {email} , 'secret_key', { expiresIn: '1h' }); // Expire en 1 heure
-    res.send(`Lien de partage : http://localhost:3000/share/${token}`);
+    res.send(`${process.env.CLIENT_URL}/share/${token}`);
   }
 
-// Controleut pour accéder aux annonces via un lien
+// Controleur pour accéder aux annonces via un lien
 export async function getAnnonce (req, res) {
     try {
         const {email} = jwt.verify(req.params.token, 'secret_key');

@@ -23,9 +23,12 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Annonce, createAnnonce } from "@/lib/services/annoncesServices";
-import { AlertCircle, ArrowLeft } from "lucide-react";
+import { uploadMultipleImages } from "@/lib/services/uploadServices";
+import { validateImageFile } from "@/lib/utils";
+import { AlertCircle, ArrowLeft, Upload, X } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const typeBiens = [
@@ -40,14 +43,15 @@ export default function CreateAnnoncePage() {
   const router = useRouter();
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [dragActive, setDragActive] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
-  // Note: Normalement vous utiliseriez un validateur comme Zod
-  // Mais pour simplifier, on ne met en place que le strict nécessaire
   const form = useForm<Annonce>({
     defaultValues: {
       nomannonce: "",
       urloriginale: "",
-      description: "",
+      descriptionbien: "",
       typedebien: "",
       codepostal: "",
       nomville: "",
@@ -59,18 +63,83 @@ export default function CreateAnnoncePage() {
       garage: false,
       piscine: false,
       lecompte: "",
+      cheminsimages: [],
     },
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUploadError(null);
+    const newFiles = e.target.files;
+    if (!newFiles) return;
+
+    handleFiles(Array.from(newFiles));
+  };
+
+  const handleDrag = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    setUploadError(null);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFiles(Array.from(e.dataTransfer.files));
+    }
+  }, []);
+
+  const handleFiles = (files: File[]) => {
+    const validFiles: File[] = [];
+    let hasError = false;
+
+    for (const file of files) {
+      if (validateImageFile(file)) {
+        validFiles.push(file);
+      } else {
+        hasError = true;
+      }
+    }
+
+    if (hasError) {
+      setUploadError(
+        "Certains fichiers n'ont pas été acceptés. Formats autorisés: JPG, PNG, GIF, WEBP. Taille max: 5MB"
+      );
+    }
+
+    if (validFiles.length > 0) {
+      setUploadedFiles((prevFiles) => [...prevFiles, ...validFiles]);
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
 
   async function onSubmit(values: Annonce) {
     setSubmitError(null);
     setLoading(true);
 
     try {
+      if (uploadedFiles.length > 0) {
+        const imagePaths = await uploadMultipleImages(uploadedFiles);
+        values.cheminsimages = imagePaths;
+      }
+
       await createAnnonce(values);
       router.push("/annonce");
     } catch (err) {
-      setSubmitError((err as Error).message || "Erreur lors de la création de l'annonce");
+      setSubmitError(
+        (err as Error).message || "Erreur lors de la création de l'annonce"
+      );
     } finally {
       setLoading(false);
     }
@@ -107,7 +176,11 @@ export default function CreateAnnoncePage() {
                   <FormItem>
                     <FormLabel>Titre de l&apos;annonce *</FormLabel>
                     <FormControl>
-                      <Input required placeholder="Ex: Bel appartement avec vue" {...field} />
+                      <Input
+                        required
+                        placeholder="Ex: Bel appartement avec vue"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -120,7 +193,10 @@ export default function CreateAnnoncePage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Type de bien</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Sélectionnez un type de bien" />
@@ -142,7 +218,7 @@ export default function CreateAnnoncePage() {
 
             <FormField
               control={form.control}
-              name="description"
+              name="descriptionbien"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
@@ -158,6 +234,74 @@ export default function CreateAnnoncePage() {
                 </FormItem>
               )}
             />
+
+            <div className="space-y-4">
+              <FormLabel>Images du bien</FormLabel>
+
+              {uploadError && (
+                <Alert variant="destructive" className="mb-4">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{uploadError}</AlertDescription>
+                </Alert>
+              )}
+
+              <div
+                className={`border-2 border-dashed rounded-md p-6 text-center ${
+                  dragActive ? "border-primary bg-primary/10" : "border-gray-300"
+                }`}
+                onDragEnter={handleDrag}
+                onDragOver={handleDrag}
+                onDragLeave={handleDrag}
+                onDrop={handleDrop}
+              >
+                <div className="flex flex-col items-center justify-center space-y-2">
+                  <Upload className="h-8 w-8 text-gray-500" />
+                  <p className="text-sm text-gray-600">
+                    Glissez et déposez vos images ici ou
+                  </p>
+                  <label className="cursor-pointer text-sm text-primary hover:text-primary/80">
+                    Parcourir vos fichiers
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/jpeg,image/png,image/gif,image/webp"
+                      multiple
+                      onChange={handleFileChange}
+                    />
+                  </label>
+                  <p className="text-xs text-gray-500">
+                    JPG, PNG, GIF, WEBP (max 5MB)
+                  </p>
+                </div>
+              </div>
+
+              {uploadedFiles.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                  {uploadedFiles.map((file, index) => (
+                    <div key={index} className="relative group">
+                      <div className="aspect-square rounded-md overflow-hidden bg-gray-100 border">
+                        <div className="h-full w-full relative">
+                          <Image
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeFile(index)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                      <p className="text-xs mt-1 truncate">{file.name}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
@@ -227,7 +371,9 @@ export default function CreateAnnoncePage() {
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Particulier">Particulier</SelectItem>
-                        <SelectItem value="Professionnel">Professionnel</SelectItem>
+                        <SelectItem value="Professionnel">
+                          Professionnel
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

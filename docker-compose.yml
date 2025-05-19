@@ -14,17 +14,23 @@ services:
     ports:
       - "5432:5432"  # Port 5433 sur l'hôte, 5432 dans le conteneur
   api:
-    build: .  # Utilise le Dockerfile
+    build: .
     depends_on:
       - db
+    volumes:
+      - ./server:/app/server
+      - ./old-public:/app/old-public
+      - ./.env:/app/.env
+      - /app/node_modules
+      - ./public/public/images:/app/public/images
     environment:
       - DB_HOST=db
       - DB_USER=userpostgres
       - DB_PASSWORD=userpostgres  
       - DB_NAME=userpostgres                
-      - DB_PORT=5432                  # Port interne au conteneur
+      - DB_PORT=5432
     ports:
-      - "3001:3001"  # Ajuste selon le port de ton API (ex. 8080 si différent)
+      - "3001:3001"
 
 # Définition du volume PERSISTANT (obligatoire)
 volumes:
