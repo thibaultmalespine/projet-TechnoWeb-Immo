@@ -11,26 +11,34 @@ import { Annonce } from "@/lib/services/annoncesServices"
 import { Search, SlidersHorizontal } from "lucide-react"
 import { useState } from "react"
 
-type AnnoncesFiltersProps = {
-  onFilterChange: (filters: Partial<Annonce> & { search?: string; prixMin?: number; prixMax?: number; surfaceMin?: number; surfaceMax?: number }) => void
+type VendeurType = "Particulier" | "Professionnel";
+
+type AnnonceFiltersProps = {
+  onFilterChange: (filters: Partial<Annonce> & { search?: string; prixMin?: number; prixMax?: number; surfaceMin?: number }) => void
 }
 
-export function AnnoncesFilters({ onFilterChange }: AnnoncesFiltersProps) {
+export function AnnonceFilters({ onFilterChange }: AnnonceFiltersProps) {
   const [filters, setFilters] = useState({
     search: "",
     typedebien: "",
     prixMin: 0,
     prixMax: 1000000,
     surfaceMin: 0,
-    surfaceMax: 1000,
-    particulierpro: "",
+    particulierpro: undefined as VendeurType | undefined,
     garage: false,
     piscine: false,
     meuble: false,
   })
 
-  const handleFilterChange = (key: string, value: any) => {
-    const newFilters = { ...filters, [key]: value !== "Tous" ? value : "" }
+  const handleFilterChange = (key: string, value: string | number | boolean | undefined) => {
+    let processedValue = value;
+    if (key === "particulierpro" && value === "Tous") {
+      processedValue = undefined;
+    } else if (key !== "particulierpro" && value === "Tous") {
+      processedValue = "";
+    }
+    
+    const newFilters = { ...filters, [key]: processedValue }
     setFilters(newFilters)
     onFilterChange(newFilters)
   }
@@ -42,8 +50,7 @@ export function AnnoncesFilters({ onFilterChange }: AnnoncesFiltersProps) {
       prixMin: 0,
       prixMax: 1000000,
       surfaceMin: 0,
-      surfaceMax: 1000,
-      particulierpro: "",
+      particulierpro: undefined,
       garage: false,
       piscine: false,
       meuble: false,
@@ -115,33 +122,18 @@ export function AnnoncesFilters({ onFilterChange }: AnnoncesFiltersProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="font-medium">Surface (m²)</h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="surfaceMin">Min</Label>
-                      <Input
-                        id="surfaceMin"
-                        type="number"
-                        value={String(Number(filters.surfaceMin))}
-                        onChange={(e) => handleFilterChange("surfaceMin", Number(e.target.value) || 0)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="surfaceMax">Max</Label>
-                      <Input
-                        id="surfaceMax"
-                        type="number"
-                        value={String(Number(filters.surfaceMax))}
-                        onChange={(e) => handleFilterChange("surfaceMax", Number(e.target.value) || 0)}
-                      />
-                    </div>
-                  </div>
+                  <h4 className="font-medium">Surface minimale (m²)</h4>
+                  <Input
+                    type="number"
+                    value={String(Number(filters.surfaceMin))}
+                    onChange={(e) => handleFilterChange("surfaceMin", Number(e.target.value) || 0)}
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <h4 className="font-medium">Vendeur</h4>
                   <Select
-                    value={filters.particulierpro}
+                    value={filters.particulierpro ?? "Tous"}
                     onValueChange={(value) => handleFilterChange("particulierpro", value)}
                   >
                     <SelectTrigger className="cursor-pointer">
@@ -150,7 +142,7 @@ export function AnnoncesFilters({ onFilterChange }: AnnoncesFiltersProps) {
                     <SelectContent>
                       <SelectItem value="Tous">Tous</SelectItem>
                       <SelectItem value="Particulier">Particulier</SelectItem>
-                      <SelectItem value="Professionnel">Professionnel</SelectItem>
+                      <SelectItem value="Pro">Pro</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -1,59 +1,60 @@
 "use client";
 
-import { AnnoncesList } from "@/components/annonces/annonces-list";
+import { PageHeader } from "@/components/annonces/annonce-header";
+import { AnnonceList } from "@/components/annonces/annonce-list";
 import { Annonce, getAnnoncesByAccount } from "@/lib/services/annoncesServices";
-import { CircleUserRound } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import FetchFailed from "../fetch-failed";
 import Loading from "../loading";
 
+const PAGE_TITLE = "Toutes vos annonces immobilières";
+const ERROR_MESSAGE = "Erreur lors de la récupération des annonces";
 
 export default function AnnoncesPage() {
-  const [annonces, setAnnonces] = useState<Annonce[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [annoncesState, setAnnoncesState] = useState<{
+    data: Annonce[] | null;
+    isLoading: boolean;
+    error: Error | null;
+  }>({
+    data: null,
+    isLoading: true,
+    error: null,
+  });
 
   useEffect(() => {
     const fetchAnnonces = async () => {
       try {
-        const annoncesData: Annonce[] = await getAnnoncesByAccount();
-        setAnnonces(annoncesData);
-        setIsSuccess(true);
+        const annoncesData = await getAnnoncesByAccount();
+        setAnnoncesState({
+          data: annoncesData,
+          isLoading: false,
+          error: null,
+        });
       } catch (error) {
-        console.error("Erreur lors de la récupération des annonces :", error);
-        setIsSuccess(false);
-      } finally {
-        setLoading(false);
+        console.error(ERROR_MESSAGE, error);
+        setAnnoncesState({
+          data: null,
+          isLoading: false,
+          error: error instanceof Error ? error : new Error(String(error)),
+        });
       }
     };
 
     fetchAnnonces();
   }, []);
 
-  if (loading) {
+  if (annoncesState.isLoading) {
     return <Loading />;
   }
 
-  if (isSuccess && annonces) {
-    return (
-      <div className="container mx-4 py-8 w-auto">
-        <div className="md:flex flex-row-reverse justify-between">
-            <div className="mb-5 pt-1">
-                <Link href="/compte" className="hover:underline">
-                    <CircleUserRound className="inline" />
-                    <span className="text-sm"> Votre Compte </span>
-                </Link>
-            </div>
-            <h1 className="text-3xl font-bold mb-8">
-            Toutes vos annonces immobilières
-            </h1>
-        </div>
-
-        <AnnoncesList annonces={annonces} />
-      </div>
-    );
-  } else {
+  if (annoncesState.error || !annoncesState.data) {
     return <FetchFailed />;
   }
+
+  return (
+    <div className="container mx-4 py-8 w-auto">
+      <PageHeader title={PAGE_TITLE} showUserLink />
+      <AnnonceList annonces={annoncesState.data} />
+    </div>
+  );
 }

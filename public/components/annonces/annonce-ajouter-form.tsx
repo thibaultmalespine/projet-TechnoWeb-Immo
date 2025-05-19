@@ -24,12 +24,12 @@ import { Textarea } from "@/components/ui/textarea"
 import { Annonce } from "@/lib/services/annoncesServices"
 import { useState } from "react"
 
-type AjouterAnnonceFormProps = {
+type AnnonceAjouterFormProps = {
   onSubmit: (data: Partial<Annonce>) => void
   isSubmitting?: boolean
 }
 
-export function AjouterAnnonceForm({ onSubmit, isSubmitting = false }: AjouterAnnonceFormProps) {
+export function AnnonceAjouterForm({ onSubmit, isSubmitting = false }: AnnonceAjouterFormProps) {
   const [formData, setFormData] = useState<Partial<Annonce>>({
     urloriginale: "",
     nomannonce: "",
