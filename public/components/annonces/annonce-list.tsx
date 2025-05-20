@@ -198,7 +198,7 @@ export function AnnonceList({ annonces: initialAnnonces, showHeader = true }: An
         onSortChange={handleSortChange}
       />
 
-      <AnnonceContent annonces={filteredAnnonces} />
+      <AnnonceContent annonces={filteredAnnonces} showDetails={showHeader}/>
 
       {/* Share Link Popup */}
       {showSharePopup && (

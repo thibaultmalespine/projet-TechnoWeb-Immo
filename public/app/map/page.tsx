@@ -1,26 +1,25 @@
 "use client";
 
 import { Button } from '@/components/ui/button';
-import { useGoogleMaps } from '@/lib/context/GoogleMapsContext';
-import { Annonce, getAnnoncesByAccount } from '@/lib/services/annoncesServices';
+import { AnnonceWithGeo, useGoogleMaps } from '@/lib/context/GoogleMapsContext';
 import { GoogleMap, InfoWindow, Marker } from '@react-google-maps/api';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-
-interface AnnonceWithGeo extends Annonce {
-    latitude?: number;
-    longitude?: number;
-}
+import { useCallback, useMemo, useState } from 'react';
 
 const MapPage = () => {
     const router = useRouter();
-    const { isLoaded, loadError } = useGoogleMaps();
-    const [annonces, setAnnonces] = useState<AnnonceWithGeo[]>([]);
+    const { 
+        isLoaded, 
+        loadError, 
+        annonces, 
+        isLoadingAnnonces, 
+        errorLoadingAnnonces 
+    } = useGoogleMaps();
+    
     const [center, setCenter] = useState({ lat: 46.603354, lng: 1.888334 }); // Centre de la France par défaut
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [zoom, setZoom] = useState(6);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [selectedAnnonce, setSelectedAnnonce] = useState<AnnonceWithGeo | null>(null);
     const [selectedIndex, setSelectedIndex] = useState<number>(-1);
     const [selectedLocationAnnonces, setSelectedLocationAnnonces] = useState<AnnonceWithGeo[]>([]);
@@ -39,67 +38,10 @@ const MapPage = () => {
         height: '100%'
     };
 
-    // Fonction pour obtenir les coordonnées à partir d'un code postal
-    const getCoordinatesFromPostalCode = async (codePostal: string): Promise<{ lat: number, lng: number } | null> => {
-        try {
-            // Utiliser l'API Nominatim pour obtenir les coordonnées
-            const response = await fetch(`https://nominatim.openstreetmap.org/search?postalcode=${codePostal}&country=France&format=json&limit=1`);
-            const data = await response.json();
-
-            if (data && data.length > 0) {
-                return {
-                    lat: parseFloat(data[0].lat),
-                    lng: parseFloat(data[0].lon)
-                };
-            }
-            return null;
-        } catch (error) {
-            console.error('Erreur lors de la récupération des coordonnées:', error);
-            return null;
-        }
-    };
-
     // Gestionnaire de clic sur la carte
     const onMapClick = useCallback(() => {
         setSelectedAnnonce(null);
     }, []);
-
-    useEffect(() => {
-        const fetchAnnonces = async () => {
-            try {
-                setIsLoading(true);
-                const annoncesData: AnnonceWithGeo[] = await getAnnoncesByAccount();
-
-                // Ajouter les coordonnées géographiques à chaque annonce
-                const annoncesWithGeo = await Promise.all(annoncesData.map(async (annonce) => {
-                    const coordinates = await getCoordinatesFromPostalCode(annonce.codepostal);
-                    return {
-                        ...annonce,
-                        latitude: coordinates?.lat,
-                        longitude: coordinates?.lng
-                    };
-                }));
-
-                setAnnonces(annoncesWithGeo.filter(annonce => annonce.latitude && annonce.longitude));
-
-                // Centrer la carte sur la première annonce avec des coordonnées valides
-                const validAnnonce = annoncesWithGeo.find(annonce => annonce.latitude && annonce.longitude);
-                if (validAnnonce && validAnnonce.latitude && validAnnonce.longitude) {
-                    setCenter({ lat: validAnnonce.latitude, lng: validAnnonce.longitude });
-                    setZoom(12);
-                }
-            } catch (error) {
-                console.error('Erreur lors de la récupération des annonces:', error);
-                setError('Impossible de charger les annonces.');
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (isLoaded) {
-            fetchAnnonces();
-        }
-    }, [isLoaded]);
 
     // Grouper les annonces par code postal
     const groupAnnoncesByPostalCode = useMemo(() => {
@@ -117,23 +59,6 @@ const MapPage = () => {
         return groups;
     }, [annonces]);
 
-    // Obtenir l'icône appropriée en fonction du type de bien
-    const getMarkerIcon = (typedebien?: string) => {
-        switch (typedebien) {
-            case 'Appartement':
-                return '🏢'; // Immeuble
-            case 'Maison':
-                return '🏠'; // Maison
-            case 'Villa':
-                return '🏡'; // Villa
-            case 'Terrain':
-                return '🌳'; // Terrain
-            case 'Local commercial':
-                return '🏬'; // Commerce
-            default:
-                return '📍'; // Marqueur par défaut
-        }
-    };
 
     // Fonction pour mettre à jour les informations de groupe lorsqu'une annonce est sélectionnée
     const updateSelectedLocationInfo = (annonce: AnnonceWithGeo) => {
@@ -156,6 +81,10 @@ const MapPage = () => {
         const index = annonces.findIndex(a => a.idannonce === annonce.idannonce);
         setSelectedIndex(index);
         setSelectedAnnonce(annonce);
+        
+        if (annonce.latitude && annonce.longitude) {
+            setCenter({ lat: annonce.latitude, lng: annonce.longitude });
+        }
         
         // Mettre à jour les informations du groupe
         updateSelectedLocationInfo(annonce);
@@ -348,13 +277,13 @@ const MapPage = () => {
                 </h1>
             </div>
 
-            {isLoading ? (
+            {isLoadingAnnonces ? (
                 <div className="flex-grow flex items-center justify-center">
                     <p className="text-lg">Chargement de la carte...</p>
                 </div>
-            ) : error ? (
+            ) : errorLoadingAnnonces ? (
                 <div className="flex-grow flex items-center justify-center">
-                    <p className="text-red-500">{error}</p>
+                    <p className="text-red-500">{errorLoadingAnnonces}</p>
                 </div>
             ) : (
                 <div className="flex-grow">
@@ -372,7 +301,6 @@ const MapPage = () => {
                                     position={{ lat: annonce.latitude, lng: annonce.longitude }}
                                     onClick={() => handleMarkerClick(annonce)}
                                     title={annonce.nomannonce}
-                                    label={getMarkerIcon(annonce.typedebien)}
                                 />
                             ) : null
                         ))}

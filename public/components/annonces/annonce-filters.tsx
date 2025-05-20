@@ -177,7 +177,7 @@ export function AnnonceFilters({ onFilterChange, sortOption, onSortChange }: Ann
                     <SelectContent>
                       <SelectItem value="Tous">Tous</SelectItem>
                       <SelectItem value="Particulier">Particulier</SelectItem>
-                      <SelectItem value="Pro">Pro</SelectItem>
+                      <SelectItem value="Professionnel">Professionnel</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

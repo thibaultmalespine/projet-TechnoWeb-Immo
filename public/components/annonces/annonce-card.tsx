@@ -23,7 +23,7 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 
-export function AnnonceCard({ annonce }: { annonce: Annonce }) {
+export function AnnonceCard({ annonce, showDetails = true }: { annonce: Annonce, showDetails?: boolean }) {
   const formattedPrice = annonce.prix && formatPrice(annonce.prix)
   
   // Get image source - use first image from cheminsimages if available, otherwise use placeholder
@@ -117,9 +117,11 @@ export function AnnonceCard({ annonce }: { annonce: Annonce }) {
           )}
         </div>
 
-        <Link href={`/annonce/${annonce.idannonce}`} className="text-sm font-medium text-primary hover:underline">
-          Voir détails
-        </Link>
+        {showDetails && (
+          <Link href={`/annonce/${annonce.idannonce}`} className="text-sm font-medium text-primary hover:underline">
+            Voir détails
+          </Link>
+        )}
       </CardFooter>
     </Card>
   )

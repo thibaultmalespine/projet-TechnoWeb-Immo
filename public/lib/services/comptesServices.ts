@@ -23,7 +23,7 @@ export async function login(data: { email: string; motdepasse: string }) {
     credentials: "include",
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error("Erreur lors de la connexion");
+  if (!res.ok) throw new Error("Mot de passe ou email incorrect");
   return res.json();
 }
 

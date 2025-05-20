@@ -5,12 +5,13 @@ import Loading from "@/app/loading";
 import { AnnonceList } from "@/components/annonces/annonce-list";
 import { Annonce } from "@/lib/services/annoncesServices";
 import { getSharedAnnonce } from "@/lib/services/shareService";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ERROR_MESSAGE = "Erreur lors de la récupération des annonces partagées";
 
-export default function SharedAnnoncesPage({ params }: { params: { token: string } }) {
-  const { token } = params;
+export default function SharedAnnoncesPage({ params }: { params: Promise<{ token: string }> }) {
+  const unwrappedParams = React.use(params);
+  const { token } = unwrappedParams;
   
   const [annoncesState, setAnnoncesState] = useState<{
     data: Annonce[] | null;

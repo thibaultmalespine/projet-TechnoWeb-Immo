@@ -27,6 +27,8 @@ export default function EditAnnoncePage() {
         setLoading(true)
         if (id) {
             const annonce = await getAnnonceByID(id?.toString())
+            console.log(annonce);
+            
             setAnnonce(annonce)
         }
       } catch (err) {
@@ -203,10 +205,9 @@ export default function EditAnnoncePage() {
                     <SelectContent>
                       <SelectItem value="Appartement">Appartement</SelectItem>
                       <SelectItem value="Maison">Maison</SelectItem>
-                      <SelectItem value="Studio">Studio</SelectItem>
+                      <SelectItem value="Villa">Villa</SelectItem>
                       <SelectItem value="Terrain">Terrain</SelectItem>
-                      <SelectItem value="Commerce">Commerce</SelectItem>
-                      <SelectItem value="Autre">Autre</SelectItem>
+                      <SelectItem value="Local commercial">Local commercial</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

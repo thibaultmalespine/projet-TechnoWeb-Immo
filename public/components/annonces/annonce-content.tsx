@@ -5,9 +5,10 @@ import { AnnonceCard } from "./annonce-card";
 
 interface AnnonceContentProps {
   annonces: Annonce[];
+  showDetails?: boolean;
 }
 
-export function AnnonceContent({ annonces }: AnnonceContentProps) {
+export function AnnonceContent({ annonces, showDetails = true }: AnnonceContentProps) {
   if (annonces.length === 0) {
     return (
       <Alert>
@@ -23,7 +24,7 @@ export function AnnonceContent({ annonces }: AnnonceContentProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {annonces.map((annonce) => (
-        <AnnonceCard key={annonce.idannonce} annonce={annonce} />
+        <AnnonceCard key={annonce.idannonce} annonce={annonce} showDetails={showDetails} />
       ))}
     </div>
   );
