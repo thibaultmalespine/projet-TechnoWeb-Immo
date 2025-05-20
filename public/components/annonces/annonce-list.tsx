@@ -15,6 +15,7 @@ import { AnnonceListHeader } from "./annonce-list-header";
 interface AnnoncesListProps {
   annonces: Annonce[];
   showHeader?: boolean;
+  isShared?: boolean;
 }
 
 type SortOption = "recent" | "prixAsc" | "prixDesc" | "surfaceAsc" | "surfaceDesc";
@@ -27,7 +28,7 @@ type AnnonceFiltersType = Partial<Annonce> & {
   surfaceMax?: number;
 };
 
-export function AnnonceList({ annonces: initialAnnonces, showHeader = true }: AnnoncesListProps) {
+export function AnnonceList({ annonces: initialAnnonces, showHeader = true, isShared = false }: AnnoncesListProps) {
   const router = useRouter();
   const [annonces, setAnnonces] = useState<Annonce[]>(initialAnnonces || []);
   const [filteredAnnonces, setFilteredAnnonces] = useState<Annonce[]>(initialAnnonces || []);
@@ -198,7 +199,7 @@ export function AnnonceList({ annonces: initialAnnonces, showHeader = true }: An
         onSortChange={handleSortChange}
       />
 
-      <AnnonceContent annonces={filteredAnnonces} showDetails={showHeader}/>
+      <AnnonceContent annonces={filteredAnnonces} isShared={isShared}/>
 
       {/* Share Link Popup */}
       {showSharePopup && (

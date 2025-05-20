@@ -56,7 +56,7 @@ export default function SharedAnnoncesPage({ params }: { params: Promise<{ token
 
   return (
     <div className="container mx-4 py-8 w-auto">
-      <AnnonceList annonces={annoncesState.data} showHeader={false} />
+      <AnnonceList annonces={annoncesState.data} showHeader={false} isShared={true} />
     </div>
   );
 }

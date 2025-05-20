@@ -23,7 +23,7 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 
-export function AnnonceCard({ annonce, showDetails = true }: { annonce: Annonce, showDetails?: boolean }) {
+export function AnnonceCard({ annonce, isShared = false }: { annonce: Annonce, isShared?: boolean }) {
   const formattedPrice = annonce.prix && formatPrice(annonce.prix)
   
   // Get image source - use first image from cheminsimages if available, otherwise use placeholder
@@ -117,10 +117,18 @@ export function AnnonceCard({ annonce, showDetails = true }: { annonce: Annonce,
           )}
         </div>
 
-        {showDetails && (
-          <Link href={`/annonce/${annonce.idannonce}`} className="text-sm font-medium text-primary hover:underline">
+        { (
+            <Link 
+            href={isShared ? `/share` : `/annonce/${annonce.idannonce}`} 
+            className="text-sm font-medium text-primary hover:underline"
+            onClick={() => {
+              if (isShared) {
+              localStorage.setItem('sharedAnnonce', JSON.stringify(annonce));
+              }
+            }}
+            >
             Voir détails
-          </Link>
+            </Link>
         )}
       </CardFooter>
     </Card>

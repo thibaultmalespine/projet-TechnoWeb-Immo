@@ -6,9 +6,10 @@ import { AnnonceCard } from "./annonce-card";
 interface AnnonceContentProps {
   annonces: Annonce[];
   showDetails?: boolean;
+  isShared?: boolean;
 }
 
-export function AnnonceContent({ annonces, showDetails = true }: AnnonceContentProps) {
+export function AnnonceContent({ annonces, isShared = false  }: AnnonceContentProps) {
   if (annonces.length === 0) {
     return (
       <Alert>
@@ -24,7 +25,7 @@ export function AnnonceContent({ annonces, showDetails = true }: AnnonceContentP
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {annonces.map((annonce) => (
-        <AnnonceCard key={annonce.idannonce} annonce={annonce} showDetails={showDetails} />
+        <AnnonceCard key={annonce.idannonce} annonce={annonce} isShared={isShared} />
       ))}
     </div>
   );
